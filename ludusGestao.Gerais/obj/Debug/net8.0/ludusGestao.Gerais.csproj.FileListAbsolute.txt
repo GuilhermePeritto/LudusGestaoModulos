@@ -1,0 +1,15 @@
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Gerais.deps.json
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Gerais.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Gerais.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Shared.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Shared.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.csproj.AssemblyReference.cache
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.AssemblyInfoInputs.cache
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.AssemblyInfo.cs
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.csproj.CoreCompileInputs.cache
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGes.A695891F.Up2Date
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\refint\ludusGestao.Gerais.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ref\ludusGestao.Gerais.dll

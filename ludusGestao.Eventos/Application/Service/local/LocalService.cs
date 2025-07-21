@@ -33,7 +33,16 @@ namespace ludusGestao.Eventos.Application.Service.Local
         public Task<LocalDTO> Atualizar(string id, AtualizarLocalDTO dto) => _atualizarUseCase.Executar(id, dto);
         public Task<bool> Remover(string id) => _removerUseCase.Executar(id);
         public Task<LocalDTO> BuscarPorId(string id) => _buscarPorIdUseCase.Executar(id);
+        public async Task<IEnumerable<LocalDTO>> Listar()
+        {
+            var (itens, _) = await Listar(new QueryParamsBase());
+            return itens;
+        }
+
         public async Task<(IEnumerable<LocalDTO> Itens, int Total)> Listar(QueryParamsBase query)
-            => await _listarUseCase.Executar(query);
+        {
+            var (entidades, total) = await _listarUseCase.Executar(query);
+            return (entidades, total);
+        }
     }
 } 

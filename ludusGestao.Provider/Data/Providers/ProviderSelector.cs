@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using ludusGestao.Eventos.Domain.Providers;
-using ludusGestao.Provider.Data.Providers.Eventos;
+using ludusGestao.Provider.Data.Providers.Eventos.Local;
 
 namespace ludusGestao.Provider.Data.Providers
 {

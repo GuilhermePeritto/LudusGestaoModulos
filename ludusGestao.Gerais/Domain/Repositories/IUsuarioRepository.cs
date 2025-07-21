@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.Entities;
+using LudusGestao.Shared.Domain.Common;
 
 namespace ludusGestao.Gerais.Domain.Repositories
 {
@@ -13,5 +14,6 @@ namespace ludusGestao.Gerais.Domain.Repositories
         Task Remover(Usuario usuario);
         Task<IEnumerable<Usuario>> ListarTodos();
         Task<bool> ExistePorEmail(string email);
+        Task<(IEnumerable<Usuario> Itens, int Total)> ListarPaginado(QueryParamsBase query);
     }
 } 

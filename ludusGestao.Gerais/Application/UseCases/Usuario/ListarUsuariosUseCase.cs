@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.DTOs.Usuario;
 using ludusGestao.Gerais.Domain.Repositories;
 using ludusGestao.Gerais.Application.Mappers;
+using LudusGestao.Shared.Domain.Common;
+using System.Linq;
 
 namespace ludusGestao.Gerais.Application.UseCases.Usuario
 {
@@ -22,6 +24,12 @@ namespace ludusGestao.Gerais.Application.UseCases.Usuario
             foreach (var entidade in entidades)
                 lista.Add(_mapper.Mapear(entidade));
             return lista;
+        }
+        public async Task<(IEnumerable<UsuarioDTO> Itens, int Total)> ExecutarPaginado(QueryParamsBase query)
+        {
+            var (entidades, total) = await _repository.ListarPaginado(query);
+            var dtos = entidades.Select(e => _mapper.Mapear(e));
+            return (dtos, total);
         }
     }
 } 

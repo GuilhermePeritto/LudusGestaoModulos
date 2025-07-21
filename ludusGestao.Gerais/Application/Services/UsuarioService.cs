@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.DTOs.Usuario;
 using ludusGestao.Gerais.Application.UseCases.Usuario;
 using LudusGestao.Shared.Application.Services;
+using LudusGestao.Shared.Domain.Common;
 
 namespace ludusGestao.Gerais.Application.Services
 {
@@ -33,6 +34,16 @@ namespace ludusGestao.Gerais.Application.Services
         public Task<UsuarioDTO> Atualizar(string id, AtualizarUsuarioDTO dto) => _atualizarUseCase.Executar(Guid.Parse(id), dto);
         public Task<bool> Remover(string id) => _removerUseCase.Executar(Guid.Parse(id));
         public Task<UsuarioDTO> BuscarPorId(string id) => _buscarPorIdUseCase.Executar(Guid.Parse(id));
-        public Task<IEnumerable<UsuarioDTO>> Listar() => _listarUseCase.Executar();
+        public async Task<IEnumerable<UsuarioDTO>> Listar()
+        {
+            var (itens, _) = await Listar(new QueryParamsBase());
+            return itens;
+        }
+
+        public async Task<(IEnumerable<UsuarioDTO> Itens, int Total)> Listar(QueryParamsBase query)
+        {
+            var (itens, total) = await _listarUseCase.ExecutarPaginado(query);
+            return (itens, total);
+        }
     }
 } 

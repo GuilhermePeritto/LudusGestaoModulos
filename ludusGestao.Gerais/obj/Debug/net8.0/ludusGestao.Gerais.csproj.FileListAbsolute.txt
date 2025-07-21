@@ -13,3 +13,4 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Deb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\refint\ludusGestao.Gerais.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.pdb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ref\ludusGestao.Gerais.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.sourcelink.json

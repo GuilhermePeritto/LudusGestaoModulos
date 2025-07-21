@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LudusGestao.Shared.Application.Services;
 using LudusGestao.Shared.Application.Responses;
+using LudusGestao.Shared.Domain.Common;
 
 namespace LudusGestao.Shared.Application.Controllers
 {
@@ -20,10 +21,10 @@ namespace LudusGestao.Shared.Application.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<ActionResult<RespostaListaBase<TResponse>>> Listar()
+        public virtual async Task<ActionResult<RespostaListaBase<TResponse>>> Listar([FromQuery] QueryParamsBase query)
         {
-            var lista = await _service.Listar();
-            return RespostaPaginada(lista, 1, lista is ICollection<TResponse> col ? col.Count : 0, lista is ICollection<TResponse> col2 ? col2.Count : 0);
+            var (itens, total) = await _service.Listar(query);
+            return RespostaPaginada(itens, query.Page, query.Limit, total);
         }
 
         [HttpGet("{id}")]

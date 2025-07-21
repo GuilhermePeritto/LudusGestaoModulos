@@ -13,3 +13,4 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Eventos\obj\De
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Eventos\obj\Debug\net8.0\refint\ludusGestao.Eventos.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Eventos\obj\Debug\net8.0\ludusGestao.Eventos.pdb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Eventos\obj\Debug\net8.0\ref\ludusGestao.Eventos.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Eventos\obj\Debug\net8.0\ludusGestao.Eventos.sourcelink.json

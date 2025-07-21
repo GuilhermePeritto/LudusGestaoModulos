@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ludusGestao.Eventos.Domain.DTOs.Local;
 using ludusGestao.Eventos.Application.Mappers.local;
 using ludusGestao.Eventos.Domain.Repositories;
+using LudusGestao.Shared.Domain.Common;
 
 namespace ludusGestao.Eventos.Application.UseCases.Local
 {
@@ -18,10 +19,11 @@ namespace ludusGestao.Eventos.Application.UseCases.Local
             _mapeador = new LocalMapeador();
         }
 
-        public async Task<IEnumerable<LocalDTO>> Executar()
+        public async Task<(IEnumerable<LocalDTO> Itens, int Total)> Executar(QueryParamsBase query)
         {
-            var entidades = await _repository.ListarTodos();
-            return entidades.Select(e => _mapeador.Mapear(e));
+            var (entidades, total) = await _repository.ListarPaginado(query);
+            var dtos = entidades.Select(e => _mapeador.Mapear(e));
+            return (dtos, total);
         }
     }
 } 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ludusGestao.Eventos.Domain.DTOs.Local;
 using LudusGestao.Shared.Application.Services;
 using ludusGestao.Eventos.Application.UseCases.Local;
+using LudusGestao.Shared.Domain.Common;
 
 namespace ludusGestao.Eventos.Application.Service.Local
 {
@@ -32,6 +33,7 @@ namespace ludusGestao.Eventos.Application.Service.Local
         public Task<LocalDTO> Atualizar(string id, AtualizarLocalDTO dto) => _atualizarUseCase.Executar(id, dto);
         public Task<bool> Remover(string id) => _removerUseCase.Executar(id);
         public Task<LocalDTO> BuscarPorId(string id) => _buscarPorIdUseCase.Executar(id);
-        public Task<IEnumerable<LocalDTO>> Listar() => _listarUseCase.Executar();
+        public async Task<(IEnumerable<LocalDTO> Itens, int Total)> Listar(QueryParamsBase query)
+            => await _listarUseCase.Executar(query);
     }
 } 

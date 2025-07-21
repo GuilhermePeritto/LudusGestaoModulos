@@ -10,3 +10,4 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Deb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\refint\ludusGestao.Shared.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.pdb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ref\ludusGestao.Shared.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.sourcelink.json

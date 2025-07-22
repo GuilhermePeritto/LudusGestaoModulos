@@ -10,5 +10,6 @@ namespace ludusGestao.Gerais.Domain.Providers
         Task<Filial> BuscarPorId(Guid id);
         Task<IEnumerable<Filial>> ListarTodos();
         Task<bool> ExistePorCodigo(string codigo);
+        Task<(IEnumerable<Filial> Itens, int Total)> ListarPaginado(LudusGestao.Shared.Domain.Common.QueryParamsBase query);
     }
 } 

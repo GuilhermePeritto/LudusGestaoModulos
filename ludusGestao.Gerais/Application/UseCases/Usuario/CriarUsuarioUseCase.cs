@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.DTOs.Usuario;
 using ludusGestao.Gerais.Domain.Entities;
-using ludusGestao.Gerais.Domain.Repositories;
+using ludusGestao.Gerais.Domain.Providers;
 using ludusGestao.Gerais.Application.Mappers;
 using ludusGestao.Gerais.Application.Validations.Usuario;
 using FluentValidation;
@@ -10,13 +10,15 @@ namespace ludusGestao.Gerais.Application.UseCases.Usuario
 {
     public class CriarUsuarioUseCase
     {
-        private readonly IUsuarioRepository _repository;
+        private readonly IUsuarioReadProvider _readProvider;
+        private readonly IUsuarioWriteProvider _writeProvider;
         private readonly CriarUsuarioValidation _validation;
         private readonly UsuarioMapper _mapper;
 
-        public CriarUsuarioUseCase(IUsuarioRepository repository)
+        public CriarUsuarioUseCase(IUsuarioReadProvider readProvider, IUsuarioWriteProvider writeProvider)
         {
-            _repository = repository;
+            _readProvider = readProvider;
+            _writeProvider = writeProvider;
             _validation = new CriarUsuarioValidation();
             _mapper = new UsuarioMapper();
         }
@@ -25,10 +27,11 @@ namespace ludusGestao.Gerais.Application.UseCases.Usuario
         {
             var resultado = _validation.Validate(dto);
             if (!resultado.IsValid)
-                throw new ValidationException(resultado.Errors);
+                throw new FluentValidation.ValidationException(resultado.Errors);
 
             var entidade = _mapper.Mapear(dto);
-            await _repository.Adicionar(entidade);
+            await _writeProvider.Adicionar(entidade);
+            await _writeProvider.SalvarAlteracoes();
             return _mapper.Mapear(entidade);
         }
     }

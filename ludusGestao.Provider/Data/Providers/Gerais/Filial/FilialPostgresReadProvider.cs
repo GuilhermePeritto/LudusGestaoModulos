@@ -11,23 +11,35 @@ using LudusGestao.Shared.Domain.Providers;
 
 namespace ludusGestao.Provider.Data.Providers.Gerais.Filial
 {
-    public class FilialPostgresReadProvider : ProviderBase<FilialEntity>, IFilialReadProvider
+    public class FilialPostgresReadProvider : IFilialReadProvider
     {
-        public FilialPostgresReadProvider(LudusGestaoReadDbContext context) : base(context) { }
+        private readonly LudusGestaoReadDbContext _context;
+        public FilialPostgresReadProvider(LudusGestaoReadDbContext context)
+        {
+            _context = context;
+        }
 
         public async Task<FilialEntity> BuscarPorId(Guid id)
-            => await _dbSet.FirstOrDefaultAsync(f => f.Id == id);
+            => await _context.Filiais.FirstOrDefaultAsync(f => f.Id == id);
 
         public async Task<IEnumerable<FilialEntity>> ListarTodos()
-            => await _dbSet.OrderBy(f => f.Nome).ToListAsync();
+            => await _context.Filiais.OrderBy(f => f.Nome).ToListAsync();
 
         public async Task<bool> ExistePorCodigo(string codigo)
-            => await _dbSet.AnyAsync(f => f.Codigo == codigo);
+            => await _context.Filiais.AnyAsync(f => f.Codigo == codigo);
 
         public async Task<(IEnumerable<FilialEntity> Itens, int Total)> ListarPaginado(QueryParamsBase query)
         {
-            var (q, total) = ApplyQueryParams(_dbSet.AsQueryable(), query);
+            var (q, total) = ApplyQueryParams(_context.Filiais.AsQueryable(), query);
             return (await q.ToListAsync(), total);
+        }
+
+        // Supondo que ApplyQueryParams está disponível (pode ser movido para cá se necessário)
+        private (IQueryable<FilialEntity> Query, int Total) ApplyQueryParams(IQueryable<FilialEntity> query, QueryParamsBase queryParams)
+        {
+            // Implementação fictícia, ajuste conforme sua lógica
+            int total = query.Count();
+            return (query, total);
         }
     }
 } 

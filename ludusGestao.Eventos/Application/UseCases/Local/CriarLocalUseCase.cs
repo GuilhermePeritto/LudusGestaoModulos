@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using ludusGestao.Eventos.Domain.DTOs.Local;
 using ludusGestao.Eventos.Application.Mappers.local;
 using ludusGestao.Eventos.Application.Validations.Local;
-using ludusGestao.Eventos.Domain.Repositories;
+using ludusGestao.Eventos.Domain.Providers;
 using FluentValidation;
 using ludusGestao.Eventos.Domain.Specifications;
 
@@ -10,14 +10,16 @@ namespace ludusGestao.Eventos.Application.UseCases.Local
 {
     public class CriarLocalUseCase
     {
-        private readonly ILocalRepository _repository;
+        private readonly ILocalWriteProvider _writeProvider;
+        private readonly ILocalReadProvider _readProvider;
         private readonly CriarLocalValidation _validation;
         private readonly LocalMapeador _mapeador;
 
-        public CriarLocalUseCase(ILocalRepository repository)
+        public CriarLocalUseCase(ILocalWriteProvider writeProvider, ILocalReadProvider readProvider)
         {
-            _repository = repository;
-            _validation = new CriarLocalValidation(repository);
+            _writeProvider = writeProvider;
+            _readProvider = readProvider;
+            _validation = new CriarLocalValidation(_readProvider);
             _mapeador = new LocalMapeador();
         }
 
@@ -39,7 +41,8 @@ namespace ludusGestao.Eventos.Application.UseCases.Local
             if (!disponivelSpec.IsSatisfiedBy(entidade))
                 throw new ValidationException(disponivelSpec.ErrorMessage);
 
-            await _repository.Adicionar(entidade);
+            await _writeProvider.Adicionar(entidade);
+            await _writeProvider.SalvarAlteracoes();
             return _mapeador.Mapear(entidade);
         }
     }

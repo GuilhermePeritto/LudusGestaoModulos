@@ -2,13 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using ludusGestao.Eventos.Domain.Entities;
 using LudusGestao.Shared.Domain.Entities;
 using ludusGestao.Gerais.Domain.Entities;
+using LudusGestao.Shared.Application.Providers;
 
 namespace ludusGestao.Provider.Data.Contexts
 {
     public class LudusGestaoReadDbContext : DbContext
     {
-        public LudusGestaoReadDbContext(DbContextOptions<LudusGestaoReadDbContext> options) : base(options)
+        private readonly ITenantContext _tenantContext;
+        public LudusGestaoReadDbContext(DbContextOptions<LudusGestaoReadDbContext> options, ITenantContext tenantContext) : base(options)
         {
+            _tenantContext = tenantContext;
         }
 
         // DbSets para o módulo Gerais
@@ -21,6 +24,17 @@ namespace ludusGestao.Provider.Data.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Filtro global multitenant
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(IEntidadeTenant).IsAssignableFrom(entityType.ClrType))
+                {
+                    var method = typeof(LudusGestaoReadDbContext).GetMethod(nameof(SetTenantFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                        .MakeGenericMethod(entityType.ClrType);
+                    method.Invoke(this, new object[] { modelBuilder });
+                }
+            }
 
             // Configurações específicas para operações de leitura
             // - Desabilita change tracking para melhor performance
@@ -59,6 +73,11 @@ namespace ludusGestao.Provider.Data.Contexts
                         .IsRequired(false);
                 }
             }
+        }
+
+        private void SetTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : class, IEntidadeTenant
+        {
+            modelBuilder.Entity<TEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
         }
 
         // Sobrescrever SaveChanges para prevenir modificações acidentais

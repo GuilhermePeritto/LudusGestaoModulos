@@ -1,19 +1,19 @@
 using FluentValidation;
 using ludusGestao.Eventos.Domain.Specifications;
 using ludusGestao.Eventos.Domain.DTOs.Local;
-using ludusGestao.Eventos.Domain.Repositories;
+using ludusGestao.Eventos.Domain.Providers;
 
 namespace ludusGestao.Eventos.Application.Validations.Local
 {
     public class CriarLocalValidation : AbstractValidator<ludusGestao.Eventos.Domain.DTOs.Local.CriarLocalDTO>
     {
-        public CriarLocalValidation(ILocalRepository repository)
+        public CriarLocalValidation(ILocalReadProvider readProvider)
         {
             RuleFor(x => x.Nome)
                 .NotEmpty().WithMessage("Nome é obrigatório.")
                 .MinimumLength(3)
-                .Must(nome => new LocalNomeUnicoSpecification(repository).IsSatisfiedBy(nome))
-                .WithMessage(new LocalNomeUnicoSpecification(repository).ErrorMessage);
+                .Must(nome => new LocalNomeUnicoSpecification(readProvider).IsSatisfiedBy(nome))
+                .WithMessage(new LocalNomeUnicoSpecification(readProvider).ErrorMessage);
 
             RuleFor(x => x.Rua).NotEmpty().WithMessage("Rua é obrigatória.");
             RuleFor(x => x.Numero).NotEmpty().WithMessage("Número é obrigatório.");

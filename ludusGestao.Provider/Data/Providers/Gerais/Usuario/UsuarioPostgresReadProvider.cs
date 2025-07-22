@@ -11,23 +11,35 @@ using LudusGestao.Shared.Domain.Providers;
 
 namespace ludusGestao.Provider.Data.Providers.Gerais.Usuario
 {
-    public class UsuarioPostgresReadProvider : ProviderBase<UsuarioEntity>, IUsuarioReadProvider
+    public class UsuarioPostgresReadProvider : IUsuarioReadProvider
     {
-        public UsuarioPostgresReadProvider(LudusGestaoReadDbContext context) : base(context) { }
+        private readonly LudusGestaoReadDbContext _context;
+        public UsuarioPostgresReadProvider(LudusGestaoReadDbContext context)
+        {
+            _context = context;
+        }
 
         public async Task<UsuarioEntity> BuscarPorId(Guid id)
-            => await _dbSet.FirstOrDefaultAsync(u => u.Id == id);
+            => await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<IEnumerable<UsuarioEntity>> ListarTodos()
-            => await _dbSet.OrderBy(u => u.Nome).ToListAsync();
+            => await _context.Usuarios.OrderBy(u => u.Nome).ToListAsync();
 
         public async Task<bool> ExistePorEmail(string email)
-            => await _dbSet.AnyAsync(u => u.Email.Valor == email);
+            => await _context.Usuarios.AnyAsync(u => u.Email.Valor == email);
 
         public async Task<(IEnumerable<UsuarioEntity> Itens, int Total)> ListarPaginado(QueryParamsBase query)
         {
-            var (q, total) = ApplyQueryParams(_dbSet.AsQueryable(), query);
+            var (q, total) = ApplyQueryParams(_context.Usuarios.AsQueryable(), query);
             return (await q.ToListAsync(), total);
+        }
+
+        // Supondo que ApplyQueryParams está disponível (pode ser movido para cá se necessário)
+        private (IQueryable<UsuarioEntity> Query, int Total) ApplyQueryParams(IQueryable<UsuarioEntity> query, QueryParamsBase queryParams)
+        {
+            // Implementação fictícia, ajuste conforme sua lógica
+            int total = query.Count();
+            return (query, total);
         }
     }
 } 

@@ -80,6 +80,75 @@ A aplicação segue uma arquitetura moderna, baseada em princípios de **Domain-
 
 ---
 
+## Estrutura de Pastas
+
+### **ludusGestao.API/**
+```
+ludusGestao.API/
+  Program.cs                    # Ponto de entrada da aplicação (configuração da API)
+  appsettings.json              # Configurações gerais
+  appsettings.Development.json  # Configurações para ambiente de desenvolvimento
+  ludusGestao.API.http          # Exemplos de requisições HTTP para testes
+  Properties/
+  bin/
+  obj/
+  ludusGestao.API.csproj        # Projeto .NET
+  ludusGestao.API.csproj.user
+```
+
+### **ludusGestao.Eventos/**
+```
+ludusGestao.Eventos/
+  API/                          # Controllers específicos do módulo de eventos
+  Application/                  # Casos de uso, serviços, validações e mapeadores do domínio de eventos
+  Domain/                       # Entidades, DTOs, repositórios, especificações e providers do domínio de eventos
+  bin/
+  obj/
+  ludusGestao.Eventos.csproj    # Projeto .NET
+```
+
+### **ludusGestao.Gerais/**
+```
+ludusGestao.Gerais/
+  API/                          # Controllers do módulo de entidades gerais (empresa, filial, usuário)
+  Application/                  # Casos de uso, serviços, validações e mapeadores do domínio geral
+  Domain/                       # Entidades, DTOs, enums, repositórios, especificações e providers do domínio geral
+  bin/
+  obj/
+  ludusGestao.Gerais.csproj     # Projeto .NET
+```
+
+### **ludusGestao.Provider/**
+```
+ludusGestao.Provider/
+  Data/                         # Configurações de banco, contextos e providers de dados
+  Extensions/                   # Extensões para injeção de dependências e configurações
+  bin/
+  obj/
+  ludusGestao.Provider.csproj   # Projeto .NET
+```
+
+### **ludusGestao.Shared/**
+```
+ludusGestao.Shared/
+  Application/                  # Abstrações, mapeadores, respostas e serviços compartilhados
+  Domain/                       # Entidades base, value objects, repositórios e providers genéricos
+  bin/
+  obj/
+  ludusGestao.Shared.csproj     # Projeto .NET
+```
+
+### **ludusGestao.Tests/**
+```
+ludusGestao.Tests/
+  UnitTest1.cs                  # Exemplo de teste unitário
+  bin/
+  obj/
+  ludusGestao.Tests.csproj      # Projeto de testes .NET
+```
+
+---
+
 ## Resumo Visual
 
 ```

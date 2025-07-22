@@ -12,6 +12,7 @@
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Binder": "9.0.7",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4",
+          "ludusGestao.Autenticacao": "1.0.0",
           "ludusGestao.Eventos": "1.0.0",
           "ludusGestao.Gerais": "1.0.0",
           "ludusGestao.Shared": "1.0.0"
@@ -1254,6 +1255,21 @@
           "System.Xml.ReaderWriter": "4.0.11"
         }
       },
+      "ludusGestao.Autenticacao/1.0.0": {
+        "dependencies": {
+          "FluentValidation": "11.8.1",
+          "FluentValidation.DependencyInjectionExtensions": "11.8.1",
+          "Microsoft.Extensions.Options": "8.0.2",
+          "System.IdentityModel.Tokens.Jwt": "6.35.0",
+          "ludusGestao.Shared": "1.0.0"
+        },
+        "runtime": {
+          "ludusGestao.Autenticacao.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "ludusGestao.Eventos/1.0.0": {
         "dependencies": {
           "FluentValidation": "11.8.1",
@@ -2126,6 +2142,11 @@
       "sha512": "sha512-Mk2mKmPi0nWaoiYeotq1dgeNK1fqWh61+EK+w4Wu8SWuTYLzpUnschb59bJtGywaPq7SmTuPf44wrXRwbIrukg==",
       "path": "system.xml.xdocument/4.0.11",
       "hashPath": "system.xml.xdocument.4.0.11.nupkg.sha512"
+    },
+    "ludusGestao.Autenticacao/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "ludusGestao.Eventos/1.0.0": {
       "type": "project",

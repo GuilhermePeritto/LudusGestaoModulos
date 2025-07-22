@@ -3119,6 +3119,23 @@
           "build/net6.0/xunit.runner.visualstudio.props": {}
         }
       },
+      "ludusGestao.Autenticacao/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "FluentValidation": "11.8.1",
+          "FluentValidation.DependencyInjectionExtensions": "11.8.1",
+          "Microsoft.Extensions.Options": "8.0.2",
+          "System.IdentityModel.Tokens.Jwt": "6.34.0",
+          "ludusGestao.Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ludusGestao.Autenticacao.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ludusGestao.Autenticacao.dll": {}
+        }
+      },
       "ludusGestao.Eventos/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -3156,7 +3173,8 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.4",
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Binder": "9.0.7",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.3",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4",
+          "ludusGestao.Autenticacao": "1.0.0",
           "ludusGestao.Eventos": "1.0.0",
           "ludusGestao.Gerais": "1.0.0",
           "ludusGestao.Shared": "1.0.0"
@@ -9043,6 +9061,11 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
+    "ludusGestao.Autenticacao/1.0.0": {
+      "type": "project",
+      "path": "../ludusGestao.Autenticacao/ludusGestao.Autenticacao.csproj",
+      "msbuildProject": "../ludusGestao.Autenticacao/ludusGestao.Autenticacao.csproj"
+    },
     "ludusGestao.Eventos/1.0.0": {
       "type": "project",
       "path": "../ludusGestao.Eventos/ludusGestao.Eventos.csproj",
@@ -9172,17 +9195,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "ludusGestao.Provider depende de Npgsql.EntityFrameworkCore.PostgreSQL (>= 8.0.3) mas Npgsql.EntityFrameworkCore.PostgreSQL 8.0.3 não foi encontrado. Npgsql.EntityFrameworkCore.PostgreSQL 8.0.4 foi resolvido.",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

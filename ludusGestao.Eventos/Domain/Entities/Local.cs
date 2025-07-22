@@ -4,12 +4,13 @@ using LudusGestao.Shared.Domain.ValueObjects;
 
 namespace ludusGestao.Eventos.Domain.Entities
 {
-    public class Local : EntidadeBase
+    public class Local : EntidadeBase, IEntidadeTenant
     {
         public string Nome { get; private set; }
         public Endereco Endereco { get; private set; }
         public int Capacidade { get; private set; }
         public bool Ativo { get; private set; }
+        public int TenantId { get; set; }
 
         private Local() { }
 

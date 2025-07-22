@@ -1,18 +1,18 @@
-using ludusGestao.Gerais.Domain.Repositories;
+using ludusGestao.Gerais.Domain.Providers;
 
 namespace ludusGestao.Gerais.Domain.Specifications.Usuario
 {
     public class EmailUnicoSpecification
     {
-        private readonly IUsuarioRepository _repository;
-        public EmailUnicoSpecification(IUsuarioRepository repository)
+        private readonly IUsuarioReadProvider _readProvider;
+        public EmailUnicoSpecification(IUsuarioReadProvider readProvider)
         {
-            _repository = repository;
+            _readProvider = readProvider;
         }
         // Apenas verifica unicidade, pois formato já é garantido pelo ValueObject
         public bool IsSatisfiedBy(string email)
         {
-            return !_repository.ExistePorEmail(email).Result;
+            return !_readProvider.ExistePorEmail(email).Result;
         }
         public string ErrorMessage => "Já existe um usuário com este e-mail.";
     }

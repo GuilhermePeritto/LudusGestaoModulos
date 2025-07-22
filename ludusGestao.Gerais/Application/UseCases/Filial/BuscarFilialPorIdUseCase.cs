@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.DTOs.Filial;
-using ludusGestao.Gerais.Domain.Repositories;
+using ludusGestao.Gerais.Domain.Providers;
 using ludusGestao.Gerais.Application.Mappers;
 using FluentValidation;
 
@@ -9,18 +9,18 @@ namespace ludusGestao.Gerais.Application.UseCases.Filial
 {
     public class BuscarFilialPorIdUseCase
     {
-        private readonly IFilialRepository _repository;
+        private readonly IFilialReadProvider _readProvider;
         private readonly FilialMapper _mapper;
-        public BuscarFilialPorIdUseCase(IFilialRepository repository)
+        public BuscarFilialPorIdUseCase(IFilialReadProvider readProvider)
         {
-            _repository = repository;
+            _readProvider = readProvider;
             _mapper = new FilialMapper();
         }
         public async Task<FilialDTO> Executar(Guid id)
         {
-            var entidade = await _repository.BuscarPorId(id);
+            var entidade = await _readProvider.BuscarPorId(id);
             if (entidade == null)
-                throw new ValidationException("Filial não encontrada.");
+                throw new FluentValidation.ValidationException("Filial não encontrada.");
             return _mapper.Mapear(entidade);
         }
     }

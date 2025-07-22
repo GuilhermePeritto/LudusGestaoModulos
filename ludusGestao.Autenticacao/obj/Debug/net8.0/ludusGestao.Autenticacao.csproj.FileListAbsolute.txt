@@ -1,0 +1,16 @@
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.AssemblyInfoInputs.cache
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.AssemblyInfo.cs
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.csproj.CoreCompileInputs.cache
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.sourcelink.json
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.csproj.AssemblyReference.cache
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\bin\Debug\net8.0\ludusGestao.Autenticacao.deps.json
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\bin\Debug\net8.0\ludusGestao.Autenticacao.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\bin\Debug\net8.0\ludusGestao.Autenticacao.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\bin\Debug\net8.0\ludusGestao.Shared.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\bin\Debug\net8.0\ludusGestao.Shared.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGes.DE59D83C.Up2Date
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\refint\ludusGestao.Autenticacao.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ref\ludusGestao.Autenticacao.dll

@@ -2089,6 +2089,23 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
+      "ludusGestao.Autenticacao/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "FluentValidation": "11.8.1",
+          "FluentValidation.DependencyInjectionExtensions": "11.8.1",
+          "Microsoft.Extensions.Options": "8.0.2",
+          "System.IdentityModel.Tokens.Jwt": "6.34.0",
+          "ludusGestao.Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ludusGestao.Autenticacao.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ludusGestao.Autenticacao.dll": {}
+        }
+      },
       "ludusGestao.Eventos/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -6366,6 +6383,11 @@
         "system.xml.xdocument.nuspec"
       ]
     },
+    "ludusGestao.Autenticacao/1.0.0": {
+      "type": "project",
+      "path": "../ludusGestao.Autenticacao/ludusGestao.Autenticacao.csproj",
+      "msbuildProject": "../ludusGestao.Autenticacao/ludusGestao.Autenticacao.csproj"
+    },
     "ludusGestao.Eventos/1.0.0": {
       "type": "project",
       "path": "../ludusGestao.Eventos/ludusGestao.Eventos.csproj",
@@ -6387,7 +6409,8 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.4",
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Configuration.Binder >= 9.0.7",
-      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.3",
+      "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4",
+      "ludusGestao.Autenticacao >= 1.0.0",
       "ludusGestao.Eventos >= 1.0.0",
       "ludusGestao.Gerais >= 1.0.0",
       "ludusGestao.Shared >= 1.0.0"
@@ -6426,6 +6449,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+            "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Autenticacao\\ludusGestao.Autenticacao.csproj": {
+              "projectPath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Autenticacao\\ludusGestao.Autenticacao.csproj"
+            },
             "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Eventos\\ludusGestao.Eventos.csproj": {
               "projectPath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Eventos\\ludusGestao.Eventos.csproj"
             },
@@ -6468,7 +6494,7 @@
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
-            "version": "[8.0.3, )"
+            "version": "[8.0.4, )"
           }
         },
         "imports": [
@@ -6490,17 +6516,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "ludusGestao.Provider depende de Npgsql.EntityFrameworkCore.PostgreSQL (>= 8.0.3) mas Npgsql.EntityFrameworkCore.PostgreSQL 8.0.3 não foi encontrado. Npgsql.EntityFrameworkCore.PostgreSQL 8.0.4 foi resolvido.",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  }
 }

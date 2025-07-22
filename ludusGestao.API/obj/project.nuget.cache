@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "GIXY0QnV18g=",
+  "dgSpecHash": "R3xRD9RsvSU=",
   "success": true,
   "projectFilePath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.API\\ludusGestao.API.csproj",
   "expectedPackageFiles": [
@@ -130,16 +130,5 @@
     "C:\\Users\\guilherme.peritto\\.nuget\\packages\\system.xml.readerwriter\\4.0.11\\system.xml.readerwriter.4.0.11.nupkg.sha512",
     "C:\\Users\\guilherme.peritto\\.nuget\\packages\\system.xml.xdocument\\4.0.11\\system.xml.xdocument.4.0.11.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "ludusGestao.Provider depende de Npgsql.EntityFrameworkCore.PostgreSQL (>= 8.0.3) mas Npgsql.EntityFrameworkCore.PostgreSQL 8.0.3 não foi encontrado. Npgsql.EntityFrameworkCore.PostgreSQL 8.0.4 foi resolvido.",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

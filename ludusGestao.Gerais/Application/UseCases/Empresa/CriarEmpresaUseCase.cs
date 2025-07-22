@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.DTOs.Empresa;
 using ludusGestao.Gerais.Domain.Entities;
-using ludusGestao.Gerais.Domain.Repositories;
+using ludusGestao.Gerais.Domain.Providers;
 using ludusGestao.Gerais.Application.Mappers;
 using ludusGestao.Gerais.Application.Validations.Empresa;
 using FluentValidation;
@@ -10,13 +10,15 @@ namespace ludusGestao.Gerais.Application.UseCases.Empresa
 {
     public class CriarEmpresaUseCase
     {
-        private readonly IEmpresaRepository _repository;
+        private readonly IEmpresaReadProvider _readProvider;
+        private readonly IEmpresaWriteProvider _writeProvider;
         private readonly CriarEmpresaValidation _validation;
         private readonly EmpresaMapper _mapper;
 
-        public CriarEmpresaUseCase(IEmpresaRepository repository)
+        public CriarEmpresaUseCase(IEmpresaReadProvider readProvider, IEmpresaWriteProvider writeProvider)
         {
-            _repository = repository;
+            _readProvider = readProvider;
+            _writeProvider = writeProvider;
             _validation = new CriarEmpresaValidation();
             _mapper = new EmpresaMapper();
         }
@@ -25,10 +27,11 @@ namespace ludusGestao.Gerais.Application.UseCases.Empresa
         {
             var resultado = _validation.Validate(dto);
             if (!resultado.IsValid)
-                throw new ValidationException(resultado.Errors);
+                throw new FluentValidation.ValidationException(resultado.Errors);
 
             var entidade = _mapper.Mapear(dto);
-            await _repository.Adicionar(entidade);
+            await _writeProvider.Adicionar(entidade);
+            await _writeProvider.SalvarAlteracoes();
             return _mapper.Mapear(entidade);
         }
     }

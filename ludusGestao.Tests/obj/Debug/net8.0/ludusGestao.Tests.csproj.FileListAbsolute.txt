@@ -179,3 +179,9 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debu
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\Microsoft.Net.Http.Headers.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\Npgsql.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\ludusGestao.Autenticacao.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\ludusGestao.Autenticacao.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\obj\Debug\net8.0\ludusGestao.Tests.sourcelink.json

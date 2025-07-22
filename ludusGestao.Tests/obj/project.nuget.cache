@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "wwRKCFLudLI=",
+  "dgSpecHash": "XO2UFGC5ycg=",
   "success": true,
   "projectFilePath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Tests\\ludusGestao.Tests.csproj",
   "expectedPackageFiles": [
@@ -172,16 +172,5 @@
     "C:\\Users\\guilherme.peritto\\.nuget\\packages\\xunit.extensibility.execution\\2.6.2\\xunit.extensibility.execution.2.6.2.nupkg.sha512",
     "C:\\Users\\guilherme.peritto\\.nuget\\packages\\xunit.runner.visualstudio\\2.5.4\\xunit.runner.visualstudio.2.5.4.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "ludusGestao.Provider depende de Npgsql.EntityFrameworkCore.PostgreSQL (>= 8.0.3) mas Npgsql.EntityFrameworkCore.PostgreSQL 8.0.3 não foi encontrado. Npgsql.EntityFrameworkCore.PostgreSQL 8.0.4 foi resolvido.",
-      "libraryId": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }

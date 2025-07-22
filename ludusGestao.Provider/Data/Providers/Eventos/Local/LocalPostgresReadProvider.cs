@@ -27,10 +27,10 @@ namespace ludusGestao.Provider.Data.Providers.Eventos.Local
             => await _context.Locais.Where(l => l.Capacidade >= capacidadeMinima).OrderBy(l => l.Capacidade).ToListAsync();
 
         public async Task<IEnumerable<LocalEntity>> BuscarPorFaixaPreco(decimal valorMinimo, decimal valorMaximo)
-            => await Task.FromResult<IEnumerable<LocalEntity>>(new List<LocalEntity>()); // Não implementado, pois Local não tem ValorHora
+            => await Task.FromResult<IEnumerable<LocalEntity>>(new List<LocalEntity>()); // Não implementado
 
         public async Task<IEnumerable<LocalEntity>> BuscarPorDisponibilidade(bool disponivel)
-            => await Task.FromResult<IEnumerable<LocalEntity>>(new List<LocalEntity>()); // Não implementado, pois Local não tem Disponivel
+            => await Task.FromResult<IEnumerable<LocalEntity>>(new List<LocalEntity>()); // Não implementado
 
         public async Task<bool> ExistePorNome(string nome, Guid? idExcluir = null)
         {

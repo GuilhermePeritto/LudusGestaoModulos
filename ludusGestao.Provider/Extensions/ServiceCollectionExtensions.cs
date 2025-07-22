@@ -1,8 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using ludusGestao.Eventos.Domain.Providers;
-using ludusGestao.Provider.Data.Providers.Eventos;
+using ludusGestao.Provider.Data.Providers.Eventos.Local;
 using ludusGestao.Provider.Data.Providers;
 using ludusGestao.Provider.Data.Configurations;
+using ludusGestao.Provider.Data.Providers.Gerais.Usuario;
+using ludusGestao.Provider.Data.Providers.Gerais.Empresa;
+using ludusGestao.Provider.Data.Providers.Gerais.Filial;
 using System.Reflection;
 using System.Linq;
 
@@ -37,6 +40,9 @@ namespace ludusGestao.Provider.Extensions
                 return selector.GetLocalWriteProvider();
             });
 
+            // Registrar providers de autenticação
+            services.AddScoped<ludusGestao.Autenticacao.Domain.Providers.IUsuarioAutenticacaoReadProvider, ludusGestao.Provider.Data.Providers.Autenticacao.UsuarioAutenticacaoPostgresReadProvider>();
+
             // Registrar manualmente os UseCases do fluxo de Local (Eventos)
             services.AddScoped<ludusGestao.Eventos.Application.UseCases.Local.CriarLocalUseCase>();
             services.AddScoped<ludusGestao.Eventos.Application.UseCases.Local.AtualizarLocalUseCase>();
@@ -44,13 +50,10 @@ namespace ludusGestao.Provider.Extensions
             services.AddScoped<ludusGestao.Eventos.Application.UseCases.Local.BuscarLocalPorIdUseCase>();
             services.AddScoped<ludusGestao.Eventos.Application.UseCases.Local.ListarLocaisUseCase>();
 
-            // Registrar o repositório concreto
-            services.AddScoped<ludusGestao.Eventos.Domain.Repositories.ILocalRepository, LocalRepository>();
-
-            // Registrar repositórios do módulo Gerais
-            services.AddScoped<ludusGestao.Gerais.Domain.Repositories.IUsuarioRepository, ludusGestao.Provider.Data.Providers.UsuarioRepository>();
-            services.AddScoped<ludusGestao.Gerais.Domain.Repositories.IEmpresaRepository, ludusGestao.Provider.Data.Providers.EmpresaRepository>();
-            services.AddScoped<ludusGestao.Gerais.Domain.Repositories.IFilialRepository, ludusGestao.Provider.Data.Providers.FilialRepository>();
+            // Registrar providers do módulo Gerais
+            services.AddScoped<ludusGestao.Gerais.Domain.Providers.IUsuarioReadProvider, UsuarioPostgresReadProvider>();
+            services.AddScoped<ludusGestao.Gerais.Domain.Providers.IEmpresaReadProvider, EmpresaPostgresReadProvider>();
+            services.AddScoped<ludusGestao.Gerais.Domain.Providers.IFilialReadProvider, FilialPostgresReadProvider>();
 
             return services;
         }

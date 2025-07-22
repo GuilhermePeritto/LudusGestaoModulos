@@ -97,3 +97,6 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\Npgsql.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\ludusGestao.Autenticacao.dll
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\ludusGestao.Autenticacao.pdb
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\obj\Debug\net8.0\ludusGestao.API.sourcelink.json

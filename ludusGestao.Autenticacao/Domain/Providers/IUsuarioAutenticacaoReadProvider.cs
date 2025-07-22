@@ -6,6 +6,6 @@ namespace ludusGestao.Autenticacao.Domain.Providers
 {
     public interface IUsuarioAutenticacaoReadProvider
     {
-        Task<UsuarioAutenticacao> ObterPorLogin(Email login);
+        Task<UsuarioAutenticacao> ObterPorEmail(Email email);
     }
 } 

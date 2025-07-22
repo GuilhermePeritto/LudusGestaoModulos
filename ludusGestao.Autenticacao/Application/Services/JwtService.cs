@@ -41,7 +41,7 @@ namespace ludusGestao.Autenticacao.Application.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Login),
+                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Email),
                 new Claim("tenantId", usuario.TenantId.ToString())
             };
 
@@ -64,7 +64,7 @@ namespace ludusGestao.Autenticacao.Application.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Login),
+                new Claim(JwtRegisteredClaimNames.UniqueName, usuario.Email),
                 new Claim("tenantId", usuario.TenantId.ToString()),
                 new Claim("tipo", "refresh")
             };

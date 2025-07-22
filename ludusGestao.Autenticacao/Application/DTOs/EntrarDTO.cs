@@ -4,7 +4,7 @@ namespace ludusGestao.Autenticacao.Application.DTOs
 {
     public class EntrarDTO
     {
-        public Email Login { get; set; } = default!;
+        public Email Email { get; set; } = default!;
         public string Senha { get; set; } = default!;
     }
 } 

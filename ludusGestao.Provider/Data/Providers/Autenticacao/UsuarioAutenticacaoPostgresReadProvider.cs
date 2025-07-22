@@ -14,14 +14,14 @@ namespace ludusGestao.Provider.Data.Providers.Autenticacao
             _context = context;
         }
 
-        public async Task<UsuarioAutenticacao> ObterPorLogin(Email login)
+        public async Task<UsuarioAutenticacao> ObterPorEmail(Email email)
         {
             var usuario = await _context.Usuarios
-                .Where(u => u.Email.Valor == login.Valor)
+                .Where(u => u.Email.Valor == email.Valor)
                 .Select(u => new UsuarioAutenticacao
                 {
                     Id = u.Id,
-                    Login = u.Email.Valor,
+                    Email = u.Email.Valor,
                     Senha = u.Senha,
                     TenantId = u.TenantId,
                     Ativo = u.Situacao == ludusGestao.Gerais.Domain.Enums.SituacaoUsuario.Ativo

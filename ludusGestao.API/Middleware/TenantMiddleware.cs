@@ -4,6 +4,7 @@ using LudusGestao.Shared.Application.Providers;
 using LudusGestao.Shared.Application.Responses;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace ludusGestao.API.Middleware
 {
@@ -31,16 +32,26 @@ namespace ludusGestao.API.Middleware
             }
             else
             {
-                context.Response.StatusCode = 400;
-                context.Response.ContentType = "application/json";
-                var resposta = new RespostaBase<object>(null)
+                // Tentar extrair do JWT
+                var user = context.User;
+                var tenantIdClaim = user?.Claims.FirstOrDefault(c => c.Type == "tenantId")?.Value;
+                if (!string.IsNullOrEmpty(tenantIdClaim) && int.TryParse(tenantIdClaim, out var tenantIdJwt))
                 {
-                    Sucesso = false,
-                    Mensagem = "TenantId inválido ou ausente",
-                    Erros = new System.Collections.Generic.List<string> { "TenantId inválido ou ausente" }
-                };
-                await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(resposta));
-                return;
+                    tenantContext.SetTenantId(tenantIdJwt);
+                }
+                else
+                {
+                    context.Response.StatusCode = 400;
+                    context.Response.ContentType = "application/json";
+                    var resposta = new RespostaBase<object>(null)
+                    {
+                        Sucesso = false,
+                        Mensagem = "TenantId inválido ou ausente",
+                        Erros = new System.Collections.Generic.List<string> { "TenantId inválido ou ausente" }
+                    };
+                    await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(resposta));
+                    return;
+                }
             }
             await _next(context);
         }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ludusGestao.Autenticacao")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+003f753733170bdd6679c98de14ba72160028e2e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4b09d2197053ea6c5250291f84e7c2d098b05942")]
 [assembly: System.Reflection.AssemblyProductAttribute("ludusGestao.Autenticacao")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ludusGestao.Autenticacao")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

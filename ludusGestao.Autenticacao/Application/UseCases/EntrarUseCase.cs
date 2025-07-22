@@ -28,7 +28,7 @@ namespace ludusGestao.Autenticacao.Application.UseCases
 
         public async Task<TokenResponseDTO?> Executar(EntrarDTO dto)
         {
-            var usuario = await _usuarioProvider.ObterPorLogin(dto.Login);
+            var usuario = await _usuarioProvider.ObterPorEmail(dto.Email);
             if (usuario == null)
             {
                 await _httpContextAccessor.PublicarErro(new ErroEvento {

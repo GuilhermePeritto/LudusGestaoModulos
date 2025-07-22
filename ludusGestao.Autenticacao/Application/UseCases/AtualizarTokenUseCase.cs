@@ -64,7 +64,7 @@ namespace ludusGestao.Autenticacao.Application.UseCases
                 return null;
             }
 
-            var usuario = await _usuarioProvider.ObterPorLogin(new LudusGestao.Shared.Domain.ValueObjects.Email(login));
+            var usuario = await _usuarioProvider.ObterPorEmail(new LudusGestao.Shared.Domain.ValueObjects.Email(login));
             if (usuario == null)
             {
                 await _httpContextAccessor.PublicarErro(new ErroEvento {

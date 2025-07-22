@@ -7,7 +7,7 @@ namespace ludusGestao.Autenticacao.Application.Validations
     {
         public EntrarValidation()
         {
-            RuleFor(x => x.Login).NotEmpty().WithMessage("Login obrigatório.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Email obrigatório.");
             RuleFor(x => x.Senha).NotEmpty().WithMessage("Senha obrigatória.");
         }
     }

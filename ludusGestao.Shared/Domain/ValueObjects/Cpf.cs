@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace LudusGestao.Shared.Domain.ValueObjects
 {
+    [JsonConverter(typeof(CpfJsonConverter))]
     public class Cpf : ValueObjectBase
     {
-        public string Valor { get; }
+        public string Valor { get; private set; }
+
+        // Construtor sem parâmetros para o EF
+        public Cpf() { }
 
         public Cpf(string valor)
         {
@@ -44,5 +50,21 @@ namespace LudusGestao.Shared.Domain.ValueObjects
         }
 
         public override string ToString() => Valor;
+    }
+
+    public class CpfJsonConverter : JsonConverter<Cpf>
+    {
+        public override Cpf Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var value = reader.GetString();
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("CPF não pode ser nulo ou vazio.");
+            return new Cpf(value);
+        }
+
+        public override void Write(Utf8JsonWriter writer, Cpf value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.Valor);
+        }
     }
 } 

@@ -45,6 +45,23 @@ builder.Services.AddScopedFromAssembliesOf<
     ludusGestao.Eventos.Application.UseCases.Local.CriarLocalUseCase>();
 
 builder.Services.AddScoped<LudusGestao.Shared.Application.Providers.ITenantContext, LudusGestao.Shared.Application.Providers.TenantContext>();
+builder.Services.AddScoped<ludusGestao.Autenticacao.Application.Services.AutenticacaoService>();
+builder.Services.AddScoped<ludusGestao.Autenticacao.Application.Services.JwtService>();
+builder.Services.AddScoped<ludusGestao.Autenticacao.Application.UseCases.EntrarUseCase>();
+builder.Services.AddScoped<ludusGestao.Autenticacao.Application.UseCases.AtualizarTokenUseCase>();
+builder.Services.AddScoped<ludusGestao.Autenticacao.Application.Validations.EntrarValidation>();
+builder.Services.AddScoped<ludusGestao.Autenticacao.Application.Validations.AtualizarTokenValidation>();
+
+// Adicionar registro do JwtSettings para DI
+builder.Services.Configure<ludusGestao.Autenticacao.Application.Services.JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
+builder.Services.AddSingleton<LudusGestao.Shared.Application.Events.IEventBus, LudusGestao.Shared.Application.Events.EventBus>();
+builder.Services.AddSingleton<Microsoft.AspNetCore.Http.IHttpContextAccessor, Microsoft.AspNetCore.Http.HttpContextAccessor>();
+
+// Registrar handlers globais de erro
+var eventBus = builder.Services.BuildServiceProvider().GetRequiredService<LudusGestao.Shared.Application.Events.IEventBus>();
+var accessor = builder.Services.BuildServiceProvider().GetRequiredService<Microsoft.AspNetCore.Http.IHttpContextAccessor>();
+ludusGestao.API.Extensions.EventBusExtensions.RegistrarHandlersGlobais(eventBus, accessor);
 
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options =>
 {
@@ -58,7 +75,8 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options 
         var resposta = new LudusGestao.Shared.Application.Responses.RespostaBase<object>(null)
         {
             Sucesso = false,
-            Mensagem = string.Join("; ", erros)
+            Mensagem = "Foram encontrados erros de validação.",
+            Erros = erros
         };
 
         return new Microsoft.AspNetCore.Mvc.BadRequestObjectResult(resposta);

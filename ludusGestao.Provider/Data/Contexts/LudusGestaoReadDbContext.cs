@@ -46,6 +46,8 @@ namespace ludusGestao.Provider.Data.Contexts
 
             // Aplicar configurações específicas do módulo Eventos
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Local).Assembly);
+            // Aplicar configurações específicas do módulo Gerais
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ludusGestao.Provider.Data.Configurations.Gerais.EmpresaConfiguration).Assembly);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -69,7 +71,7 @@ namespace ludusGestao.Provider.Data.Contexts
                         .IsRequired();
 
                     modelBuilder.Entity(entityType.ClrType)
-                        .Property("DataAtualizacao")
+                        .Property("DataAlteracao") // Corrigido aqui
                         .IsRequired(false);
                 }
             }
@@ -77,7 +79,11 @@ namespace ludusGestao.Provider.Data.Contexts
 
         private void SetTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : class, IEntidadeTenant
         {
-            modelBuilder.Entity<TEntity>().HasQueryFilter(e => e.TenantId == _tenantContext.TenantId);
+            var tenantContext = _tenantContext as LudusGestao.Shared.Application.Providers.TenantContext;
+            var ignorarFiltro = tenantContext != null && tenantContext.IgnorarFiltroTenant;
+            modelBuilder.Entity<TEntity>().HasQueryFilter(e =>
+                !ignorarFiltro ? e.TenantId == _tenantContext.TenantId : true
+            );
         }
 
         // Sobrescrever SaveChanges para prevenir modificações acidentais

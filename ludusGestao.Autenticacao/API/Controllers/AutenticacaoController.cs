@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using ludusGestao.Autenticacao.Application.DTOs;
 using ludusGestao.Autenticacao.Application.Services;
+using LudusGestao.Shared.Application.Responses;
+using System.Collections.Generic;
 
 namespace ludusGestao.Autenticacao.API.Controllers
 {
@@ -19,18 +21,22 @@ namespace ludusGestao.Autenticacao.API.Controllers
         [HttpPost("entrar")]
         public async Task<IActionResult> Entrar([FromBody] EntrarDTO dto)
         {
-            var (valido, resposta, erro) = await _autenticacaoService.Entrar(dto);
-            if (!valido)
-                return BadRequest(new { erro });
+            var resposta = await _autenticacaoService.Entrar(dto);
+            if (resposta == null)
+            {
+                return NoContent();
+            }
             return Ok(resposta);
         }
 
         [HttpPost("atualizar-token")]
         public async Task<IActionResult> AtualizarToken([FromBody] AtualizarTokenDTO dto)
         {
-            var (valido, resposta, erro) = await _autenticacaoService.AtualizarToken(dto);
-            if (!valido)
-                return BadRequest(new { erro });
+            var resposta = await _autenticacaoService.AtualizarToken(dto);
+            if (resposta == null)
+            {
+                return NoContent();
+            }
             return Ok(resposta);
         }
     }

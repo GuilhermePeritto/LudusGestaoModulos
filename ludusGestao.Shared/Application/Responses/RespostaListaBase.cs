@@ -11,8 +11,9 @@ namespace LudusGestao.Shared.Application.Responses
         public int PaginaAtual { get; set; }
         public int TamanhoPagina { get; set; }
         public int TotalPaginas { get; set; }
+        public List<string> Erros { get; set; }
 
-        public RespostaListaBase(IEnumerable<T> itens, int paginaAtual, int tamanhoPagina, int totalItens, string mensagem = null)
+        public RespostaListaBase(IEnumerable<T> itens, int paginaAtual, int tamanhoPagina, int totalItens, string mensagem = null, List<string> erros = null)
         {
             Sucesso = true;
             Mensagem = mensagem;
@@ -21,6 +22,7 @@ namespace LudusGestao.Shared.Application.Responses
             TamanhoPagina = tamanhoPagina;
             TotalItens = totalItens;
             TotalPaginas = (int)System.Math.Ceiling(totalItens / (double)tamanhoPagina);
+            Erros = erros ?? new List<string>();
         }
     }
 } 

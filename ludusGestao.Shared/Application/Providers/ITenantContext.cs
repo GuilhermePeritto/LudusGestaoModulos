@@ -4,5 +4,7 @@ namespace LudusGestao.Shared.Application.Providers
     {
         int TenantId { get; }
         void SetTenantId(int tenantId);
+        bool IgnorarFiltroTenant { get; }
+        void IgnorarFiltro(bool ignorar);
     }
 } 

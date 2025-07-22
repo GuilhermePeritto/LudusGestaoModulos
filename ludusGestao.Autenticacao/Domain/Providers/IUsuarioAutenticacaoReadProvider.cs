@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
 using ludusGestao.Autenticacao.Domain.Entities;
+using LudusGestao.Shared.Domain.ValueObjects;
 
 namespace ludusGestao.Autenticacao.Domain.Providers
 {
     public interface IUsuarioAutenticacaoReadProvider
     {
-        Task<UsuarioAutenticacao> ObterPorLogin(string login);
+        Task<UsuarioAutenticacao> ObterPorLogin(Email login);
     }
 } 

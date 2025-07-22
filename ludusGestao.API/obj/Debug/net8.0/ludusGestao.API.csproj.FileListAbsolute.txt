@@ -100,3 +100,4 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\ludusGestao.Autenticacao.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\ludusGestao.Autenticacao.pdb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\obj\Debug\net8.0\ludusGestao.API.sourcelink.json
+C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\BCrypt.Net-Next.dll

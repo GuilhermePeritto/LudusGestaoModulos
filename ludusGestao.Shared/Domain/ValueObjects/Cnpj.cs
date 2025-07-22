@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace LudusGestao.Shared.Domain.ValueObjects
 {
+    [JsonConverter(typeof(CnpjJsonConverter))]
     public class Cnpj : ValueObjectBase
     {
-        public string Valor { get; }
+        public string Valor { get; private set; }
+
+        // Construtor sem parâmetros para o EF
+        public Cnpj() { }
 
         public Cnpj(string valor)
         {
@@ -43,5 +49,21 @@ namespace LudusGestao.Shared.Domain.ValueObjects
         }
 
         public override string ToString() => Valor;
+    }
+
+    public class CnpjJsonConverter : JsonConverter<Cnpj>
+    {
+        public override Cnpj Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var value = reader.GetString();
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("CNPJ não pode ser nulo ou vazio.");
+            return new Cnpj(value);
+        }
+
+        public override void Write(Utf8JsonWriter writer, Cnpj value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.Valor);
+        }
     }
 } 

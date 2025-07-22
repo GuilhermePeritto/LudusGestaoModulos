@@ -7,13 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Shared", "ludus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Eventos", "ludusGestao.Eventos\ludusGestao.Eventos.csproj", "{C6C08F68-92B5-47AD-8B84-4AA12661CEC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Autenticacao", "ludusGestao.Gerais\ludusGestao.Gerais.csproj", "{5B3B2A82-5C10-4814-8EB5-50B252D68BA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Gerais", "ludusGestao.Gerais\ludusGestao.Gerais.csproj", "{5B3B2A82-5C10-4814-8EB5-50B252D68BA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.API", "ludusGestao.API\ludusGestao.API.csproj", "{67C96673-1B8E-4499-875D-01CAD69EC88F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Tests", "ludusGestao.Tests\ludusGestao.Tests.csproj", "{23718DDD-CBF6-427D-BF35-649165E4F7F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Provider", "ludusGestao.Provider\ludusGestao.Provider.csproj", "{FD15B9E9-88CF-48C1-934F-747A41381D28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Autenticacao", "ludusGestao.Autenticacao\ludusGestao.Autenticacao.csproj", "{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,18 @@ Global
 		{FD15B9E9-88CF-48C1-934F-747A41381D28}.Release|x64.Build.0 = Release|Any CPU
 		{FD15B9E9-88CF-48C1-934F-747A41381D28}.Release|x86.ActiveCfg = Release|Any CPU
 		{FD15B9E9-88CF-48C1-934F-747A41381D28}.Release|x86.Build.0 = Release|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Debug|x64.Build.0 = Debug|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Debug|x86.Build.0 = Debug|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|x64.ActiveCfg = Release|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|x64.Build.0 = Release|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|x86.ActiveCfg = Release|Any CPU
+		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

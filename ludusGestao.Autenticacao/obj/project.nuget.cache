@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WT+/wz/JsaI=",
+  "dgSpecHash": "BHTvVI70JD0=",
   "success": true,
   "projectFilePath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Autenticacao\\ludusGestao.Autenticacao.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\guilherme.peritto\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\guilherme.peritto\\.nuget\\packages\\fluentvalidation\\11.8.1\\fluentvalidation.11.8.1.nupkg.sha512",
     "C:\\Users\\guilherme.peritto\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.8.1\\fluentvalidation.dependencyinjectionextensions.11.8.1.nupkg.sha512",
     "C:\\Users\\guilherme.peritto\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.3.0\\microsoft.aspnetcore.authentication.abstractions.2.3.0.nupkg.sha512",

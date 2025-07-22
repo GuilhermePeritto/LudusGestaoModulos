@@ -2,6 +2,7 @@ using ludusGestao.Provider.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using ludusGestao.Autenticacao.Domain.Entities;
 using ludusGestao.Autenticacao.Domain.Providers;
+using LudusGestao.Shared.Domain.ValueObjects;
 
 namespace ludusGestao.Provider.Data.Providers.Autenticacao
 {
@@ -13,10 +14,10 @@ namespace ludusGestao.Provider.Data.Providers.Autenticacao
             _context = context;
         }
 
-        public async Task<UsuarioAutenticacao> ObterPorLogin(string login)
+        public async Task<UsuarioAutenticacao> ObterPorLogin(Email login)
         {
             var usuario = await _context.Usuarios
-                .Where(u => u.Email.Valor == login)
+                .Where(u => u.Email.Valor == login.Valor)
                 .Select(u => new UsuarioAutenticacao
                 {
                     Id = u.Id,

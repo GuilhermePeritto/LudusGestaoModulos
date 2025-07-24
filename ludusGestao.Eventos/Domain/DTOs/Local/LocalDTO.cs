@@ -1,16 +1,36 @@
-namespace ludusGestao.Eventos.Domain.DTOs.Local
+public class LocalDTO
 {
-    public class LocalDTO
+    public Guid Id { get; private set; }
+    public string Nome { get; private set; }
+    public string Rua { get; private set; }
+    public string Numero { get; private set; }
+    public string Bairro { get; private set; }
+    public string Cidade { get; private set; }
+    public string Estado { get; private set; }
+    public string Cep { get; private set; }
+    public int Capacidade { get; private set; }
+    public bool Ativo { get; private set; }
+    public int TenantId { get; private set; }
+    public DateTime DataCriacao { get; private set; }
+    public DateTime? DataAlteracao { get; private set; }
+
+    public static LocalDTO Criar(Local local)
     {
-        public string Id { get; set; }
-        public string Nome { get; set; }
-        public string Rua { get; set; }
-        public string Numero { get; set; }
-        public string Bairro { get; set; }
-        public string Cidade { get; set; }
-        public string Estado { get; set; }
-        public string Cep { get; set; }
-        public int Capacidade { get; set; }
-        public bool Ativo { get; set; }
+        return new LocalDTO
+        {
+            Id = local.Id,
+            Nome = local.Nome,
+            Rua = local.Endereco.Rua,
+            Numero = local.Endereco.Numero,
+            Bairro = local.Endereco.Bairro,
+            Cidade = local.Endereco.Cidade,
+            Estado = local.Endereco.Estado,
+            Cep = local.Endereco.Cep,
+            Capacidade = local.Capacidade,
+            Ativo = local.Ativo,
+            TenantId = local.TenantId,
+            DataCriacao = local.DataCriacao,
+            DataAlteracao = local.DataAlteracao
+        };
     }
-} 
+}

@@ -30,12 +30,7 @@ namespace ludusGestao.API.Middleware
                 {
                     context.Response.StatusCode = erroEvento.StatusCode > 0 ? erroEvento.StatusCode : (int)HttpStatusCode.BadRequest;
                     context.Response.ContentType = "application/json";
-                    var resposta = new RespostaBase<object>(null)
-                    {
-                        Sucesso = false,
-                        Mensagem = erroEvento.Mensagem,
-                        Erros = erroEvento.Erros ?? new List<string>()
-                    };
+                    var resposta = new RespostaBase(null, erroEvento.Mensagem, erroEvento.Erros);
                     await context.Response.WriteAsync(JsonSerializer.Serialize(resposta));
                 }
                 // Padronizar resposta para 401/403 se não houver resposta já escrita
@@ -44,12 +39,7 @@ namespace ludusGestao.API.Middleware
                 {
                     context.Response.ContentType = "application/json";
                     var mensagem = context.Response.StatusCode == (int)HttpStatusCode.Unauthorized ? "Acesso não autorizado." : "Acesso proibido.";
-                    var resposta = new RespostaBase<object>(null)
-                    {
-                        Sucesso = false,
-                        Mensagem = mensagem,
-                        Erros = new List<string> { mensagem }
-                    };
+                    var resposta = new RespostaBase(null, mensagem, new List<string> { mensagem });
                     await context.Response.WriteAsync(JsonSerializer.Serialize(resposta));
                 }
             }
@@ -58,36 +48,21 @@ namespace ludusGestao.API.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 context.Response.ContentType = "application/json";
                 var erros = ex.Errors?.Select(e => e.ErrorMessage).ToList() ?? new List<string> { ex.Message };
-                var resposta = new RespostaBase<object>(null)
-                {
-                    Sucesso = false,
-                    Mensagem = "Foram encontrados erros de validação.",
-                    Erros = erros
-                };
+                var resposta = new RespostaBase(null, "Foram encontrados erros de validação.", erros);
                 await context.Response.WriteAsync(JsonSerializer.Serialize(resposta));
             }
             catch (UnauthorizedAccessException ex)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 context.Response.ContentType = "application/json";
-                var resposta = new RespostaBase<object>(null)
-                {
-                    Sucesso = false,
-                    Mensagem = ex.Message ?? "Acesso não autorizado.",
-                    Erros = new List<string> { ex.Message }
-                };
+                var resposta = new RespostaBase(null, ex.Message ?? "Acesso não autorizado.", new List<string> { ex.Message });
                 await context.Response.WriteAsync(JsonSerializer.Serialize(resposta));
             }
             catch (Exception ex)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 context.Response.ContentType = "application/json";
-                var resposta = new RespostaBase<object>(null)
-                {
-                    Sucesso = false,
-                    Mensagem = "Ocorreu um erro inesperado. Tente novamente mais tarde.",
-                    Erros = new List<string> { ex.Message }
-                };
+                var resposta = new RespostaBase(null, "Ocorreu um erro inesperado. Tente novamente mais tarde.", new List<string> { ex.Message });
                 await context.Response.WriteAsync(JsonSerializer.Serialize(resposta));
             }
         }

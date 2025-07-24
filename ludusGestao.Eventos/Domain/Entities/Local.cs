@@ -2,36 +2,45 @@ using System;
 using LudusGestao.Shared.Domain.Entities;
 using LudusGestao.Shared.Domain.ValueObjects;
 
-namespace ludusGestao.Eventos.Domain.Entities
+public class Local : EntidadeBase
 {
-    public class Local : EntidadeBase, IEntidadeTenant
+    public Local() { }
+    public string Nome { get; private set; }
+    public Endereco Endereco { get; private set; }
+    public int Capacidade { get; private set; }
+    public bool Ativo { get; private set; }
+    public int TenantId { get; private set; }
+
+    public static Local Criar(string nome, string rua, string numero, string bairro, string cidade, string estado, string cep, int capacidade)
     {
-        public string Nome { get; private set; }
-        public Endereco Endereco { get; private set; }
-        public int Capacidade { get; private set; }
-        public bool Ativo { get; private set; }
-        public int TenantId { get; set; }
-
-        private Local() { }
-
-        public static Local Criar(string nome, Endereco endereco, int capacidade)
+        return new Local
         {
-            return new Local
-            {
-                Id = Guid.NewGuid(),
-                Nome = nome,
-                Endereco = endereco,
-                Capacidade = capacidade,
-                Ativo = true
-            };
-        }
-
-        public void Atualizar(string nome, Endereco endereco, int capacidade)
-        {
-            Nome = nome;
-            Endereco = endereco;
-            Capacidade = capacidade;
-            Ativo = true;
-        }
+            Nome = nome,
+            Endereco = new Endereco(rua, numero, bairro, cidade, estado, cep),
+            Capacidade = capacidade,
+            Ativo = true,
+        };
     }
-} 
+
+    public void Atualizar(string nome, string rua, string numero, string bairro, string cidade, string estado, string cep, int capacidade)
+    {
+        Nome = nome;
+        Endereco = new Endereco(rua, numero, bairro, cidade, estado, cep);
+        Capacidade = capacidade;
+    }
+
+    public void Remover()
+    {
+        Ativo = false;
+    }
+
+    public void Reativar()
+    {
+        Ativo = true;
+    }
+
+    public void AlterarTenant(int tenantId)
+    {
+        TenantId = tenantId;
+    }
+}

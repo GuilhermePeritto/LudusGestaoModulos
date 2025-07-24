@@ -59,3 +59,34 @@ _ReSharper*/
 
 # Crash dumps
 *.dmp 
+ludusGestao.API/obj/Debug/net8.0/ludusGestao.API.AssemblyInfo.cs
+ludusGestao.API/obj/Debug/net8.0/ludusGestao.API.AssemblyInfoInputs.cache
+ludusGestao.API/obj/Debug/net8.0/ludusGestao.API.assets.cache
+ludusGestao.API/obj/Debug/net8.0/ludusGestao.API.csproj.AssemblyReference.cache
+ludusGestao.API/obj/Debug/net8.0/ludusGestao.API.GeneratedMSBuildEditorConfig.editorconfig
+ludusGestao.Autenticacao/obj/Debug/net8.0/ludusGestao.Autenticacao.AssemblyInfo.cs
+ludusGestao.Autenticacao/obj/Debug/net8.0/ludusGestao.Autenticacao.AssemblyInfoInputs.cache
+ludusGestao.Autenticacao/obj/Debug/net8.0/ludusGestao.Autenticacao.assets.cache
+ludusGestao.Autenticacao/obj/Debug/net8.0/ludusGestao.Autenticacao.csproj.AssemblyReference.cache
+ludusGestao.Autenticacao/obj/Debug/net8.0/ludusGestao.Autenticacao.GeneratedMSBuildEditorConfig.editorconfig
+ludusGestao.Eventos/obj/Debug/net8.0/ludusGestao.Eventos.AssemblyInfo.cs
+ludusGestao.Eventos/obj/Debug/net8.0/ludusGestao.Eventos.AssemblyInfoInputs.cache
+ludusGestao.Eventos/obj/Debug/net8.0/ludusGestao.Eventos.csproj.AssemblyReference.cache
+ludusGestao.Eventos/obj/Debug/net8.0/ludusGestao.Eventos.GeneratedMSBuildEditorConfig.editorconfig
+ludusGestao.Gerais/obj/Debug/net8.0/ludusGestao.Gerais.AssemblyInfo.cs
+ludusGestao.Gerais/obj/Debug/net8.0/ludusGestao.Gerais.AssemblyInfoInputs.cache
+ludusGestao.Gerais/obj/Debug/net8.0/ludusGestao.Gerais.csproj.AssemblyReference.cache
+ludusGestao.Provider/obj/Debug/net8.0/ludusGestao.Provider.AssemblyInfo.cs
+ludusGestao.Provider/obj/Debug/net8.0/ludusGestao.Provider.AssemblyInfoInputs.cache
+ludusGestao.Provider/obj/Debug/net8.0/ludusGestao.Provider.assets.cache
+ludusGestao.Provider/obj/Debug/net8.0/ludusGestao.Provider.csproj.AssemblyReference.cache
+ludusGestao.Provider/obj/Debug/net8.0/ludusGestao.Provider.GeneratedMSBuildEditorConfig.editorconfig
+ludusGestao.Shared/obj/Debug/net8.0/ludusGestao.Shared.AssemblyInfo.cs
+ludusGestao.Shared/obj/Debug/net8.0/ludusGestao.Shared.AssemblyInfoInputs.cache
+ludusGestao.Shared/obj/Debug/net8.0/ludusGestao.Shared.assets.cache
+ludusGestao.Shared/obj/Debug/net8.0/ludusGestao.Shared.csproj.CoreCompileInputs.cache
+ludusGestao.Shared/obj/Debug/net8.0/ludusGestao.Shared.GeneratedMSBuildEditorConfig.editorconfig
+ludusGestao.Shared/obj/Debug/net8.0/ludusGestao.Shared.sourcelink.json
+ludusGestao.Tests/obj/Debug/net8.0/ludusGestao.Tests.AssemblyInfo.cs
+ludusGestao.Tests/obj/Debug/net8.0/ludusGestao.Tests.AssemblyInfoInputs.cache
+ludusGestao.Tests/obj/Debug/net8.0/ludusGestao.Tests.csproj.AssemblyReference.cache

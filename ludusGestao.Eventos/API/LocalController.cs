@@ -1,6 +1,7 @@
 using System.Net;
 using LudusGestao.Shared.Application.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using LudusGestao.Shared.Domain.Common;
 
 [ApiController]
 [Route("api/locais")]
@@ -15,10 +16,9 @@ public class LocalController : ControllerRestBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Listar()
+    public async Task<IActionResult> Listar([FromQuery] QueryParamsBase query)
     {
-        var result = await _service.Listar();
-
+        var result = await _service.Listar(query);
         return CustomResponse(HttpStatusCode.OK, result, "Locais listados com sucesso.");
     }
 

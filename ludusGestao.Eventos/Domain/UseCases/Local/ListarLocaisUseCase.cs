@@ -1,3 +1,5 @@
+using LudusGestao.Shared.Domain.Common;
+
 public class ListarLocaisUseCase : BaseUseCase
 {
     private readonly ILocalReadProvider _readProvider;
@@ -7,8 +9,8 @@ public class ListarLocaisUseCase : BaseUseCase
         _readProvider = readProvider;
     }
 
-    public async Task<IEnumerable<Local>> Executar()
+    public async Task<IEnumerable<Local>> Executar(QueryParamsBase queryParams)
     {
-        return await _readProvider.ListarTodos();
+        return await _readProvider.Listar(queryParams);
     }
 } 

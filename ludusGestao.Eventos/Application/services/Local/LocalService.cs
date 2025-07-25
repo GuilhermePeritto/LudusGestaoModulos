@@ -50,15 +50,9 @@ public class LocalService : BaseService, ILocalService
         return LocalDTO.Criar(local);
     }
 
-    public async Task<IEnumerable<LocalDTO>> Listar()
+    public async Task<IEnumerable<LocalDTO>> Listar(QueryParamsBase query)
     {
-        var locais = await _listarUseCase.Executar();
+        var locais = await _listarUseCase.Executar(query);
         return locais.Select(LocalDTO.Criar);
-    }
-
-    public async Task<(IEnumerable<LocalDTO> Itens, int Total)> Listar(QueryParamsBase query)
-    {
-        var locais = await _listarUseCase.Executar();
-        return (locais.Select(LocalDTO.Criar), locais.Count());
     }
 } 

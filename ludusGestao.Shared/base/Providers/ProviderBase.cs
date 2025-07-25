@@ -21,6 +21,21 @@ namespace LudusGestao.Shared.Domain.Providers
             _dbSet = context.Set<TEntity>();
         }
 
+        public async Task<IEnumerable<TEntity>> Listar(QueryParamsBase queryParams)
+        {
+            var (query, _) = ApplyQueryParams(_dbSet.AsQueryable(), queryParams);
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>> Listar()
+            => await _dbSet.ToListAsync();
+
+        public async Task<TEntity> Buscar(QueryParamsBase queryParams)
+        {
+            var (query, _) = ApplyQueryParams(_dbSet.AsQueryable(), queryParams);
+            return await query.FirstOrDefaultAsync();
+        }
+
         protected (IQueryable<TEntity> Query, int Total) ApplyQueryParams(IQueryable<TEntity> query, QueryParamsBase queryParams)
         {
             // Filtros complexos (FilterObjects)
@@ -117,26 +132,31 @@ namespace LudusGestao.Shared.Domain.Providers
                 else
                     throw new ArgumentException($"Filtro para tipo '{prop.PropertyType.Name}' não suportado.");
             }
-            var total = query.Count();
-            // Ordenação
+
+            // Ordenação dinâmica
             if (!string.IsNullOrWhiteSpace(queryParams.Sort))
             {
-                var prop = typeof(TEntity).GetProperty(queryParams.Sort.TrimStart('-'), BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (prop == null)
-                    throw new ArgumentException($"Propriedade de ordenação '{queryParams.Sort}' não existe em {typeof(TEntity).Name}.");
-                if (queryParams.Sort.StartsWith("-"))
-                    query = query.OrderByDescending(e => EF.Property<object>(e, prop.Name));
-                else
+                var prop = typeof(TEntity).GetProperty(queryParams.Sort, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (prop != null)
+                {
                     query = query.OrderBy(e => EF.Property<object>(e, prop.Name));
+                }
             }
-            else
-            {
-                var idProp = typeof(TEntity).GetProperty("Id");
-                if (idProp != null)
-                    query = query.OrderBy(e => EF.Property<object>(e, "Id"));
-            }
+
+            int total = query.Count();
+
             // Paginação
-            query = query.Skip((queryParams.Page - 1) * queryParams.Limit).Take(queryParams.Limit);
+            int page = 1, limit = 10, start = 0;
+            int.TryParse(queryParams.Page.ToString(), out page);
+            int.TryParse(queryParams.Limit.ToString(), out limit);
+            int.TryParse(queryParams.Start.ToString(), out start);
+            if (limit <= 0) limit = 10;
+            if (page > 0)
+                query = query.Skip((page - 1) * limit);
+            else if (start > 0)
+                query = query.Skip(start);
+            query = query.Take(limit);
+
             return (query, total);
         }
 

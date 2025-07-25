@@ -1,6 +1,8 @@
+using LudusGestao.Shared.Domain.Common;
+
 public interface ILocalReadProvider
 {
-    Task<Local?> BuscarPorId(Guid id);
-    Task<IEnumerable<Local>> ListarTodos();
-    Task<IEnumerable<Local>> BuscarPaginado(int pagina, int tamanhoPagina);
+    Task<IEnumerable<Local>> Listar();
+    Task<IEnumerable<Local>> Listar(QueryParamsBase queryParams);
+    Task<Local> Buscar(QueryParamsBase queryParams);
 }

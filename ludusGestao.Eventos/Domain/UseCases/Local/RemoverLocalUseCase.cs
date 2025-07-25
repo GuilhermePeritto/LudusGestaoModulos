@@ -1,3 +1,5 @@
+using LudusGestao.Shared.Domain.Providers;
+
 public class RemoverLocalUseCase : BaseUseCase
 {
     private readonly ILocalWriteProvider _writeProvider;
@@ -11,7 +13,8 @@ public class RemoverLocalUseCase : BaseUseCase
 
     public async Task<bool> Executar(Guid id)
     {
-        var existente = await _readProvider.BuscarPorId(id);
+        var query = QueryParamsHelper.BuscarPorId(id);
+        var existente = (await _readProvider.Listar(query)).FirstOrDefault();
         if (existente == null)
         {
             Notificar("Local não encontrado para remoção.");

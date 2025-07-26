@@ -102,3 +102,6 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\obj\Debug\net8.0\ludusGestao.API.sourcelink.json
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.API\obj\Debug\net8.0\ludusGestao.API.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.API\obj\Debug\net8.0\refint\ludusGestao.API.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.API\obj\Debug\net8.0\ludusGestao.API.pdb

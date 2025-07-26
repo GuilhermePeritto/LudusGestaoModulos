@@ -14,3 +14,12 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\o
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\refint\ludusGestao.Autenticacao.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.pdb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ref\ludusGestao.Autenticacao.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.csproj.AssemblyReference.cache
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.AssemblyInfoInputs.cache
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.AssemblyInfo.cs
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.csproj.CoreCompileInputs.cache
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.sourcelink.json
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\refint\ludusGestao.Autenticacao.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Autenticacao\obj\Debug\net8.0\ludusGestao.Autenticacao.pdb

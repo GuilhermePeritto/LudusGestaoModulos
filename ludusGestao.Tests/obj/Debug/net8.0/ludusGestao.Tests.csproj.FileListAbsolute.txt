@@ -185,3 +185,6 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debu
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\ludusGestao.Autenticacao.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\bin\Debug\net8.0\ludusGestao.Autenticacao.pdb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Tests\obj\Debug\net8.0\ludusGestao.Tests.sourcelink.json
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Tests\obj\Debug\net8.0\ludusGestao.Tests.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Tests\obj\Debug\net8.0\refint\ludusGestao.Tests.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Tests\obj\Debug\net8.0\ludusGestao.Tests.pdb

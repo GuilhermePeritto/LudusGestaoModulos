@@ -20,3 +20,6 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Provider\obj\D
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Provider\obj\Debug\net8.0\ludusGestao.Provider.sourcelink.json
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Provider\bin\Debug\net8.0\ludusGestao.Autenticacao.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Provider\bin\Debug\net8.0\ludusGestao.Autenticacao.pdb
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Provider\obj\Debug\net8.0\ludusGestao.Provider.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Provider\obj\Debug\net8.0\refint\ludusGestao.Provider.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Provider\obj\Debug\net8.0\ludusGestao.Provider.pdb

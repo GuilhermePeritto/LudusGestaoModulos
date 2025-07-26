@@ -1,43 +1,50 @@
+using System.Net;
+using LudusGestao.Shared.Application.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using ludusGestao.Autenticacao.Application.DTOs;
-using ludusGestao.Autenticacao.Application.Services;
-using LudusGestao.Shared.Application.Responses;
-using System.Collections.Generic;
+using LudusGestao.Shared.Domain.Common;
+using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.DTOs;
+using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.Interfaces;
 
 namespace ludusGestao.Autenticacao.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class AutenticacaoController : ControllerBase
+    [Route("api/autenticacao")]
+    public class AutenticacaoController : ControllerRestBase
     {
-        private readonly AutenticacaoService _autenticacaoService;
+        private readonly IAutenticacaoService _service;
 
-        public AutenticacaoController(AutenticacaoService autenticacaoService)
+        public AutenticacaoController(INotificador notificador, IAutenticacaoService service)
+            : base(notificador)
         {
-            _autenticacaoService = autenticacaoService;
+            _service = service;
         }
 
         [HttpPost("entrar")]
         public async Task<IActionResult> Entrar([FromBody] EntrarDTO dto)
         {
-            var resposta = await _autenticacaoService.Entrar(dto);
-            if (resposta == null)
-            {
-                return NoContent();
-            }
-            return Ok(resposta);
+            if (!ModelState.IsValid)
+                return CustomResponse(ModelState);
+
+            var result = await _service.Entrar(dto);
+
+            if (result == null)
+                return CustomResponse(HttpStatusCode.BadRequest, "Credenciais inválidas.");
+
+            return CustomResponse(HttpStatusCode.OK, result, "Autenticação realizada com sucesso.");
         }
 
         [HttpPost("atualizar-token")]
         public async Task<IActionResult> AtualizarToken([FromBody] AtualizarTokenDTO dto)
         {
-            var resposta = await _autenticacaoService.AtualizarToken(dto);
-            if (resposta == null)
-            {
-                return NoContent();
-            }
-            return Ok(resposta);
+            if (!ModelState.IsValid)
+                return CustomResponse(ModelState);
+
+            var result = await _service.AtualizarToken(dto);
+
+            if (result == null)
+                return CustomResponse(HttpStatusCode.BadRequest, "Refresh token inválido ou expirado.");
+
+            return CustomResponse(HttpStatusCode.OK, result, "Token atualizado com sucesso.");
         }
     }
 } 

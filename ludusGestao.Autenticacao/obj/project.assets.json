@@ -4844,23 +4844,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\guilherme.peritto\\.nuget\\packages\\": {},
+    "C:\\Users\\perit\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Autenticacao\\ludusGestao.Autenticacao.csproj",
+      "projectUniqueName": "C:\\Users\\perit\\Documents\\LudusGestaoModulos\\ludusGestao.Autenticacao\\ludusGestao.Autenticacao.csproj",
       "projectName": "ludusGestao.Autenticacao",
-      "projectPath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Autenticacao\\ludusGestao.Autenticacao.csproj",
-      "packagesPath": "C:\\Users\\guilherme.peritto\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Autenticacao\\obj\\",
+      "projectPath": "C:\\Users\\perit\\Documents\\LudusGestaoModulos\\ludusGestao.Autenticacao\\ludusGestao.Autenticacao.csproj",
+      "packagesPath": "C:\\Users\\perit\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\perit\\Documents\\LudusGestaoModulos\\ludusGestao.Autenticacao\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\guilherme.peritto\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\perit\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4869,15 +4869,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Shared\\ludusGestao.Shared.csproj": {
-              "projectPath": "C:\\Users\\guilherme.peritto\\Desktop\\LudusGestaoModulos\\ludusGestao.Shared\\ludusGestao.Shared.csproj"
+            "C:\\Users\\perit\\Documents\\LudusGestaoModulos\\ludusGestao.Shared\\ludusGestao.Shared.csproj": {
+              "projectPath": "C:\\Users\\perit\\Documents\\LudusGestaoModulos\\ludusGestao.Shared\\ludusGestao.Shared.csproj"
             }
           }
         }
@@ -4892,7 +4891,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -4935,7 +4934,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

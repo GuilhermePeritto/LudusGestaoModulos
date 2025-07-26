@@ -1,33 +1,23 @@
-using ludusGestao.Provider.Data.Contexts;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ludusGestao.Autenticacao.Domain.Entities;
-using ludusGestao.Autenticacao.Domain.Providers;
-using LudusGestao.Shared.Domain.ValueObjects;
+using ludusGestao.Provider.Data.Contexts;
+using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Domain.Providers;
+using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao;
+using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.Interfaces;
 
 namespace ludusGestao.Provider.Data.Providers.Autenticacao
 {
-    public class UsuarioAutenticacaoPostgresReadProvider : IUsuarioAutenticacaoReadProvider
+    public class UsuarioAutenticacaoPostgresReadProvider : ProviderBase<UsuarioAutenticacao>, IUsuarioAutenticacaoReadProvider
     {
-        private readonly LudusGestaoReadDbContext _context;
-        public UsuarioAutenticacaoPostgresReadProvider(LudusGestaoReadDbContext context)
+        public UsuarioAutenticacaoPostgresReadProvider(LudusGestaoReadDbContext context) : base(context)
         {
-            _context = context;
         }
 
-        public async Task<UsuarioAutenticacao> ObterPorEmail(Email email)
+        public async Task<UsuarioAutenticacao> ObterPorEmail(string email)
         {
-            var usuario = await _context.Usuarios
-                .Where(u => u.Email.Valor == email.Valor)
-                .Select(u => new UsuarioAutenticacao
-                {
-                    Id = u.Id,
-                    Email = u.Email.Valor,
-                    Senha = u.Senha,
-                    TenantId = u.TenantId,
-                    Ativo = u.Situacao == ludusGestao.Gerais.Domain.Enums.SituacaoUsuario.Ativo
-                })
-                .FirstOrDefaultAsync();
-            return usuario;
+            return await _context.Usuario
+                .FirstOrDefaultAsync(u => u.Email == email && u.Ativo);
         }
     }
 } 

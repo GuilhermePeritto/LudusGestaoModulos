@@ -11,3 +11,16 @@ C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Deb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.pdb
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ref\ludusGestao.Shared.dll
 C:\Users\guilherme.peritto\Desktop\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.sourcelink.json
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\bin\Debug\net8.0\ludusGestao.Shared.deps.json
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\bin\Debug\net8.0\ludusGestao.Shared.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\bin\Debug\net8.0\ludusGestao.Shared.pdb
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.csproj.AssemblyReference.cache
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.AssemblyInfoInputs.cache
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.AssemblyInfo.cs
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.csproj.CoreCompileInputs.cache
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.sourcelink.json
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\refint\ludusGestao.Shared.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ludusGestao.Shared.pdb
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Shared\obj\Debug\net8.0\ref\ludusGestao.Shared.dll

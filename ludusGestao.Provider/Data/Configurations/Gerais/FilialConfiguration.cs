@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ludusGestao.Gerais.Domain.Entities;
+using ludusGestao.Gerais.Domain.Filial;
 
 namespace ludusGestao.Provider.Data.Configurations.Gerais
 {
@@ -16,7 +16,7 @@ namespace ludusGestao.Provider.Data.Configurations.Gerais
 
             builder.OwnsOne(f => f.Cnpj, cnpj =>
             {
-                cnpj.Property(c => c.Valor).HasColumnName("Cnpj").IsRequired();
+                cnpj.Property(c => c.Numero).HasColumnName("Cnpj").IsRequired();
             });
 
             builder.OwnsOne(f => f.Endereco, endereco =>

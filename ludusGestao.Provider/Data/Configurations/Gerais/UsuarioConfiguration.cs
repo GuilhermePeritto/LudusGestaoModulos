@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ludusGestao.Gerais.Domain.Entities;
+using ludusGestao.Gerais.Domain.Usuario;
 
 namespace ludusGestao.Provider.Data.Configurations.Gerais
 {
@@ -16,7 +16,7 @@ namespace ludusGestao.Provider.Data.Configurations.Gerais
 
             builder.OwnsOne(u => u.Email, email =>
             {
-                email.Property(e => e.Valor).HasColumnName("Email").IsRequired();
+                email.Property(e => e.Endereco).HasColumnName("Email").IsRequired();
             });
 
             builder.OwnsOne(u => u.Endereco, endereco =>

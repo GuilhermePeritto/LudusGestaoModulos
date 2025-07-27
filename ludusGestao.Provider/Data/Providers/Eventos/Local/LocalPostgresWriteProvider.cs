@@ -1,40 +1,13 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using LocalEntity = ludusGestao.Eventos.Domain.Entities.Local;
-using ludusGestao.Eventos.Domain.Providers;
+using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
 using ludusGestao.Provider.Data.Contexts;
+using LudusGestao.Shared.Domain.Providers;
 
-namespace ludusGestao.Provider.Data.Providers.Eventos.Local
+namespace ludusGestao.Provider.Data.Providers.Eventos.LocalProvider
 {
-    public class LocalPostgresWriteProvider : ILocalWriteProvider
+    public class LocalPostgresWriteProvider : WriteProviderBase<ludusGestao.Eventos.Domain.Entities.Local.Local>, ILocalWriteProvider
     {
-        private readonly LudusGestaoWriteDbContext _context;
-        public LocalPostgresWriteProvider(LudusGestaoWriteDbContext context)
+        public LocalPostgresWriteProvider(LudusGestaoWriteDbContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task Adicionar(LocalEntity local)
-        {
-            await _context.Locais.AddAsync(local);
-        }
-
-        public async Task Atualizar(LocalEntity local)
-        {
-            _context.Locais.Update(local);
-        }
-
-        public async Task Remover(Guid id)
-        {
-            var local = await _context.Locais.FindAsync(id);
-            if (local != null)
-                _context.Locais.Remove(local);
-        }
-
-        public async Task<int> SalvarAlteracoes()
-        {
-            return await _context.SaveChangesAsync();
         }
     }
 } 

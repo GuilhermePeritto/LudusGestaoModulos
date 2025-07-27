@@ -1,40 +1,13 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using EmpresaEntity = ludusGestao.Gerais.Domain.Entities.Empresa;
-using ludusGestao.Gerais.Domain.Providers;
+using ludusGestao.Gerais.Domain.Empresa.Interfaces;
 using ludusGestao.Provider.Data.Contexts;
+using LudusGestao.Shared.Domain.Providers;
 
-namespace ludusGestao.Provider.Data.Providers.Gerais.Empresa
+namespace ludusGestao.Provider.Data.Providers.Gerais.EmpresaProvider
 {
-    public class EmpresaPostgresWriteProvider : IEmpresaWriteProvider
+    public class EmpresaPostgresWriteProvider : WriteProviderBase<ludusGestao.Gerais.Domain.Empresa.Empresa>, IEmpresaWriteProvider
     {
-        private readonly LudusGestaoWriteDbContext _context;
-        public EmpresaPostgresWriteProvider(LudusGestaoWriteDbContext context)
+        public EmpresaPostgresWriteProvider(LudusGestaoWriteDbContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task Adicionar(EmpresaEntity empresa)
-        {
-            await _context.Empresas.AddAsync(empresa);
-        }
-
-        public async Task Atualizar(EmpresaEntity empresa)
-        {
-            _context.Empresas.Update(empresa);
-        }
-
-        public async Task Remover(Guid id)
-        {
-            var empresa = await _context.Empresas.FindAsync(id);
-            if (empresa != null)
-                _context.Empresas.Remove(empresa);
-        }
-
-        public async Task<int> SalvarAlteracoes()
-        {
-            return await _context.SaveChangesAsync();
         }
     }
 } 

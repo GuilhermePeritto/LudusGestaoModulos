@@ -1,65 +1,72 @@
-using LudusGestao.Shared.Domain.Common;
-using ludusGestao.Eventos.Domain.Local.DTOs;
-using ludusGestao.Eventos.Domain.Local.Interfaces;
-using ludusGestao.Eventos.Domain.Local;
-
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Entities.Local.DTOs;
+using LudusGestao.Shared.Notificacao;
 
 namespace ludusGestao.Eventos.Application.Services
 {
-    public class LocalService : BaseService, ILocalService
+    public class LocalService : ILocalService
     {
-        private readonly ICriarLocalUseCase _criarUseCase;
-        private readonly IAtualizarLocalUseCase _atualizarUseCase;
-        private readonly IRemoverLocalUseCase _removerUseCase;
-        private readonly IBuscarLocalPorIdUseCase _buscarPorIdUseCase;
-        private readonly IListarLocaisUseCase _listarUseCase;
+        private readonly ICriarLocalUseCase _criarLocalUseCase;
+        private readonly IListarLocaisUseCase _listarLocaisUseCase;
+        private readonly IBuscarLocalPorIdUseCase _buscarLocalPorIdUseCase;
+        private readonly IAtualizarLocalUseCase _atualizarLocalUseCase;
+        private readonly IRemoverLocalUseCase _removerLocalUseCase;
+        private readonly INotificador _notificador;
+
         public LocalService(
-            ICriarLocalUseCase criarUseCase,
-            IAtualizarLocalUseCase atualizarUseCase,
-            IRemoverLocalUseCase removerUseCase,
-            IBuscarLocalPorIdUseCase buscarPorIdUseCase,
-            IListarLocaisUseCase listarUseCase,
+            ICriarLocalUseCase criarLocalUseCase,
+            IListarLocaisUseCase listarLocaisUseCase,
+            IBuscarLocalPorIdUseCase buscarLocalPorIdUseCase,
+            IAtualizarLocalUseCase atualizarLocalUseCase,
+            IRemoverLocalUseCase removerLocalUseCase,
             INotificador notificador)
-            : base(notificador)
         {
-            _criarUseCase = criarUseCase;
-            _atualizarUseCase = atualizarUseCase;
-            _removerUseCase = removerUseCase;
-            _buscarPorIdUseCase = buscarPorIdUseCase;
-            _listarUseCase = listarUseCase;
+            _criarLocalUseCase = criarLocalUseCase;
+            _listarLocaisUseCase = listarLocaisUseCase;
+            _buscarLocalPorIdUseCase = buscarLocalPorIdUseCase;
+            _atualizarLocalUseCase = atualizarLocalUseCase;
+            _removerLocalUseCase = removerLocalUseCase;
+            _notificador = notificador;
         }
 
-        public async Task<LocalDTO> Criar(CriarLocalDTO dto)
+        public async Task<ludusGestao.Eventos.Domain.Entities.Local.Local> Criar(CriarLocalDTO dto)
         {
-            var local = Local.Criar(dto.Nome, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep, dto.Capacidade);
-            var localCriado = await _criarUseCase.Executar(local);
-            return LocalDTO.Criar(localCriado);
+            return await _criarLocalUseCase.Executar(dto);
         }
 
-        public async Task<LocalDTO> Atualizar(Guid id, AtualizarLocalDTO dto)
+        public async Task<IEnumerable<ludusGestao.Eventos.Domain.Entities.Local.Local>> Listar()
         {
-            var local = await _buscarPorIdUseCase.Executar(id);
-            local.Atualizar(dto.Nome, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep, dto.Capacidade);
-            await _atualizarUseCase.Executar(local);
-            return LocalDTO.Criar(local);
+            return await _listarLocaisUseCase.Executar();
         }
 
-        public async Task<bool> Remover(Guid id)
+        public async Task<ludusGestao.Eventos.Domain.Entities.Local.Local> BuscarPorId(Guid id)
         {
-            var local = await _buscarPorIdUseCase.Executar(id);
-            return await _removerUseCase.Executar(local);
+            return await _buscarLocalPorIdUseCase.Executar(id);
         }
 
-        public async Task<LocalDTO> BuscarPorId(Guid id)
+        public async Task<ludusGestao.Eventos.Domain.Entities.Local.Local> Atualizar(Guid id, AtualizarLocalDTO dto)
         {
-            var local = await _buscarPorIdUseCase.Executar(id);
-            return LocalDTO.Criar(local);
+            // Primeiro, buscar o local existente
+            var localExistente = await _buscarLocalPorIdUseCase.Executar(id);
+            if (localExistente == null)
+                return null;
+
+            // Atualizar os dados do local existente
+            var endereco = new LudusGestao.Shared.Domain.ValueObjects.Endereco(dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep);
+            var telefone = new LudusGestao.Shared.Domain.ValueObjects.Telefone(dto.Telefone);
+            
+            localExistente.Atualizar(dto.Nome, dto.Descricao, endereco, telefone);
+            
+            // Executar o use case de atualização
+            return await _atualizarLocalUseCase.Executar(localExistente);
         }
 
-        public async Task<IEnumerable<LocalDTO>> Listar(QueryParamsBase query)
+        public async Task Remover(Guid id)
         {
-            var locais = await _listarUseCase.Executar(query);
-            return locais.Select(LocalDTO.Criar);
+            await _removerLocalUseCase.Executar(id);
         }
     }
 } 

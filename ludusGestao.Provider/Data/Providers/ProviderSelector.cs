@@ -1,29 +1,35 @@
-using System;
-using Microsoft.Extensions.Configuration;
-using ludusGestao.Eventos.Domain.Providers;
-using ludusGestao.Provider.Data.Providers.Eventos.Local;
+using Microsoft.Extensions.DependencyInjection;
+using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
+using ludusGestao.Gerais.Domain.Empresa.Interfaces;
+using ludusGestao.Gerais.Domain.Filial.Interfaces;
+using ludusGestao.Gerais.Domain.Usuario.Interfaces;
+using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.Interfaces;
+using ludusGestao.Provider.Data.Providers.Eventos.LocalProvider;
+using ludusGestao.Provider.Data.Providers.Gerais.EmpresaProvider;
+using ludusGestao.Provider.Data.Providers.Gerais.FilialProvider;
+using ludusGestao.Provider.Data.Providers.Gerais.UsuarioProvider;
+using ludusGestao.Provider.Data.Providers.Autenticacao;
 
 namespace ludusGestao.Provider.Data.Providers
 {
-    public class ProviderSelector
+    public static class ProviderSelector
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IConfiguration _configuration;
-
-        public ProviderSelector(IServiceProvider serviceProvider, IConfiguration configuration)
+        public static void RegistrarProviders(IServiceCollection services)
         {
-            _serviceProvider = serviceProvider;
-            _configuration = configuration;
-        }
+            // Eventos
+            services.AddScoped<ILocalReadProvider, LocalPostgresReadProvider>();
+            services.AddScoped<ILocalWriteProvider, LocalPostgresWriteProvider>();
 
-        public ILocalReadProvider GetLocalReadProvider()
-        {
-            return (ILocalReadProvider)_serviceProvider.GetService(typeof(LocalPostgresReadProvider))!;
-        }
+            // Gerais
+            services.AddScoped<IEmpresaReadProvider, EmpresaPostgresReadProvider>();
+            services.AddScoped<IEmpresaWriteProvider, EmpresaPostgresWriteProvider>();
+            services.AddScoped<IFilialReadProvider, FilialPostgresReadProvider>();
+            services.AddScoped<IFilialWriteProvider, FilialPostgresWriteProvider>();
+            services.AddScoped<IUsuarioReadProvider, UsuarioPostgresReadProvider>();
+            services.AddScoped<IUsuarioWriteProvider, UsuarioPostgresWriteProvider>();
 
-        public ILocalWriteProvider GetLocalWriteProvider()
-        {
-            return (ILocalWriteProvider)_serviceProvider.GetService(typeof(LocalPostgresWriteProvider))!;
+            // Autenticação
+            services.AddScoped<IUsuarioAutenticacaoReadProvider, UsuarioAutenticacaoPostgresReadProvider>();
         }
     }
 } 

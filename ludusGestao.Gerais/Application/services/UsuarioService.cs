@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Usuario.DTOs;
 using ludusGestao.Gerais.Domain.Usuario.Interfaces;
 using ludusGestao.Gerais.Domain.Usuario;
@@ -46,13 +47,16 @@ namespace ludusGestao.Gerais.Application.Services
 
         public async Task<UsuarioDTO> Atualizar(Guid id, AtualizarUsuarioDTO dto)
         {
-            var usuario = await _buscarPorIdUseCase.Executar(id);
-            
-            if (usuario == null)
+            // Primeiro, buscar o usuário existente
+            var usuarioExistente = await _buscarPorIdUseCase.Executar(id);
+            if (usuarioExistente == null)
                 return null;
 
-            usuario.Atualizar(dto.Nome, dto.Email, dto.Telefone, dto.Cargo, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep);
-            var usuarioAtualizado = await _atualizarUseCase.Executar(usuario);
+            // Atualizar os dados do usuário existente
+            usuarioExistente.Atualizar(dto.Nome, dto.Email, dto.Telefone, dto.Cargo, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep);
+            
+            // Executar o use case de atualização
+            var usuarioAtualizado = await _atualizarUseCase.Executar(usuarioExistente);
             
             if (usuarioAtualizado == null)
                 return null;

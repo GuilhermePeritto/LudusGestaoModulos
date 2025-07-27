@@ -1274,7 +1274,7 @@
         },
         "runtime": {
           "ludusGestao.Autenticacao.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1288,7 +1288,7 @@
         },
         "runtime": {
           "ludusGestao.Eventos.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1300,7 +1300,7 @@
         },
         "runtime": {
           "ludusGestao.Gerais.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1313,7 +1313,7 @@
         },
         "runtime": {
           "ludusGestao.Shared.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }

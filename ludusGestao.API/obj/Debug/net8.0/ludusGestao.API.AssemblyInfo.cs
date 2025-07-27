@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ludusGestao.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87d10c5a45f1cafe2a56ab5f71fd527bfccbb925")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+329525b16df59942e6ab9dca0f999d8789a44e59")]
 [assembly: System.Reflection.AssemblyProductAttribute("ludusGestao.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ludusGestao.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

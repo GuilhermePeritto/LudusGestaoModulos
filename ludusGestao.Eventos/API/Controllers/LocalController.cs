@@ -1,71 +1,56 @@
-using System;
-using System.Net;
-using LudusGestao.Shared.Application.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using LudusGestao.Shared.Domain.Common;
-using ludusGestao.Eventos.Domain.Local.DTOs;
-using ludusGestao.Eventos.Domain.Local.Interfaces;
+using LudusGestao.Shared.Domain.Controllers;
+using LudusGestao.Shared.Notificacao;
+using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Entities.Local.DTOs;
+using ludusGestao.Eventos.Application.Services;
 
 namespace ludusGestao.Eventos.API.Controllers
 {
     [ApiController]
-    [Route("api/locais")]
+    [Route("api/[controller]")]
     public class LocalController : ControllerRestBase
     {
-        private readonly ILocalService _service;
+        private readonly ILocalService _localService;
 
-        public LocalController(INotificador notificador, ILocalService service)
-            : base(notificador)
+        public LocalController(ILocalService localService, INotificador notificador) : base(notificador)
         {
-            _service = service;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Listar([FromQuery] QueryParamsBase query)
-        {
-            var result = await _service.Listar(query);
-            return CustomResponse(HttpStatusCode.OK, result, "Locais listados com sucesso.");
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> BuscarPorId(Guid id)
-        {
-            var result = await _service.BuscarPorId(id);
-
-            if (result == null)
-                return CustomResponse(HttpStatusCode.NotFound, $"Local com codigo {id} no encontrado");
-
-            return CustomResponse(HttpStatusCode.OK, result, "Local encontrado com sucesso.");
+            _localService = localService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Criar([FromBody] CriarLocalDTO dto)
         {
-            if (!ModelState.IsValid)
-                return CustomResponse(ModelState);
+            var local = await _localService.Criar(dto);
+            return Resposta(local, "Local criado com sucesso");
+        }
 
-            var result = await _service.Criar(dto);
+        [HttpGet]
+        public async Task<IActionResult> Listar()
+        {
+            var locais = await _localService.Listar();
+            return Resposta(locais, "Locais listados com sucesso");
+        }
 
-            return CustomResponse(HttpStatusCode.Created, result, "Local criado com sucesso.");
+        [HttpGet("{id}")]
+        public async Task<IActionResult> BuscarPorId(Guid id)
+        {
+            var local = await _localService.BuscarPorId(id);
+            return Resposta(local, "Local encontrado com sucesso");
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Atualizar(Guid id, [FromBody] AtualizarLocalDTO dto)
         {
-            if (!ModelState.IsValid)
-                return CustomResponse(ModelState);
-
-            var result = await _service.Atualizar(id, dto);
-
-            return CustomResponse(HttpStatusCode.NoContent, result, "Local atualizado com sucesso.");
+            var local = await _localService.Atualizar(id, dto);
+            return Resposta(local, "Local atualizado com sucesso");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remover(Guid id)
         {
-            var result = await _service.Remover(id);
-
-            return CustomResponse(HttpStatusCode.NoContent, result, "Local removido com sucesso.");
+            await _localService.Remover(id);
+            return Resposta("Local removido com sucesso", true);
         }
     }
 } 

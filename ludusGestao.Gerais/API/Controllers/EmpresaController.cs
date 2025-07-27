@@ -1,8 +1,9 @@
 using System;
 using System.Net;
-using LudusGestao.Shared.Application.Controllers;
+using LudusGestao.Shared.Domain.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Empresa.DTOs;
 using ludusGestao.Gerais.Domain.Empresa.Interfaces;
 

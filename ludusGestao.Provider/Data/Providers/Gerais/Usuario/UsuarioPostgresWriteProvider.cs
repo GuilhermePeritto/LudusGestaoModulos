@@ -1,40 +1,13 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using UsuarioEntity = ludusGestao.Gerais.Domain.Entities.Usuario;
-using ludusGestao.Gerais.Domain.Providers;
+using ludusGestao.Gerais.Domain.Usuario.Interfaces;
 using ludusGestao.Provider.Data.Contexts;
+using LudusGestao.Shared.Domain.Providers;
 
-namespace ludusGestao.Provider.Data.Providers.Gerais.Usuario
+namespace ludusGestao.Provider.Data.Providers.Gerais.UsuarioProvider
 {
-    public class UsuarioPostgresWriteProvider : IUsuarioWriteProvider
+    public class UsuarioPostgresWriteProvider : WriteProviderBase<ludusGestao.Gerais.Domain.Usuario.Usuario>, IUsuarioWriteProvider
     {
-        private readonly LudusGestaoWriteDbContext _context;
-        public UsuarioPostgresWriteProvider(LudusGestaoWriteDbContext context)
+        public UsuarioPostgresWriteProvider(LudusGestaoWriteDbContext context) : base(context)
         {
-            _context = context;
-        }
-
-        public async Task Adicionar(UsuarioEntity usuario)
-        {
-            await _context.Usuarios.AddAsync(usuario);
-        }
-
-        public async Task Atualizar(UsuarioEntity usuario)
-        {
-            _context.Usuarios.Update(usuario);
-        }
-
-        public async Task Remover(Guid id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
-                _context.Usuarios.Remove(usuario);
-        }
-
-        public async Task<int> SalvarAlteracoes()
-        {
-            return await _context.SaveChangesAsync();
         }
     }
 } 

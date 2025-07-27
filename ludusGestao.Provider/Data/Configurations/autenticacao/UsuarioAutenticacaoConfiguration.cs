@@ -32,12 +32,6 @@ namespace ludusGestao.Provider.Data.Configurations.Autenticacao
                 .IsUnique();
 
             builder.HasIndex(u => u.Ativo);
-
-            // Configurações de auditoria
-            builder.Property(u => u.DataCriacao)
-                .IsRequired();
-
-            builder.Property(u => u.DataAlteracao);
         }
     }
 } 

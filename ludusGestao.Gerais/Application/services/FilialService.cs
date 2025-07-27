@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Filial.DTOs;
 using ludusGestao.Gerais.Domain.Filial.Interfaces;
 using ludusGestao.Gerais.Domain.Filial;

@@ -1,10 +1,13 @@
-namespace LudusGestao.Shared.Application.Providers
+namespace LudusGestao.Shared.Tenant
 {
     public interface ITenantContext
     {
         int TenantId { get; }
+        TenantInfo TenantInfo { get; }
         void SetTenantId(int tenantId);
+        void SetTenantInfo(TenantInfo tenantInfo);
         bool IgnorarFiltroTenant { get; }
         void IgnorarFiltro(bool ignorar);
+        void Clear();
     }
 } 

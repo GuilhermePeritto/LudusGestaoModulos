@@ -1,12 +1,11 @@
 {
   "Version": 1,
-  "Hash": "HViqSK+92F6jlRv+ahAgrnV+VbbuAZ+ijxynGfOE8D4=",
+  "Hash": "RKpKLFCWa1rVtwgmqZ09NImLQgzN1J/ez9pxrs69zu4=",
   "Source": "ludusGestao.API",
   "BasePath": "_content/ludusGestao.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": []
 }

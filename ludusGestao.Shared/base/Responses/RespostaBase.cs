@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace LudusGestao.Shared.Application.Responses
+namespace LudusGestao.Shared.Domain.Responses
 {
     public class RespostaBase
     {

@@ -1,5 +1,8 @@
-public class Notificacao
+namespace LudusGestao.Shared.Notificacao
 {
-    public string Mensagem { get; }
-    public Notificacao(string mensagem) => Mensagem = mensagem;
+    public class Notificacao
+    {
+        public string Mensagem { get; }
+        public Notificacao(string mensagem) => Mensagem = mensagem;
+    }
 } 

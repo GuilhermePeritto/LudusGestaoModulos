@@ -6,12 +6,12 @@ namespace LudusGestao.Shared.Domain.Providers
     {
         public static QueryParamsBase BuscarPorId(Guid id)
         {
-            return new QueryParamsBase { Filter = $"Id:{id}" };
+            return Filtrar("Id", id, "eq");
         }
 
         public static QueryParamsBase BuscarPorId(string id)
         {
-            return new QueryParamsBase { Filter = $"Id:{id}" };
+            return Filtrar("Id", id, "eq");
         }
 
         public static QueryParamsBase BuscarPorPropriedade(string propriedade, string valor)

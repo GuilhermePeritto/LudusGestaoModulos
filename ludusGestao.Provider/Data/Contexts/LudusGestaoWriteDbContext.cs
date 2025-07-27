@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using ludusGestao.Eventos.Domain.Entities;
+using ludusGestao.Eventos.Domain.Entities.Local;
 using LudusGestao.Shared.Domain.Entities;
-using ludusGestao.Gerais.Domain.Entities;
-using LudusGestao.Shared.Application.Providers;
+using ludusGestao.Gerais.Domain.Usuario;
+using ludusGestao.Gerais.Domain.Empresa;
+using ludusGestao.Gerais.Domain.Filial;
+using LudusGestao.Shared.Tenant;
 
 namespace ludusGestao.Provider.Data.Contexts
 {
@@ -14,9 +16,9 @@ namespace ludusGestao.Provider.Data.Contexts
             _tenantContext = tenantContext;
         }
 
-        // DbSets para o módulo Gerais
+        // DbSets para o módulo Eventos
         public DbSet<Local> Locais { get; set; }
-        // DbSets para o módulo Autenticacao
+        // DbSets para o módulo Gerais
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Empresa> Empresas { get; set; }
         public DbSet<Filial> Filiais { get; set; }
@@ -25,21 +27,8 @@ namespace ludusGestao.Provider.Data.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Filtro global multitenant
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                if (typeof(IEntidadeTenant).IsAssignableFrom(entityType.ClrType))
-                {
-                    var method = typeof(LudusGestaoWriteDbContext).GetMethod(nameof(SetTenantFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                        .MakeGenericMethod(entityType.ClrType);
-                    method.Invoke(this, new object[] { modelBuilder });
-                }
-            }
-
-            // Configurações específicas para operações de escrita
-            // - Desabilita lazy loading para melhor performance
-            // - Configura tracking otimizado para comandos
-            // - Aplica configurações de auditoria
+            // Aplicar filtro multitenant otimizado
+            ApplyTenantFilters(modelBuilder);
 
             // Configurar auditoria automática
             ConfigureAuditProperties(modelBuilder);
@@ -50,31 +39,19 @@ namespace ludusGestao.Provider.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ludusGestao.Provider.Data.Configurations.Gerais.EmpresaConfiguration).Assembly);
         }
 
-        private void SetTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : class, IEntidadeTenant
+        private void ApplyTenantFilters(ModelBuilder modelBuilder)
         {
-            var tenantContext = _tenantContext as LudusGestao.Shared.Application.Providers.TenantContext;
-            var ignorarFiltro = tenantContext != null && tenantContext.IgnorarFiltroTenant;
-            modelBuilder.Entity<TEntity>().HasQueryFilter(e =>
-                !ignorarFiltro ? e.TenantId == _tenantContext.TenantId : true
-            );
+            // Aplicar filtro para cada entidade que herda de EntidadeBase
+            ApplyTenantFilter<Local>(modelBuilder);
+            ApplyTenantFilter<Usuario>(modelBuilder);
+            ApplyTenantFilter<Empresa>(modelBuilder);
+            ApplyTenantFilter<Filial>(modelBuilder);
         }
 
-        public override int SaveChanges()
+        private void ApplyTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : EntidadeBase
         {
-            foreach (var entry in ChangeTracker.Entries<IEntidadeTenant>().Where(e => e.State == EntityState.Added))
-            {
-                entry.Entity.TenantId = _tenantContext.TenantId;
-            }
-            return base.SaveChanges();
-        }
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            foreach (var entry in ChangeTracker.Entries<IEntidadeTenant>().Where(e => e.State == EntityState.Added))
-            {
-                entry.Entity.TenantId = _tenantContext.TenantId;
-            }
-            return await base.SaveChangesAsync(cancellationToken);
+            var ignorarFiltro = _tenantContext.IgnorarFiltroTenant;
+            TenantFilterBuilder.ApplyTenantFilter(modelBuilder.Entity<TEntity>(), _tenantContext.TenantId, ignorarFiltro);
         }
 
         private void ConfigureAuditProperties(ModelBuilder modelBuilder)
@@ -89,13 +66,46 @@ namespace ludusGestao.Provider.Data.Contexts
                         .IsRequired();
 
                     modelBuilder.Entity(entityType.ClrType)
-                        .Property("DataAlteracao") // Corrigido aqui
+                        .Property("DataAlteracao")
                         .IsRequired(false);
                 }
             }
         }
 
-        // Auditoria automática removida temporariamente devido às propriedades serem protected set
-        // A auditoria será feita através dos métodos Atualizar() das entidades
+        public override int SaveChanges()
+        {
+            // Aplicar TenantId automaticamente para novas entidades
+            foreach (var entry in ChangeTracker.Entries<EntidadeBase>().Where(e => e.State == EntityState.Added))
+            {
+                entry.Entity.TenantId = _tenantContext.TenantId;
+                entry.Entity.MarcarAlterado();
+            }
+
+            // Marcar como alterado para entidades modificadas
+            foreach (var entry in ChangeTracker.Entries<EntidadeBase>().Where(e => e.State == EntityState.Modified))
+            {
+                entry.Entity.MarcarAlterado();
+            }
+
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            // Aplicar TenantId automaticamente para novas entidades
+            foreach (var entry in ChangeTracker.Entries<EntidadeBase>().Where(e => e.State == EntityState.Added))
+            {
+                entry.Entity.TenantId = _tenantContext.TenantId;
+                entry.Entity.MarcarAlterado();
+            }
+
+            // Marcar como alterado para entidades modificadas
+            foreach (var entry in ChangeTracker.Entries<EntidadeBase>().Where(e => e.State == EntityState.Modified))
+            {
+                entry.Entity.MarcarAlterado();
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
     }
 } 

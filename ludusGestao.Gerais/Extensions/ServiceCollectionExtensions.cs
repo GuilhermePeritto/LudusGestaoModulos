@@ -3,13 +3,16 @@ using FluentValidation;
 using ludusGestao.Gerais.Domain.Empresa.Interfaces;
 using ludusGestao.Gerais.Domain.Empresa.UseCases;
 using ludusGestao.Gerais.Domain.Empresa.Validations;
+using ludusGestao.Gerais.Domain.Empresa.DTOs;
 using ludusGestao.Gerais.Application.Services;
 using ludusGestao.Gerais.Domain.Usuario.Interfaces;
 using ludusGestao.Gerais.Domain.Usuario.UseCases;
 using ludusGestao.Gerais.Domain.Usuario.Validations;
+using ludusGestao.Gerais.Domain.Usuario.DTOs;
 using ludusGestao.Gerais.Domain.Filial.Interfaces;
 using ludusGestao.Gerais.Domain.Filial.UseCases;
 using ludusGestao.Gerais.Domain.Filial.Validations;
+using ludusGestao.Gerais.Domain.Filial.DTOs;
 
 namespace ludusGestao.Gerais.Extensions
 {
@@ -42,9 +45,6 @@ namespace ludusGestao.Gerais.Extensions
             services.AddScoped<IEmpresaService, EmpresaService>();
             services.AddScoped<IFilialService, FilialService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
-
-            // Registro de Validations
-            services.AddValidatorsFromAssemblyContaining<CriarEmpresaValidation>();
 
             return services;
         }

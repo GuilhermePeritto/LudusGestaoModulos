@@ -1,58 +1,58 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
-using LudusGestao.Shared.Application.Responses;
+using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Domain.Responses;
+using LudusGestao.Shared.Notificacao;
 
-namespace LudusGestao.Shared.Application.Controllers
+namespace LudusGestao.Shared.Domain.Controllers
 {
     [ApiController]
+    [Route("api/[controller]")]
     public abstract class ControllerRestBase : ControllerBase
     {
-        private readonly INotificador _notificador;
+        protected readonly INotificador _notificador;
 
         protected ControllerRestBase(INotificador notificador)
         {
             _notificador = notificador;
         }
 
-        protected bool OperacaoValida()
+        protected IActionResult Resposta<T>(T data, string message = null, bool success = true)
         {
-            return !_notificador.TemNotificacao();
+            var resposta = new RespostaBase(data, message, _notificador.ObterNotificacoes().Select(n => n.Mensagem).ToList());
+            return Ok(resposta);
         }
 
-        protected ActionResult CustomResponse(HttpStatusCode statusCode = HttpStatusCode.OK, object result = null, string mensagem = null, int? totalItens = null, int? paginaAtual = null, int? tamanhoPagina = null)
+        protected IActionResult Resposta(string message, bool success = true)
         {
-            if (OperacaoValida())
-            {
-                var resposta = new RespostaBase(result, mensagem, null, totalItens, paginaAtual, tamanhoPagina);
-                return new ObjectResult(resposta) { StatusCode = (int)statusCode };
-            }
-
-            var respostaErro = new RespostaBase(null, mensagem, _notificador.ObterNotificacoes().Select(n => n.Mensagem).ToList());
-            return BadRequest(respostaErro);
+            var resposta = new RespostaBase(null, message, _notificador.ObterNotificacoes().Select(n => n.Mensagem).ToList());
+            return Ok(resposta);
         }
 
-        protected ActionResult CustomResponse(ModelStateDictionary modelState)
+        protected IActionResult CustomResponse(HttpStatusCode statusCode, object data = null, string message = null)
         {
-            if (!modelState.IsValid)
-                NotificarModelInvalida(modelState);
-
-            return CustomResponse();
+            var resposta = new RespostaBase(data, message, _notificador.ObterNotificacoes().Select(n => n.Mensagem).ToList());
+            return StatusCode((int)statusCode, resposta);
         }
 
-        protected void NotificarModelInvalida(ModelStateDictionary modelState)
+        protected IActionResult CustomResponse(object data, string message = null)
         {
-            var erros = modelState.Values.SelectMany(p => p.Errors);
-            foreach (var erro in erros)
-            {
-                var errorMsg = erro.Exception is null ? erro.ErrorMessage : erro.Exception.Message;
-                NotificarErro(errorMsg);
-            }
+            return CustomResponse(HttpStatusCode.OK, data, message);
         }
 
-        protected void NotificarErro(string erro)
+        protected IActionResult CustomResponse(string message)
         {
-            _notificador.Handle(new Notificacao(erro));
+            return CustomResponse(HttpStatusCode.OK, null, message);
+        }
+
+        protected IActionResult CustomResponse(ModelStateDictionary modelState)
+        {
+            var erros = modelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            var resposta = new RespostaBase(null, "Dados inválidos", erros);
+            return BadRequest(resposta);
         }
     }
 } 

@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 
-public interface INotificador
+namespace LudusGestao.Shared.Notificacao
 {
-    void Handle(Notificacao notificacao);
-    List<Notificacao> ObterNotificacoes();
-    bool TemNotificacao();
+    public interface INotificador
+    {
+        void Handle(Notificacao notificacao);
+        List<Notificacao> ObterNotificacoes();
+        bool TemNotificacao();
+    }
 } 

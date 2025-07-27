@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using LudusGestao.Shared.Application.Responses;
+using LudusGestao.Shared.Domain.Responses;
 using FluentValidation;
 using System.Text.Json;
 using System.Collections.Generic;
@@ -25,16 +25,8 @@ namespace ludusGestao.API.Middleware
             {
                 await _next(context);
 
-                // Após o next, verificar se há ErroEvento no contexto
-                if (context.Items.TryGetValue("ErroEvento", out var erroObj) && erroObj is LudusGestao.Shared.Application.Events.ErroEvento erroEvento)
-                {
-                    context.Response.StatusCode = erroEvento.StatusCode > 0 ? erroEvento.StatusCode : (int)HttpStatusCode.BadRequest;
-                    context.Response.ContentType = "application/json";
-                    var resposta = new RespostaBase(null, erroEvento.Mensagem, erroEvento.Erros);
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(resposta));
-                }
                 // Padronizar resposta para 401/403 se não houver resposta já escrita
-                else if ((context.Response.StatusCode == (int)HttpStatusCode.Unauthorized || context.Response.StatusCode == (int)HttpStatusCode.Forbidden)
+                if ((context.Response.StatusCode == (int)HttpStatusCode.Unauthorized || context.Response.StatusCode == (int)HttpStatusCode.Forbidden)
                     && !context.Response.HasStarted)
                 {
                     context.Response.ContentType = "application/json";

@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using ludusGestao.Eventos.Domain.Entities;
+using ludusGestao.Eventos.Domain.Entities.Local;
 using LudusGestao.Shared.Domain.Entities;
-using ludusGestao.Gerais.Domain.Entities;
-using LudusGestao.Shared.Application.Providers;
+using ludusGestao.Gerais.Domain.Usuario;
+using ludusGestao.Gerais.Domain.Empresa;
+using ludusGestao.Gerais.Domain.Filial;
+using LudusGestao.Shared.Tenant;
 
 namespace ludusGestao.Provider.Data.Contexts
 {
@@ -14,9 +16,9 @@ namespace ludusGestao.Provider.Data.Contexts
             _tenantContext = tenantContext;
         }
 
-        // DbSets para o módulo Gerais
+        // DbSets para o módulo Eventos
         public DbSet<Local> Locais { get; set; }
-        // DbSets para o módulo Autenticacao
+        // DbSets para o módulo Gerais
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Empresa> Empresas { get; set; }
         public DbSet<Filial> Filiais { get; set; }
@@ -25,21 +27,8 @@ namespace ludusGestao.Provider.Data.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Filtro global multitenant
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                if (typeof(IEntidadeTenant).IsAssignableFrom(entityType.ClrType))
-                {
-                    var method = typeof(LudusGestaoReadDbContext).GetMethod(nameof(SetTenantFilter), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-                        .MakeGenericMethod(entityType.ClrType);
-                    method.Invoke(this, new object[] { modelBuilder });
-                }
-            }
-
-            // Configurações específicas para operações de leitura
-            // - Desabilita change tracking para melhor performance
-            // - Configura queries otimizadas
-            // - Aplica configurações de auditoria somente leitura
+            // Aplicar filtro multitenant otimizado
+            ApplyTenantFilters(modelBuilder);
 
             // Configurar auditoria somente leitura
             ConfigureReadOnlyAuditProperties(modelBuilder);
@@ -48,6 +37,21 @@ namespace ludusGestao.Provider.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Local).Assembly);
             // Aplicar configurações específicas do módulo Gerais
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ludusGestao.Provider.Data.Configurations.Gerais.EmpresaConfiguration).Assembly);
+        }
+
+        private void ApplyTenantFilters(ModelBuilder modelBuilder)
+        {
+            // Aplicar filtro para cada entidade que herda de EntidadeBase
+            ApplyTenantFilter<Local>(modelBuilder);
+            ApplyTenantFilter<Usuario>(modelBuilder);
+            ApplyTenantFilter<Empresa>(modelBuilder);
+            ApplyTenantFilter<Filial>(modelBuilder);
+        }
+
+        private void ApplyTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : EntidadeBase
+        {
+            var ignorarFiltro = _tenantContext.IgnorarFiltroTenant;
+            TenantFilterBuilder.ApplyTenantFilter(modelBuilder.Entity<TEntity>(), _tenantContext.TenantId, ignorarFiltro);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -71,19 +75,10 @@ namespace ludusGestao.Provider.Data.Contexts
                         .IsRequired();
 
                     modelBuilder.Entity(entityType.ClrType)
-                        .Property("DataAlteracao") // Corrigido aqui
+                        .Property("DataAlteracao")
                         .IsRequired(false);
                 }
             }
-        }
-
-        private void SetTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : class, IEntidadeTenant
-        {
-            var tenantContext = _tenantContext as LudusGestao.Shared.Application.Providers.TenantContext;
-            var ignorarFiltro = tenantContext != null && tenantContext.IgnorarFiltroTenant;
-            modelBuilder.Entity<TEntity>().HasQueryFilter(e =>
-                !ignorarFiltro ? e.TenantId == _tenantContext.TenantId : true
-            );
         }
 
         // Sobrescrever SaveChanges para prevenir modificações acidentais

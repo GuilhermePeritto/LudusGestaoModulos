@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Notificacao;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.DTOs;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.Interfaces;
 

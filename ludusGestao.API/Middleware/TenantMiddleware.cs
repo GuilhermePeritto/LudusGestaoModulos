@@ -13,21 +13,20 @@ namespace ludusGestao.API.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<TenantMiddleware> _logger;
-        private readonly ITenantResolver _tenantResolver;
 
-        public TenantMiddleware(RequestDelegate next, ILogger<TenantMiddleware> logger, ITenantResolver tenantResolver)
+        public TenantMiddleware(RequestDelegate next, ILogger<TenantMiddleware> logger)
         {
             _next = next;
             _logger = logger;
-            _tenantResolver = tenantResolver;
         }
 
         public async Task Invoke(HttpContext context, ITenantContext tenantContext)
         {
+            var tenantResolver = context.RequestServices.GetRequiredService<ITenantResolver>();
             var path = context.Request.Path.Value?.ToLower();
             
             // Verificar se é rota pública
-            if (path != null && await _tenantResolver.IsPublicRouteAsync(path))
+            if (path != null && await tenantResolver.IsPublicRouteAsync(path))
             {
                 tenantContext.IgnorarFiltro(true);
                 await _next(context);
@@ -44,7 +43,7 @@ namespace ludusGestao.API.Middleware
             }
 
             // Validar se o tenant existe e está ativo
-            if (!await _tenantResolver.IsValidTenantAsync(tenantId.Value))
+            if (!await tenantResolver.IsValidTenantAsync(tenantId.Value))
             {
                 _logger.LogWarning("Tentativa de acesso com tenant inválido: {TenantId}", tenantId);
                 await ReturnTenantErrorAsync(context, "Tenant inválido ou inativo");
@@ -52,7 +51,7 @@ namespace ludusGestao.API.Middleware
             }
 
             // Resolver informações completas do tenant
-            var tenantInfo = await _tenantResolver.ResolveTenantAsync(tenantId.ToString());
+            var tenantInfo = await tenantResolver.ResolveTenantAsync(tenantId.ToString());
             if (tenantInfo == null)
             {
                 await ReturnTenantErrorAsync(context, "Não foi possível resolver informações do tenant");

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ludusGestao.Provider")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8f7ee0176844b239de16ba66aff007af6934cab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0797df2e526a5b9b1f62eb80e003c3d89b70d4b4")]
 [assembly: System.Reflection.AssemblyProductAttribute("ludusGestao.Provider")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ludusGestao.Provider")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

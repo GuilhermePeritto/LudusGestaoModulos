@@ -30,6 +30,10 @@ builder.Services.AddProviderModule();
 builder.Services.AddGeraisModule();
 builder.Services.AddAutenticacaoModule();
 
+// Registro de serviços compartilhados
+builder.Services.AddScoped<LudusGestao.Shared.Notificacao.INotificador, LudusGestao.Shared.Notificacao.Notificador>();
+builder.Services.AddScoped<ludusGestao.Autenticacao.Application.Services.JwtService>();
+
 // Configuração do Tenant
 builder.Services.AddMemoryCache();
 builder.Services.Configure<TenantResolverOptions>(builder.Configuration.GetSection("TenantResolver"));

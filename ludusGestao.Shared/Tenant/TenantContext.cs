@@ -9,6 +9,7 @@ namespace LudusGestao.Shared.Tenant
         private static readonly AsyncLocal<bool> _ignorarFiltro = new AsyncLocal<bool>();
         
         public int TenantId => _tenantId.Value ?? throw new InvalidOperationException("TenantId não definido para o contexto atual.");
+        public int? TenantIdNullable => _tenantId.Value;
         public TenantInfo TenantInfo => _tenantInfo.Value;
         
         public void SetTenantId(int tenantId) => _tenantId.Value = tenantId;

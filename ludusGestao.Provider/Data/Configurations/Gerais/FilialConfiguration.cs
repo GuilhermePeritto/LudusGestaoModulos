@@ -12,11 +12,20 @@ namespace ludusGestao.Provider.Data.Configurations.Gerais
             builder.HasKey(f => f.Id);
 
             builder.Property(f => f.Nome).IsRequired().HasMaxLength(200);
-            builder.Property(f => f.Telefone).HasMaxLength(20);
 
             builder.OwnsOne(f => f.Cnpj, cnpj =>
             {
                 cnpj.Property(c => c.Numero).HasColumnName("Cnpj").IsRequired();
+            });
+
+            builder.OwnsOne(f => f.Email, email =>
+            {
+                email.Property(e => e.Endereco).HasColumnName("Email").HasMaxLength(255).IsRequired();
+            });
+
+            builder.OwnsOne(f => f.Telefone, telefone =>
+            {
+                telefone.Property(t => t.Numero).HasColumnName("Telefone").HasMaxLength(20).IsRequired();
             });
 
             builder.OwnsOne(f => f.Endereco, endereco =>

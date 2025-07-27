@@ -16,11 +16,10 @@ namespace ludusGestao.Gerais.Domain.Empresa.Validations
                 .NotNull().WithMessage("O CNPJ é obrigatório.");
 
             RuleFor(e => e.Email)
-                .NotEmpty().WithMessage("O email é obrigatório.")
-                .EmailAddress().WithMessage("O email deve ter um formato válido.");
+                .NotNull().WithMessage("O email é obrigatório.");
 
             RuleFor(e => e.Telefone)
-                .NotEmpty().WithMessage("O telefone é obrigatório.");
+                .NotNull().WithMessage("O telefone é obrigatório.");
 
             RuleFor(e => e)
                 .Must(e => new EmpresaAtivaSpecification().IsSatisfiedBy(e))

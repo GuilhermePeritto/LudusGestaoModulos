@@ -21,10 +21,12 @@ namespace ludusGestao.Provider.Data.Providers.Autenticacao
 
         public async Task<UsuarioAutenticacao> ObterPorEmail(string email)
         {
+            // Buscar usuário por email usando EF.Property para acessar a propriedade do owned entity
             var usuario = await _readContext.Usuarios
-                .FirstOrDefaultAsync(u => u.Email.Endereco == email && u.EstaAtivo());
+                .Where(u => EF.Property<string>(u, "Email") == email)
+                .FirstOrDefaultAsync();
 
-            if (usuario == null)
+            if (usuario == null || !usuario.EstaAtivo())
                 return null;
 
             // Mapear Usuario para UsuarioAutenticacao

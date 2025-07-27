@@ -14,9 +14,9 @@ namespace ludusGestao.Gerais.Domain.Empresa
     {
         public string Nome { get; private set; }
         public Cnpj Cnpj { get; private set; }
-        public string Email { get; private set; }
+        public Email Email { get; private set; }
         public Endereco Endereco { get; private set; }
-        public string Telefone { get; private set; }
+        public Telefone Telefone { get; private set; }
         public SituacaoEmpresa Situacao { get; private set; }
 
         public static Empresa Criar(string nome, string cnpj, string email, string rua, string numero, string bairro, string cidade, string estado, string cep, string telefone)
@@ -25,9 +25,9 @@ namespace ludusGestao.Gerais.Domain.Empresa
             {
                 Nome = nome,
                 Cnpj = new Cnpj(cnpj),
-                Email = email,
+                Email = new Email(email),
                 Endereco = new Endereco(rua, numero, bairro, cidade, estado, cep),
-                Telefone = telefone,
+                Telefone = new Telefone(telefone),
                 Situacao = SituacaoEmpresa.Ativo
             };
         }
@@ -36,9 +36,9 @@ namespace ludusGestao.Gerais.Domain.Empresa
         {
             Nome = nome;
             Cnpj = new Cnpj(cnpj);
-            Email = email;
+            Email = new Email(email);
             Endereco = new Endereco(rua, numero, bairro, cidade, estado, cep);
-            Telefone = telefone;
+            Telefone = new Telefone(telefone);
         }
 
         public void Ativar()

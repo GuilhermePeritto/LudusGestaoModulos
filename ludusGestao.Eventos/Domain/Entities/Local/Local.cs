@@ -17,6 +17,9 @@ namespace ludusGestao.Eventos.Domain.Entities.Local
         public Telefone Telefone { get; private set; }
         public SituacaoLocal Situacao { get; private set; }
 
+        // Construtor para Entity Framework
+        protected Local() { }
+
         public Local(string nome, string descricao, Endereco endereco, Telefone telefone)
         {
             Nome = nome;

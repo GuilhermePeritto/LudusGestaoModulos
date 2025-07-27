@@ -39,8 +39,7 @@ namespace ludusGestao.Eventos.Domain.Entities.Local.Validations
                 .Length(8).WithMessage("CEP deve ter 8 caracteres");
 
             RuleFor(x => x.Telefone)
-                .NotEmpty().WithMessage("Telefone é obrigatório")
-                .MaximumLength(15).WithMessage("Telefone deve ter no máximo 15 caracteres");
+                .NotEmpty().WithMessage("Telefone é obrigatório");
         }
     }
 } 

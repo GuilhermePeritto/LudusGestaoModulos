@@ -51,7 +51,9 @@ namespace ludusGestao.Provider.Data.Contexts
         private void ApplyTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : EntidadeBase
         {
             var ignorarFiltro = _tenantContext.IgnorarFiltroTenant;
-            TenantFilterBuilder.ApplyTenantFilter(modelBuilder.Entity<TEntity>(), _tenantContext.TenantId, ignorarFiltro);
+            var tenantId = _tenantContext.TenantIdNullable;
+            
+            TenantFilterBuilder.ApplyTenantFilter(modelBuilder.Entity<TEntity>(), tenantId, ignorarFiltro);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

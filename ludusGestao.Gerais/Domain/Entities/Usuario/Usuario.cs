@@ -14,7 +14,7 @@ namespace ludusGestao.Gerais.Domain.Usuario
     {
         public string Nome { get; private set; }
         public Email Email { get; private set; }
-        public string Telefone { get; private set; }
+        public Telefone Telefone { get; private set; }
         public string Cargo { get; private set; }
         public Guid EmpresaId { get; private set; }
         public SituacaoUsuario Situacao { get; private set; }
@@ -29,7 +29,7 @@ namespace ludusGestao.Gerais.Domain.Usuario
             {
                 Nome = nome,
                 Email = new Email(email),
-                Telefone = telefone,
+                Telefone = new Telefone(telefone),
                 Cargo = cargo,
                 EmpresaId = empresaId,
                 Senha = senha,
@@ -43,7 +43,7 @@ namespace ludusGestao.Gerais.Domain.Usuario
         {
             Nome = nome;
             Email = new Email(email);
-            Telefone = telefone;
+            Telefone = new Telefone(telefone);
             Cargo = cargo;
             Endereco = new Endereco(rua, numero, bairro, cidade, estado, cep);
         }

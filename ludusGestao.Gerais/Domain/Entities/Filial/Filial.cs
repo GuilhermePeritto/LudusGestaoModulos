@@ -15,8 +15,8 @@ namespace ludusGestao.Gerais.Domain.Filial
         public string Nome { get; private set; }
         public string Codigo { get; private set; }
         public Endereco Endereco { get; private set; }
-        public string Telefone { get; private set; }
-        public string Email { get; private set; }
+        public Telefone Telefone { get; private set; }
+        public Email Email { get; private set; }
         public Cnpj Cnpj { get; private set; }
         public string Responsavel { get; private set; }
         public SituacaoFilial Situacao { get; private set; }
@@ -30,8 +30,8 @@ namespace ludusGestao.Gerais.Domain.Filial
                 Nome = nome,
                 Codigo = codigo,
                 Endereco = new Endereco(rua, numero, bairro, cidade, estado, cep),
-                Telefone = telefone,
-                Email = email,
+                Telefone = new Telefone(telefone),
+                Email = new Email(email),
                 Cnpj = new Cnpj(cnpj),
                 Responsavel = responsavel,
                 DataAbertura = dataAbertura,
@@ -45,8 +45,8 @@ namespace ludusGestao.Gerais.Domain.Filial
             Nome = nome;
             Codigo = codigo;
             Endereco = new Endereco(rua, numero, bairro, cidade, estado, cep);
-            Telefone = telefone;
-            Email = email;
+            Telefone = new Telefone(telefone);
+            Email = new Email(email);
             Cnpj = new Cnpj(cnpj);
             Responsavel = responsavel;
         }

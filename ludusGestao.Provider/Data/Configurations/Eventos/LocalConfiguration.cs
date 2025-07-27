@@ -43,6 +43,15 @@ namespace ludusGestao.Provider.Data.Configurations.Eventos
                     .HasMaxLength(10)
                     .IsRequired();
             });
+
+            // Configuração do Value Object Telefone
+            builder.OwnsOne(l => l.Telefone, telefone =>
+            {
+                telefone.Property(t => t.Numero)
+                    .HasColumnName("Telefone")
+                    .HasMaxLength(20)
+                    .IsRequired();
+            });
         }
     }
 } 

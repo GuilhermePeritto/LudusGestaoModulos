@@ -10,12 +10,12 @@ namespace LudusGestao.Shared.Tenant
         private static readonly Dictionary<Type, LambdaExpression> _filterCache = new();
         private static readonly object _cacheLock = new();
 
-        public static void ApplyTenantFilter<TEntity>(EntityTypeBuilder<TEntity> builder, int tenantId, bool ignorarFiltro = false) 
+        public static void ApplyTenantFilter<TEntity>(EntityTypeBuilder<TEntity> builder, int? tenantId, bool ignorarFiltro = false) 
             where TEntity : EntidadeBase
         {
-            if (ignorarFiltro) return;
+            if (ignorarFiltro || !tenantId.HasValue) return;
 
-            var filter = GetOrCreateFilter<TEntity>(tenantId);
+            var filter = GetOrCreateFilter<TEntity>(tenantId.Value);
             builder.HasQueryFilter(filter);
         }
 

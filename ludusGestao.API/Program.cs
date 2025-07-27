@@ -20,10 +20,12 @@ builder.Services.AddSwaggerGen();
 
 // Configuração do banco de dados
 builder.Services.AddDbContext<ludusGestao.Provider.Data.Contexts.LudusGestaoReadDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration["Database:Write:ConnectionString"], 
+        npgsqlOptions => npgsqlOptions.EnableRetryOnFailure()));
 
 builder.Services.AddDbContext<ludusGestao.Provider.Data.Contexts.LudusGestaoWriteDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration["Database:Write:ConnectionString"], 
+        npgsqlOptions => npgsqlOptions.EnableRetryOnFailure()));
 
 // Adicionar módulos
 builder.Services.AddProviderModule();

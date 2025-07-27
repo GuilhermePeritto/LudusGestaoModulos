@@ -31,7 +31,7 @@ namespace ludusGestao.Gerais.Domain.Usuario.DTOs
                 Id = usuario.Id,
                 Nome = usuario.Nome,
                 Email = usuario.Email.Endereco,
-                Telefone = usuario.Telefone,
+                Telefone = usuario.Telefone.Numero,
                 Cargo = usuario.Cargo,
                 EmpresaId = usuario.EmpresaId,
                 Situacao = usuario.Situacao.ToString(),

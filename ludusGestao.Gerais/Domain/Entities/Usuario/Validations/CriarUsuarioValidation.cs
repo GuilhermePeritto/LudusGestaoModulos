@@ -16,7 +16,7 @@ namespace ludusGestao.Gerais.Domain.Usuario.Validations
                 .NotNull().WithMessage("O email é obrigatório.");
 
             RuleFor(u => u.Telefone)
-                .NotEmpty().WithMessage("O telefone é obrigatório.");
+                .NotNull().WithMessage("O telefone é obrigatório.");
 
             RuleFor(u => u.Cargo)
                 .NotEmpty().WithMessage("O cargo é obrigatório.");

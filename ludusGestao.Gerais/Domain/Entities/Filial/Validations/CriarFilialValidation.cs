@@ -17,10 +17,10 @@ namespace ludusGestao.Gerais.Domain.Filial.Validations
                 .MaximumLength(50).WithMessage("O código deve ter no máximo 50 caracteres.");
 
             RuleFor(f => f.Telefone)
-                .NotEmpty().WithMessage("O telefone é obrigatório.");
+                .NotNull().WithMessage("O telefone é obrigatório.");
 
             RuleFor(f => f.Email)
-                .NotEmpty().WithMessage("O email é obrigatório.");
+                .NotNull().WithMessage("O email é obrigatório.");
 
             RuleFor(f => f.Cnpj)
                 .NotNull().WithMessage("O CNPJ é obrigatório.");

@@ -12,16 +12,16 @@ namespace ludusGestao.Provider.Data.Providers.Autenticacao
 {
     public class UsuarioAutenticacaoPostgresReadProvider : ReadProviderBase<UsuarioAutenticacao>, IUsuarioAutenticacaoReadProvider
     {
-        private readonly LudusGestaoReadDbContext _context;
+        private readonly LudusGestaoReadDbContext _readContext;
 
         public UsuarioAutenticacaoPostgresReadProvider(LudusGestaoReadDbContext context) : base(context)
         {
-            _context = context;
+            _readContext = context;
         }
 
         public async Task<UsuarioAutenticacao> ObterPorEmail(string email)
         {
-            var usuario = await _context.Usuarios
+            var usuario = await _readContext.Usuarios
                 .FirstOrDefaultAsync(u => u.Email.Endereco == email && u.EstaAtivo());
 
             if (usuario == null)

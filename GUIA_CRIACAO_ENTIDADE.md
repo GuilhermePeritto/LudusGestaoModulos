@@ -247,19 +247,13 @@ namespace ludusGestao.Gerais.Domain.Produto.DTOs
 ### **4.1. Interface do Read Provider (IProdutoReadProvider.cs)**
 
 ```csharp
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using LudusGestao.Shared.Domain.Common;
 using ludusGestao.Gerais.Domain.Produto;
+using LudusGestao.Shared.Domain.Providers;
 
 namespace ludusGestao.Gerais.Domain.Produto.Interfaces
 {
-    public interface IProdutoReadProvider
+    public interface IProdutoReadProvider : IReadProvider<Produto>
     {
-        Task<IEnumerable<Produto>> Listar();
-        Task<IEnumerable<Produto>> Listar(QueryParamsBase queryParams);
-        Task<Produto> Buscar(QueryParamsBase queryParams);
-        Task<Produto> BuscarPorId(Guid id);
     }
 }
 ```
@@ -267,18 +261,13 @@ namespace ludusGestao.Gerais.Domain.Produto.Interfaces
 ### **4.2. Interface do Write Provider (IProdutoWriteProvider.cs)**
 
 ```csharp
-using System;
-using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.Produto;
+using LudusGestao.Shared.Domain.Providers;
 
 namespace ludusGestao.Gerais.Domain.Produto.Interfaces
 {
-    public interface IProdutoWriteProvider
+    public interface IProdutoWriteProvider : IWriteProvider<Produto>
     {
-        Task Adicionar(Produto produto);
-        Task Atualizar(Produto produto);
-        Task Remover(Guid id);
-        Task<int> SalvarAlteracoes();
     }
 }
 ```
@@ -299,7 +288,6 @@ namespace ludusGestao.Gerais.Domain.Produto.Interfaces
 }
 
 // IAtualizarProdutoUseCase.cs
-using System;
 using System.Threading.Tasks;
 using ludusGestao.Gerais.Domain.Produto;
 
@@ -307,7 +295,7 @@ namespace ludusGestao.Gerais.Domain.Produto.Interfaces
 {
     public interface IAtualizarProdutoUseCase
     {
-        Task<Produto> Executar(Guid id, Produto produto);
+        Task<Produto> Executar(Produto produto);
     }
 }
 

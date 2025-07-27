@@ -7,7 +7,6 @@ namespace ludusGestao.Gerais.Domain.Filial.DTOs
     {
         public Guid Id { get; private set; }
         public string Nome { get; private set; }
-        public string Codigo { get; private set; }
         public string Rua { get; private set; }
         public string Numero { get; private set; }
         public string Bairro { get; private set; }
@@ -31,7 +30,6 @@ namespace ludusGestao.Gerais.Domain.Filial.DTOs
             {
                 Id = filial.Id,
                 Nome = filial.Nome,
-                Codigo = filial.Codigo,
                 Rua = filial.Endereco.Rua,
                 Numero = filial.Endereco.Numero,
                 Bairro = filial.Endereco.Bairro,

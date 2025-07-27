@@ -27,9 +27,6 @@ namespace ludusGestao.Provider.Data.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            // Aplicar filtro multitenant otimizado
-            ApplyTenantFilters(modelBuilder);
-
             // Configurar auditoria somente leitura
             ConfigureReadOnlyAuditProperties(modelBuilder);
 
@@ -37,23 +34,6 @@ namespace ludusGestao.Provider.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(Local).Assembly);
             // Aplicar configurações específicas do módulo Gerais
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ludusGestao.Provider.Data.Configurations.Gerais.EmpresaConfiguration).Assembly);
-        }
-
-        private void ApplyTenantFilters(ModelBuilder modelBuilder)
-        {
-            // Aplicar filtro para cada entidade que herda de EntidadeBase
-            ApplyTenantFilter<Local>(modelBuilder);
-            ApplyTenantFilter<Usuario>(modelBuilder);
-            ApplyTenantFilter<Empresa>(modelBuilder);
-            ApplyTenantFilter<Filial>(modelBuilder);
-        }
-
-        private void ApplyTenantFilter<TEntity>(ModelBuilder modelBuilder) where TEntity : EntidadeBase
-        {
-            var ignorarFiltro = _tenantContext.IgnorarFiltroTenant;
-            var tenantId = _tenantContext.TenantIdNullable;
-            
-            TenantFilterBuilder.ApplyTenantFilter(modelBuilder.Entity<TEntity>(), tenantId, ignorarFiltro);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

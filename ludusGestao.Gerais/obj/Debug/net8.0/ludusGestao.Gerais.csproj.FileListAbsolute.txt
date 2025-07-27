@@ -20,13 +20,13 @@ C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.AssemblyInfo.cs
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.csproj.CoreCompileInputs.cache
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.sourcelink.json
-C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.dll
-C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\refint\ludusGestao.Gerais.dll
-C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.pdb
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Gerais.deps.json
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Gerais.dll
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Gerais.pdb
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Shared.dll
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\bin\Debug\net8.0\ludusGestao.Shared.pdb
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGes.A695891F.Up2Date
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\refint\ludusGestao.Gerais.dll
+C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ludusGestao.Gerais.pdb
 C:\Users\perit\Documents\LudusGestaoModulos\ludusGestao.Gerais\obj\Debug\net8.0\ref\ludusGestao.Gerais.dll

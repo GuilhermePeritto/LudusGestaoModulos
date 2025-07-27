@@ -79,7 +79,7 @@ namespace ludusGestao.Provider.Data.Contexts
             // Aplicar TenantId automaticamente para novas entidades
             foreach (var entry in ChangeTracker.Entries<EntidadeBase>().Where(e => e.State == EntityState.Added))
             {
-                entry.Entity.TenantId = _tenantContext.TenantId;
+                entry.Entity.AlterarTenant(_tenantContext.TenantId);
                 entry.Entity.MarcarAlterado();
             }
 
@@ -97,7 +97,7 @@ namespace ludusGestao.Provider.Data.Contexts
             // Aplicar TenantId automaticamente para novas entidades
             foreach (var entry in ChangeTracker.Entries<EntidadeBase>().Where(e => e.State == EntityState.Added))
             {
-                entry.Entity.TenantId = _tenantContext.TenantId;
+                entry.Entity.AlterarTenant(_tenantContext.TenantId);
                 entry.Entity.MarcarAlterado();
             }
 

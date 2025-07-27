@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\ludusGestao.API.props" />
-</Project>

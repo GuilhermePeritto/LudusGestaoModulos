@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using LudusGestao.Shared.Domain.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Usuario.DTOs;
@@ -11,6 +12,7 @@ namespace ludusGestao.Gerais.API.Controllers
 {
     [ApiController]
     [Route("api/usuarios")]
+    [Authorize]
     public class UsuarioController : ControllerRestBase
     {
         private readonly IUsuarioService _service;

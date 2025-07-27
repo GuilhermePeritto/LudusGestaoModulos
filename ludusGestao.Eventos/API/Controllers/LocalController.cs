@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using LudusGestao.Shared.Domain.Controllers;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
@@ -9,6 +10,7 @@ namespace ludusGestao.Eventos.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class LocalController : ControllerRestBase
     {
         private readonly ILocalService _localService;

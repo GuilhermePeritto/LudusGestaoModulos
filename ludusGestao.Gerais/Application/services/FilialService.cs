@@ -36,7 +36,7 @@ namespace ludusGestao.Gerais.Application.Services
 
         public async Task<FilialDTO> Criar(CriarFilialDTO dto)
         {
-            var filial = Filial.Criar(dto.Nome, dto.Codigo, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep, dto.Telefone, dto.Email, dto.Cnpj, dto.Responsavel, dto.DataAbertura, dto.EmpresaId);
+            var filial = Filial.Criar(dto.Nome, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep, dto.Telefone, dto.Email, dto.Cnpj, dto.Responsavel, dto.DataAbertura, dto.EmpresaId);
             var filialCriada = await _criarUseCase.Executar(filial);
             
             if (filialCriada == null)
@@ -52,7 +52,7 @@ namespace ludusGestao.Gerais.Application.Services
             if (filial == null)
                 return null;
 
-            filial.Atualizar(dto.Nome, dto.Codigo, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep, dto.Telefone, dto.Email, dto.Cnpj, dto.Responsavel);
+            filial.Atualizar(dto.Nome, dto.Rua, dto.Numero, dto.Bairro, dto.Cidade, dto.Estado, dto.Cep, dto.Telefone, dto.Email, dto.Cnpj, dto.Responsavel);
             var filialAtualizada = await _atualizarUseCase.Executar(filial);
             
             if (filialAtualizada == null)

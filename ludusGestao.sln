@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Provider", "lud
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Autenticacao", "ludusGestao.Autenticacao\ludusGestao.Autenticacao.csproj", "{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ludusGestao.Gestao", "ludusGestao.Gestao\ludusGestao.Gestao.csproj", "{5432F6D5-5EA0-4313-A114-93ABD08C486E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,18 @@ Global
 		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|x64.Build.0 = Release|Any CPU
 		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|x86.ActiveCfg = Release|Any CPU
 		{C803FAD3-0FF1-4369-A10B-C4EF35AA717C}.Release|x86.Build.0 = Release|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Debug|x64.Build.0 = Debug|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Debug|x86.Build.0 = Debug|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Release|x64.ActiveCfg = Release|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Release|x64.Build.0 = Release|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Release|x86.ActiveCfg = Release|Any CPU
+		{5432F6D5-5EA0-4313-A114-93ABD08C486E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

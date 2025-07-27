@@ -9,6 +9,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql" Version="9.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
@@ -16,6 +22,7 @@
     <ProjectReference Include="..\ludusGestao.Eventos\ludusGestao.Eventos.csproj" />
     <ProjectReference Include="..\ludusGestao.Gerais\ludusGestao.Gerais.csproj" />
     <ProjectReference Include="..\ludusGestao.Provider\ludusGestao.Provider.csproj" />
+    <ProjectReference Include="..\ludusGestao.Gestao\ludusGestao.Gestao.csproj" />
   </ItemGroup>
 
 </Project>

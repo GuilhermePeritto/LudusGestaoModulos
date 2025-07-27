@@ -7,7 +7,10 @@ using ludusGestao.Provider.Extensions;
 using ludusGestao.Gerais.Extensions;
 using ludusGestao.Autenticacao.Extensions;
 using LudusGestao.Shared.Tenant;
+using LudusGestao.Shared.Security;
 using ludusGestao.API.Middleware;
+using ludusGestao.Gestao.Extensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +19,40 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Ludus Gestão API",
+        Version = "v1",
+        Description = "API para gestão de módulos Ludus"
+    });
+
+    // Configuração para autenticação JWT no Swagger
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 // Configuração do banco de dados
 builder.Services.AddDbContext<ludusGestao.Provider.Data.Contexts.LudusGestaoReadDbContext>(options =>
@@ -31,10 +67,12 @@ builder.Services.AddDbContext<ludusGestao.Provider.Data.Contexts.LudusGestaoWrit
 builder.Services.AddProviderModule();
 builder.Services.AddGeraisModule();
 builder.Services.AddAutenticacaoModule();
+builder.Services.AddGestaoServices();
 
 // Registro de serviços compartilhados
 builder.Services.AddScoped<LudusGestao.Shared.Notificacao.INotificador, LudusGestao.Shared.Notificacao.Notificador>();
 builder.Services.AddScoped<ludusGestao.Autenticacao.Application.Services.JwtService>();
+builder.Services.AddScoped<IPasswordHelper, BCryptPasswordHelper>();
 
 // Configuração do Tenant
 builder.Services.AddMemoryCache();

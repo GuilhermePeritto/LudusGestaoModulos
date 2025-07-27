@@ -72,5 +72,7 @@ namespace ludusGestao.Gerais.Domain.Usuario
         {
             return Situacao == SituacaoUsuario.Ativo;
         }
+
+
     }
 }

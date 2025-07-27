@@ -7,6 +7,8 @@ using LudusGestao.Shared.Domain.Providers;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.Interfaces;
 using ludusGestao.Gerais.Domain.Usuario;
+using LudusGestao.Shared.Tenant;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ludusGestao.Provider.Data.Providers.Autenticacao
 {
@@ -21,10 +23,17 @@ namespace ludusGestao.Provider.Data.Providers.Autenticacao
 
         public async Task<UsuarioAutenticacao> ObterPorEmail(string email)
         {
-            // Buscar usuário por email usando EF.Property para acessar a propriedade do owned entity
-            var usuario = await _readContext.Usuarios
-                .Where(u => EF.Property<string>(u, "Email") == email)
-                .FirstOrDefaultAsync();
+            // Buscar usuário por email usando a propriedade do Value Object
+            var query = _readContext.Usuarios.Where(u => u.Email.Endereco == email);
+            
+            // Aplicar filtro de tenant se necessário
+            var tenantContext = _readContext.GetService<ITenantContext>();
+            if (tenantContext != null && !tenantContext.IgnorarFiltroTenant && tenantContext.TenantIdNullable.HasValue)
+            {
+                query = query.Where(u => u.TenantId == tenantContext.TenantIdNullable.Value);
+            }
+            
+            var usuario = await query.FirstOrDefaultAsync();
 
             if (usuario == null || !usuario.EstaAtivo())
                 return null;

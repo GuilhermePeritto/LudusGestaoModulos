@@ -20,6 +20,11 @@ namespace LudusGestao.Shared.Domain.Entities
             DataAlteracao = DateTime.UtcNow;
         }
 
+        public void AlterarTenant(int tenantId)
+        {
+            TenantId = tenantId;
+        }
+
         public override bool Equals(object obj)
         {
             if (obj is not EntidadeBase other)

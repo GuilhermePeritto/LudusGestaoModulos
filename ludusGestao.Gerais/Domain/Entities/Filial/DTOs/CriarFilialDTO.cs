@@ -9,10 +9,6 @@ namespace ludusGestao.Gerais.Domain.Filial.DTOs
         [StringLength(200, ErrorMessage = "O nome deve ter no máximo 200 caracteres.")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "O código da filial é obrigatório.")]
-        [StringLength(50, ErrorMessage = "O código deve ter no máximo 50 caracteres.")]
-        public string Codigo { get; set; }
-
         [Required(ErrorMessage = "A rua é obrigatória.")]
         public string Rua { get; set; }
 

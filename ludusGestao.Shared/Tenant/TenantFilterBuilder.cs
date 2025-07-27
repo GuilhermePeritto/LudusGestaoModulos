@@ -13,7 +13,12 @@ namespace LudusGestao.Shared.Tenant
         public static void ApplyTenantFilter<TEntity>(EntityTypeBuilder<TEntity> builder, int? tenantId, bool ignorarFiltro = false) 
             where TEntity : EntidadeBase
         {
-            if (ignorarFiltro || !tenantId.HasValue) return;
+            if (ignorarFiltro || !tenantId.HasValue) 
+            {
+                // Remover qualquer filtro existente quando ignorarFiltro é true ou tenantId é null
+                builder.HasQueryFilter(null);
+                return;
+            }
 
             var filter = GetOrCreateFilter<TEntity>(tenantId.Value);
             builder.HasQueryFilter(filter);

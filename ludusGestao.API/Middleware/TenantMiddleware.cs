@@ -28,6 +28,7 @@ namespace ludusGestao.API.Middleware
             // Verificar se é rota pública
             if (path != null && await tenantResolver.IsPublicRouteAsync(path))
             {
+                _logger.LogDebug("Rota pública detectada: {Path}", path);
                 tenantContext.IgnorarFiltro(true);
                 await _next(context);
                 return;

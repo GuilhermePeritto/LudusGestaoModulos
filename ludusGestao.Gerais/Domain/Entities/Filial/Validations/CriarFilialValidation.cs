@@ -12,10 +12,6 @@ namespace ludusGestao.Gerais.Domain.Filial.Validations
                 .NotEmpty().WithMessage("O nome da filial é obrigatório.")
                 .MaximumLength(200).WithMessage("O nome deve ter no máximo 200 caracteres.");
 
-            RuleFor(f => f.Codigo)
-                .NotEmpty().WithMessage("O código da filial é obrigatório.")
-                .MaximumLength(50).WithMessage("O código deve ter no máximo 50 caracteres.");
-
             RuleFor(f => f.Telefone)
                 .NotNull().WithMessage("O telefone é obrigatório.");
 

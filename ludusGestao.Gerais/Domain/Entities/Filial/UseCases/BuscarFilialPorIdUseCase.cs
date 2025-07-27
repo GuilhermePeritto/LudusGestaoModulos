@@ -20,9 +20,8 @@ namespace ludusGestao.Gerais.Domain.Filial.UseCases
 
         public async Task<Filial> Executar(Guid id)
         {
-            var queryParams = QueryParamsHelper.BuscarPorId(id);
-            var filial = await _provider.Buscar(queryParams);
-            
+            var filial = await _provider.Buscar(QueryParamsHelper.FiltrarPorId(id));
+
             if (filial == null)
             {
                 Notificar("Filial não encontrada.");
@@ -32,4 +31,4 @@ namespace ludusGestao.Gerais.Domain.Filial.UseCases
             return filial;
         }
     }
-} 
+}

@@ -20,8 +20,7 @@ namespace ludusGestao.Gerais.Domain.Empresa.UseCases
 
         public async Task<Empresa> Executar(Guid id)
         {
-            var queryParams = QueryParamsHelper.BuscarPorId(id);
-            var empresa = await _provider.Buscar(queryParams);
+            var empresa = await _provider.Buscar(QueryParamsHelper.FiltrarPorId(id));
             
             if (empresa == null)
             {

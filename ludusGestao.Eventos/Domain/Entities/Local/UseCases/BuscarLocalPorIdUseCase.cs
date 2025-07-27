@@ -7,28 +7,27 @@ using LudusGestao.Shared.Domain.Providers;
 
 namespace ludusGestao.Eventos.Domain.Entities.Local.UseCases
 {
-    public class BuscarLocalPorIdUseCase : IBuscarLocalPorIdUseCase
+    public class BuscarLocalPorIdUseCase : BaseUseCase, IBuscarLocalPorIdUseCase
     {
-        private readonly ILocalReadProvider _localReadProvider;
-        private readonly INotificador _notificador;
+        private readonly ILocalReadProvider _provider;
 
-        public BuscarLocalPorIdUseCase(ILocalReadProvider localReadProvider, INotificador notificador)
+        public BuscarLocalPorIdUseCase(ILocalReadProvider provider, INotificador notificador)
+            : base(notificador)
         {
-            _localReadProvider = localReadProvider;
-            _notificador = notificador;
+            _provider = provider;
         }
 
-        public async Task<ludusGestao.Eventos.Domain.Entities.Local.Local> Executar(Guid id)
+        public async Task<Local> Executar(Guid id)
         {
-            var queryParams = QueryParamsHelper.BuscarPorId(id);
-            var local = await _localReadProvider.Buscar(queryParams);
+            var local = await _provider.Buscar(QueryParamsHelper.FiltrarPorId(id));
 
             if (local == null)
             {
-                _notificador.Handle(new LudusGestao.Shared.Notificacao.Notificacao("Local não encontrado"));
+                Notificar("Local não encontrado");
+                return null;
             }
 
             return local;
         }
     }
-} 
+}

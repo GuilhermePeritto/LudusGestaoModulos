@@ -21,9 +21,8 @@ namespace ludusGestao.Gerais.Domain.Usuario.UseCases
 
         public async Task<Usuario> Executar(Guid id)
         {
-            var queryParams = QueryParamsHelper.BuscarPorId(id);
-            var usuario = await _provider.Buscar(queryParams);
-            
+            var usuario = await _provider.Buscar(QueryParamsHelper.FiltrarPorId(id));
+
             if (usuario == null)
             {
                 Notificar("Usuário não encontrado.");
@@ -33,4 +32,4 @@ namespace ludusGestao.Gerais.Domain.Usuario.UseCases
             return usuario;
         }
     }
-} 
+}

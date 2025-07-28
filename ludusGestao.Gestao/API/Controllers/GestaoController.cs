@@ -42,7 +42,7 @@ namespace ludusGestao.Gestao.API.Controllers
         /// </summary>
         /// <param name="dto">Dados do cliente a ser criado</param>
         /// <returns>Dados do cliente criado incluindo senha do administrador</returns>
-        [HttpPost("clientes")]
+        [HttpPost("novo-cliente")]
         public async Task<IActionResult> CriarCliente([FromBody] CriarClienteDTO dto)
         {
             if (!ModelState.IsValid)

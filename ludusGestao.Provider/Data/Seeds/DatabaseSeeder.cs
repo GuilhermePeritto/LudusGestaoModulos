@@ -86,7 +86,7 @@ namespace ludusGestao.Provider.Data.Seeds
             // Local
             if (!context.Locais.Any())
             {
-                var local = new Local(
+                var local = Local.Criar(
                     nome: "Auditório Principal",
                     descricao: "Auditório principal da empresa com capacidade para 200 pessoas",
                     endereco: new Endereco("Rua Ludus", "100", "Centro", "São Paulo", "SP", "01000-000"),

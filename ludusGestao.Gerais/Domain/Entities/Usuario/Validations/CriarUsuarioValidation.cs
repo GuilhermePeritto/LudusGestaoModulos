@@ -1,6 +1,5 @@
 using FluentValidation;
 using ludusGestao.Gerais.Domain.Usuario;
-using ludusGestao.Gerais.Domain.Usuario.Specifications;
 
 namespace ludusGestao.Gerais.Domain.Usuario.Validations
 {
@@ -27,10 +26,6 @@ namespace ludusGestao.Gerais.Domain.Usuario.Validations
             RuleFor(u => u.Senha)
                 .NotEmpty().WithMessage("A senha é obrigatória.")
                 .MinimumLength(6).WithMessage("A senha deve ter no mínimo 6 caracteres.");
-
-            RuleFor(u => u)
-                .Must(u => new UsuarioAtivoSpecification().IsSatisfiedBy(u))
-                .WithMessage("O usuário precisa estar ativo para ser criado.");
         }
     }
 } 

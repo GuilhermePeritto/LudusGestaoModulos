@@ -1,6 +1,5 @@
 using FluentValidation;
 using ludusGestao.Gerais.Domain.Filial;
-using ludusGestao.Gerais.Domain.Filial.Specifications;
 
 namespace ludusGestao.Gerais.Domain.Filial.Validations
 {
@@ -26,10 +25,6 @@ namespace ludusGestao.Gerais.Domain.Filial.Validations
 
             RuleFor(f => f.EmpresaId)
                 .NotEmpty().WithMessage("O ID da empresa é obrigatório.");
-
-            RuleFor(f => f)
-                .Must(f => new FilialAtivaSpecification().IsSatisfiedBy(f))
-                .WithMessage("A filial precisa estar ativa para ser criada.");
         }
     }
 } 

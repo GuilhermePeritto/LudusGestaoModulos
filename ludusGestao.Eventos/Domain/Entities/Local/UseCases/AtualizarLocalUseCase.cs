@@ -1,24 +1,29 @@
 using System.Threading.Tasks;
-using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
+using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
+using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Entities.Local.Validations;
 
 namespace ludusGestao.Eventos.Domain.Entities.Local.UseCases
 {
-    public class AtualizarLocalUseCase : IAtualizarLocalUseCase
+    public class AtualizarLocalUseCase : BaseUseCase, IAtualizarLocalUseCase
     {
         private readonly ILocalWriteProvider _localWriteProvider;
-        private readonly INotificador _notificador;
 
         public AtualizarLocalUseCase(
             ILocalWriteProvider localWriteProvider,
             INotificador notificador)
+            : base(notificador)
         {
             _localWriteProvider = localWriteProvider;
-            _notificador = notificador;
         }
 
         public async Task<Local> Executar(Local local)
         {
+            if (!ExecutarValidacao(new AtualizarLocalValidation(), local))
+                return null;
+
             await _localWriteProvider.Atualizar(local);
             await _localWriteProvider.SalvarAlteracoes();
 

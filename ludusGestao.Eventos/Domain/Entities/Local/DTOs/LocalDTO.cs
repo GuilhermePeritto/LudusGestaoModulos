@@ -32,7 +32,7 @@ namespace ludusGestao.Eventos.Domain.Entities.Local.DTOs
                 Estado = local.Endereco.Estado,
                 Cep = local.Endereco.Cep,
                 Telefone = local.Telefone.Numero,
-                Situacao = local.Situacao.ToString(),
+                Situacao = local.EstaAtivo() ? "Ativo" : "Inativo",
                 DataCriacao = local.DataCriacao,
                 DataAlteracao = local.DataAlteracao
             };

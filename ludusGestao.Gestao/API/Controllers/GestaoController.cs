@@ -1,9 +1,10 @@
+using System;
 using System.Net;
 using LudusGestao.Shared.Domain.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gestao.Domain.Entities.Cliente.DTOs;
-using ludusGestao.Gestao.Domain.Entities.Cliente.Interfaces;
+using ludusGestao.Gestao.Application.Services.Interfaces;
 using ludusGestao.Provider.Data.Contexts;
 using ludusGestao.Provider.Data.Seeds;
 using Microsoft.EntityFrameworkCore;
@@ -17,15 +18,20 @@ namespace ludusGestao.Gestao.API.Controllers
     [Route("api/gestao")]
     public class GestaoController : ControllerRestBase
     {
-        private readonly ICriarClienteUseCase _criarClienteUseCase;
+        private readonly IGestaoService _gestaoService;
         private readonly LudusGestaoWriteDbContext _writeContext;
         private readonly ITenantContext _tenantContext;
         private readonly IPasswordHelper _passwordHelper;
 
-        public GestaoController(INotificador notificador, ICriarClienteUseCase criarClienteUseCase, LudusGestaoWriteDbContext writeContext, ITenantContext tenantContext, IPasswordHelper passwordHelper)
+        public GestaoController(
+            INotificador notificador, 
+            IGestaoService gestaoService, 
+            LudusGestaoWriteDbContext writeContext, 
+            ITenantContext tenantContext, 
+            IPasswordHelper passwordHelper)
             : base(notificador)
         {
-            _criarClienteUseCase = criarClienteUseCase;
+            _gestaoService = gestaoService;
             _writeContext = writeContext;
             _tenantContext = tenantContext;
             _passwordHelper = passwordHelper;
@@ -39,19 +45,15 @@ namespace ludusGestao.Gestao.API.Controllers
         [HttpPost("clientes")]
         public async Task<IActionResult> CriarCliente([FromBody] CriarClienteDTO dto)
         {
-            try
-            {
-                var resultado = await _criarClienteUseCase.Executar(dto);
-                
-                if (resultado == null)
-                    return CustomResponse(HttpStatusCode.BadRequest, null, "Erro ao criar cliente. Verifique os dados informados.");
+            if (!ModelState.IsValid)
+                return CustomResponse(ModelState);
 
-                return CustomResponse(HttpStatusCode.Created, resultado, "Cliente criado com sucesso!");
-            }
-            catch (Exception ex)
-            {
-                return CustomResponse(HttpStatusCode.BadRequest, null, $"Erro ao criar cliente: {ex.Message}");
-            }
+            var resultado = await _gestaoService.CriarCliente(dto);
+            
+            if (resultado == null)
+                return CustomResponse(HttpStatusCode.BadRequest, null, "Erro ao criar cliente. Verifique os dados informados.");
+
+            return CustomResponse(HttpStatusCode.Created, resultado, "Cliente criado com sucesso!");
         }
 
         /// <summary>

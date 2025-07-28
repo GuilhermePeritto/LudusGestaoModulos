@@ -17,6 +17,7 @@ namespace ludusGestao.Gerais.Application.Services
         private readonly IRemoverUsuarioUseCase _removerUseCase;
         private readonly IBuscarUsuarioPorIdUseCase _buscarPorIdUseCase;
         private readonly IListarUsuariosUseCase _listarUseCase;
+        private readonly IAlterarSenhaUsuarioUseCase _alterarSenhaUseCase;
 
         public UsuarioService(
             ICriarUsuarioUseCase criarUseCase,
@@ -24,6 +25,7 @@ namespace ludusGestao.Gerais.Application.Services
             IRemoverUsuarioUseCase removerUseCase,
             IBuscarUsuarioPorIdUseCase buscarPorIdUseCase,
             IListarUsuariosUseCase listarUseCase,
+            IAlterarSenhaUsuarioUseCase alterarSenhaUseCase,
             INotificador notificador)
             : base(notificador)
         {
@@ -32,6 +34,7 @@ namespace ludusGestao.Gerais.Application.Services
             _removerUseCase = removerUseCase;
             _buscarPorIdUseCase = buscarPorIdUseCase;
             _listarUseCase = listarUseCase;
+            _alterarSenhaUseCase = alterarSenhaUseCase;
         }
 
         public async Task<UsuarioDTO> Criar(CriarUsuarioDTO dto)
@@ -49,6 +52,8 @@ namespace ludusGestao.Gerais.Application.Services
         {
             // Primeiro, buscar o usuário existente
             var usuarioExistente = await _buscarPorIdUseCase.Executar(id);
+            
+            // Se o BuscarUsuarioPorIdUseCase retornou null, ele já notificou o erro
             if (usuarioExistente == null)
                 return null;
 
@@ -68,6 +73,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var usuario = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarUsuarioPorIdUseCase retornou null, ele já notificou o erro
             if (usuario == null)
                 return false;
 
@@ -78,6 +84,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var usuario = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarUsuarioPorIdUseCase retornou null, ele já notificou o erro
             if (usuario == null)
                 return null;
 
@@ -94,6 +101,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var usuario = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarUsuarioPorIdUseCase retornou null, ele já notificou o erro
             if (usuario == null)
                 return false;
 
@@ -107,6 +115,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var usuario = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarUsuarioPorIdUseCase retornou null, ele já notificou o erro
             if (usuario == null)
                 return false;
 
@@ -120,11 +129,11 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var usuario = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarUsuarioPorIdUseCase retornou null, ele já notificou o erro
             if (usuario == null)
                 return false;
 
-            usuario.AlterarSenha(novaSenha);
-            var usuarioAtualizado = await _atualizarUseCase.Executar(usuario);
+            var usuarioAtualizado = await _alterarSenhaUseCase.Executar(usuario, novaSenha);
             
             return usuarioAtualizado != null;
         }

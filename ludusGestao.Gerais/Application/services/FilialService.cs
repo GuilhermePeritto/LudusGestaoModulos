@@ -49,6 +49,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var filial = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarPorIdUseCase retornou null, ele já notificou o erro
             if (filial == null)
                 return null;
 
@@ -65,6 +66,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var filial = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarPorIdUseCase retornou null, ele já notificou o erro
             if (filial == null)
                 return false;
 
@@ -75,6 +77,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var filial = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarPorIdUseCase retornou null, ele já notificou o erro
             if (filial == null)
                 return null;
 
@@ -91,6 +94,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var filial = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarPorIdUseCase retornou null, ele já notificou o erro
             if (filial == null)
                 return false;
 
@@ -104,6 +108,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var filial = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarPorIdUseCase retornou null, ele já notificou o erro
             if (filial == null)
                 return false;
 

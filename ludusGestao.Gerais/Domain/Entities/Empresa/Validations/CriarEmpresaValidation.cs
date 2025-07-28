@@ -1,6 +1,5 @@
 using FluentValidation;
 using ludusGestao.Gerais.Domain.Empresa;
-using ludusGestao.Gerais.Domain.Empresa.Specifications;
 
 namespace ludusGestao.Gerais.Domain.Empresa.Validations
 {
@@ -20,10 +19,6 @@ namespace ludusGestao.Gerais.Domain.Empresa.Validations
 
             RuleFor(e => e.Telefone)
                 .NotNull().WithMessage("O telefone é obrigatório.");
-
-            RuleFor(e => e)
-                .Must(e => new EmpresaAtivaSpecification().IsSatisfiedBy(e))
-                .WithMessage("A empresa precisa estar ativa para ser criada.");
         }
     }
 } 

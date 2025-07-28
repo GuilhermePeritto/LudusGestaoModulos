@@ -5,6 +5,6 @@ namespace ludusGestao.Eventos.Domain.Entities.Local.Interfaces
 {
     public interface IRemoverLocalUseCase
     {
-        Task Executar(Guid id);
+        Task<bool> Executar(Guid id);
     }
 } 

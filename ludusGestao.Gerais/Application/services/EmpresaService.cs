@@ -49,6 +49,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var empresa = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarEmpresaPorIdUseCase retornou null, ele já notificou o erro
             if (empresa == null)
                 return null;
 
@@ -65,6 +66,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var empresa = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarEmpresaPorIdUseCase retornou null, ele já notificou o erro
             if (empresa == null)
                 return false;
 
@@ -75,6 +77,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var empresa = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarEmpresaPorIdUseCase retornou null, ele já notificou o erro
             if (empresa == null)
                 return null;
 
@@ -91,6 +94,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var empresa = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarEmpresaPorIdUseCase retornou null, ele já notificou o erro
             if (empresa == null)
                 return false;
 
@@ -104,6 +108,7 @@ namespace ludusGestao.Gerais.Application.Services
         {
             var empresa = await _buscarPorIdUseCase.Executar(id);
             
+            // Se o BuscarEmpresaPorIdUseCase retornou null, ele já notificou o erro
             if (empresa == null)
                 return false;
 

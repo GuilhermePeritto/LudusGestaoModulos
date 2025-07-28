@@ -15,6 +15,13 @@ namespace ludusGestao.Provider.Data.Configurations.Eventos
                 .IsRequired()
                 .HasMaxLength(200);
 
+            builder.Property(l => l.Descricao)
+                .HasMaxLength(500);
+
+            builder.Property(l => l.Situacao)
+                .IsRequired()
+                .HasConversion<int>();
+
             // Configuração do Value Object Endereco
             builder.OwnsOne(l => l.Endereco, endereco =>
             {

@@ -40,11 +40,25 @@ namespace ludusGestao.Gerais.Extensions
             services.AddScoped<IRemoverUsuarioUseCase, RemoverUsuarioUseCase>();
             services.AddScoped<IBuscarUsuarioPorIdUseCase, BuscarUsuarioPorIdUseCase>();
             services.AddScoped<IListarUsuariosUseCase, ListarUsuariosUseCase>();
+            services.AddScoped<IAlterarSenhaUsuarioUseCase, AlterarSenhaUsuarioUseCase>();
 
             // Registro de Services
             services.AddScoped<IEmpresaService, EmpresaService>();
             services.AddScoped<IFilialService, FilialService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+
+            // Registro de Validations - Empresa
+            services.AddScoped<CriarEmpresaValidation>();
+            services.AddScoped<AtualizarEmpresaValidation>();
+
+            // Registro de Validations - Filial
+            services.AddScoped<CriarFilialValidation>();
+            services.AddScoped<AtualizarFilialValidation>();
+
+            // Registro de Validations - Usuario
+            services.AddScoped<CriarUsuarioValidation>();
+            services.AddScoped<AtualizarUsuarioValidation>();
+            services.AddScoped<AlterarSenhaUsuarioValidation>();
 
             return services;
         }

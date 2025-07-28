@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ludusGestao.Eventos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6ab6b45cca49b0e30cd292090f2693da715cb79d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+150daa7ec271d3b7646cf716d382f131a0723e9f")]
 [assembly: System.Reflection.AssemblyProductAttribute("ludusGestao.Eventos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ludusGestao.Eventos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

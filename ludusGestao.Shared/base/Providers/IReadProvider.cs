@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Domain.QueryParams;
 
 namespace LudusGestao.Shared.Domain.Providers
 {
@@ -8,6 +8,8 @@ namespace LudusGestao.Shared.Domain.Providers
     {
         Task<IEnumerable<TEntity>> Listar();
         Task<IEnumerable<TEntity>> Listar(QueryParamsBase queryParams);
-        Task<TEntity> Buscar(QueryParamsBase queryParams);
+        Task<TEntity?> Buscar(QueryParamsBase queryParams);
+        Task<IEnumerable<object>> ListarComCampos(QueryParamsBase queryParams);
+        Task<object?> BuscarComCampos(QueryParamsBase queryParams);
     }
 } 

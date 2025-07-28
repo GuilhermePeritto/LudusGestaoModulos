@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Domain.QueryParams;
 using ludusGestao.Gerais.Domain.Empresa;
 
 namespace ludusGestao.Gerais.Domain.Empresa.Interfaces

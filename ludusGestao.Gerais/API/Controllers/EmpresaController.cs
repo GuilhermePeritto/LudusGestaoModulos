@@ -3,6 +3,7 @@ using System.Net;
 using LudusGestao.Shared.Domain.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using LudusGestao.Shared.Domain.QueryParams;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Empresa.DTOs;

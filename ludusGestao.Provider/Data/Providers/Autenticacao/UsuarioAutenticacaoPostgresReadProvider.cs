@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ludusGestao.Provider.Data.Contexts;
+using LudusGestao.Shared.Domain.QueryParams;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Domain.Providers;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao;

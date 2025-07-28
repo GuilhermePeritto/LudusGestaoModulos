@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Domain.QueryParams;
 
 namespace LudusGestao.Shared.Domain.Providers
 {
@@ -23,16 +24,167 @@ namespace LudusGestao.Shared.Domain.Providers
 
         public virtual async Task<IEnumerable<TEntity>> Listar(QueryParamsBase queryParams)
         {
-            var (query, _) = ApplyQueryParams(_dbSet.AsQueryable(), queryParams);
-            return await query.ToListAsync();
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Calcula total antes da paginação
+            var total = await query.CountAsync();
+            
+            // Aplica paginação
+            query = ApplyPagination(query, queryParams);
+            
+            // Executa query no banco (todos os campos)
+            var entities = await query.ToListAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (memoryFilters.Any())
+            {
+                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
+            }
+            
+            return entities;
         }
 
-        public virtual async Task<TEntity> Buscar(QueryParamsBase queryParams)
+        public virtual async Task<TEntity?> Buscar(QueryParamsBase queryParams)
         {
-            var (query, _) = ApplyQueryParams(_dbSet.AsQueryable(), queryParams);
-            return await query.FirstOrDefaultAsync();
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Executa query no banco (todos os campos)
+            var entity = await query.FirstOrDefaultAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (entity != null && memoryFilters.Any())
+            {
+                var entities = new[] { entity };
+                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
+                entity = filteredEntities.FirstOrDefault();
+            }
+            
+            return entity;
+        }
+
+        public virtual async Task<IEnumerable<object>> ListarComCampos(QueryParamsBase queryParams)
+        {
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Calcula total antes da paginação
+            var total = await query.CountAsync();
+            
+            // Aplica paginação
+            query = ApplyPagination(query, queryParams);
+            
+            // Aplica filtro de campos se especificado (SELECT dinâmico)
+            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
+            if (fields.Any())
+            {
+                // Usa SELECT dinâmico para retornar apenas os campos solicitados
+                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
+                var dynamicEntities = await dynamicQuery.ToListAsync();
+                return dynamicEntities;
+            }
+            
+            // Executa query no banco (todos os campos)
+            var entities = await query.ToListAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (memoryFilters.Any())
+            {
+                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
+            }
+            
+            return entities.Cast<object>();
+        }
+
+        public virtual async Task<object?> BuscarComCampos(QueryParamsBase queryParams)
+        {
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Aplica filtro de campos se especificado (SELECT dinâmico)
+            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
+            if (fields.Any())
+            {
+                // Usa SELECT dinâmico para retornar apenas os campos solicitados
+                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
+                var dynamicEntity = await dynamicQuery.FirstOrDefaultAsync();
+                return dynamicEntity;
+            }
+            
+            // Executa query no banco (todos os campos)
+            var entity = await query.FirstOrDefaultAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (entity != null && memoryFilters.Any())
+            {
+                var entities = new[] { entity };
+                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
+                entity = filteredEntities.FirstOrDefault();
+            }
+            
+            return entity;
         }
 
         protected abstract (IQueryable<TEntity> Query, int Total) ApplyQueryParams(IQueryable<TEntity> query, QueryParamsBase queryParams);
+
+        private IQueryable<TEntity> ApplySorting(IQueryable<TEntity> query, QueryParamsBase queryParams)
+        {
+            if (string.IsNullOrWhiteSpace(queryParams.Sort))
+                return query;
+
+            var sortParts = queryParams.Sort.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            
+            foreach (var sortPart in sortParts)
+            {
+                var parts = sortPart.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 0) continue;
+
+                var propertyName = parts[0];
+                var isDescending = parts.Length > 1 && parts[1].ToLower() == "desc";
+                
+                var prop = typeof(TEntity).GetProperty(propertyName, 
+                    System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                
+                if (prop == null) continue;
+
+                if (isDescending)
+                {
+                    query = query.OrderByDescending(e => EF.Property<object>(e, prop.Name));
+                }
+                else
+                {
+                    query = query.OrderBy(e => EF.Property<object>(e, prop.Name));
+                }
+            }
+
+            return query;
+        }
+
+        private IQueryable<TEntity> ApplyPagination(IQueryable<TEntity> query, QueryParamsBase queryParams)
+        {
+            var page = System.Math.Max(1, queryParams.Page);
+            var limit = System.Math.Max(1, System.Math.Min(100, queryParams.Limit)); // Limita a 100 registros por página
+            var start = System.Math.Max(0, queryParams.Start);
+
+            if (page > 1)
+            {
+                query = query.Skip((page - 1) * limit);
+            }
+            else if (start > 0)
+            {
+                query = query.Skip(start);
+            }
+
+            return query.Take(limit);
+        }
     }
 } 

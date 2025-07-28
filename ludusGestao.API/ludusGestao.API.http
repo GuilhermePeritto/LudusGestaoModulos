@@ -4,3 +4,104 @@ GET {{ludusGestao.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+# ========================================
+# EXEMPLOS DE USO - FILTROS DE CAMPOS PERFORMÁTICOS (FIELDS)
+# ========================================
+# 
+# ✅ NOVA IMPLEMENTAÇÃO: SELECT dinâmico no banco de dados
+# ✅ Retorna apenas os campos solicitados diretamente do banco
+# ✅ Melhor performance e menos tráfego de dados
+# ✅ Usa DynamicEntityDTO para retorno flexível
+
+# 1. Listar usuários com campos específicos (SELECT dinâmico)
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?fields=nome,email,situacao
+Accept: application/json
+
+###
+
+# 2. Listar usuários com apenas nome e email (máxima performance)
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?fields=nome,email
+Accept: application/json
+
+###
+
+# 3. Listar usuários com campos específicos e filtro por situação
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?fields=nome,email&filter=[{"property":"situacao","operator":"eq","value":"Ativo"}]
+Accept: application/json
+
+###
+
+# 4. Listar usuários com campos específicos, ordenação e paginação
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?fields=nome,email&sort=nome&page=1&limit=5
+Accept: application/json
+
+###
+
+# 5. Listar empresas com campos específicos
+GET {{ludusGestao.API_HostAddress}}/api/empresas?fields=nome,cnpj,situacao
+Accept: application/json
+
+###
+
+# 6. Listar filiais com campos específicos
+GET {{ludusGestao.API_HostAddress}}/api/filiais?fields=nome,empresaId,situacao
+Accept: application/json
+
+###
+
+# 7. Listar locais com campos específicos
+GET {{ludusGestao.API_HostAddress}}/api/locais?fields=nome,endereco
+Accept: application/json
+
+###
+
+# 8. Buscar usuário por ID com campos específicos
+GET {{ludusGestao.API_HostAddress}}/api/usuarios/{{usuarioId}}?fields=nome,email,telefone
+Accept: application/json
+
+###
+
+# ========================================
+# EXEMPLOS SEM FILTROS DE CAMPOS (COMPORTAMENTO PADRÃO)
+# ========================================
+
+# Listar todos os usuários (todos os campos)
+GET {{ludusGestao.API_HostAddress}}/api/usuarios
+Accept: application/json
+
+###
+
+# Listar usuários com filtros (todos os campos)
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?filter=[{"property":"situacao","operator":"eq","value":"Ativo"}]
+Accept: application/json
+
+###
+
+# Listar usuários com ordenação (todos os campos)
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?sort=nome
+Accept: application/json
+
+###
+
+# ========================================
+# EXEMPLOS DE PERFORMANCE
+# ========================================
+
+# 🔥 MÁXIMA PERFORMANCE: Apenas ID e nome
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?fields=id,nome&limit=100
+Accept: application/json
+
+###
+
+# 🔥 PERFORMANCE OTIMIZADA: Dados essenciais
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?fields=nome,email,situacao&page=1&limit=50
+Accept: application/json
+
+###
+
+# 🔥 PERFORMANCE PARA LISTAS: Apenas dados de exibição
+GET {{ludusGestao.API_HostAddress}}/api/empresas?fields=nome,cnpj&sort=nome&page=1&limit=20
+Accept: application/json
+
+###

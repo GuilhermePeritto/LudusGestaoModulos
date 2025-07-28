@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using LudusGestao.Shared.Domain.Common;
+using LudusGestao.Shared.Domain.QueryParams;
 using System.Reflection;
-using System.Linq.Expressions;
-using System.Text.Json;
 
 namespace LudusGestao.Shared.Domain.Providers
 {
@@ -23,162 +21,178 @@ namespace LudusGestao.Shared.Domain.Providers
 
         public async Task<IEnumerable<TEntity>> Listar(QueryParamsBase queryParams)
         {
-            var (query, _) = ApplyQueryParams(_dbSet.AsQueryable(), queryParams);
-            return await query.ToListAsync();
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Calcula total antes da paginação
+            var total = await query.CountAsync();
+            
+            // Aplica paginação
+            query = ApplyPagination(query, queryParams);
+            
+            // Executa query no banco (todos os campos)
+            var entities = await query.ToListAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (memoryFilters.Any())
+            {
+                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
+            }
+            
+            return entities;
         }
 
         public async Task<IEnumerable<TEntity>> Listar()
             => await _dbSet.ToListAsync();
 
-        public async Task<TEntity> Buscar(QueryParamsBase queryParams)
+        public async Task<TEntity?> Buscar(QueryParamsBase queryParams)
         {
-            var (query, _) = ApplyQueryParams(_dbSet.AsQueryable(), queryParams);
-            return await query.FirstOrDefaultAsync();
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Executa query no banco (todos os campos)
+            var entity = await query.FirstOrDefaultAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (entity != null && memoryFilters.Any())
+            {
+                var entities = new[] { entity };
+                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
+                entity = filteredEntities.FirstOrDefault();
+            }
+            
+            return entity;
         }
 
-        protected (IQueryable<TEntity> Query, int Total) ApplyQueryParams(IQueryable<TEntity> query, QueryParamsBase queryParams)
+        public async Task<IEnumerable<object>> ListarComCampos(QueryParamsBase queryParams)
         {
-            // Filtros complexos (FilterObjects)
-            if (queryParams.FilterObjects != null && queryParams.FilterObjects.Any())
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Calcula total antes da paginação
+            var total = await query.CountAsync();
+            
+            // Aplica paginação
+            query = ApplyPagination(query, queryParams);
+            
+            // Aplica filtro de campos se especificado (SELECT dinâmico)
+            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
+            if (fields.Any())
             {
-                Expression<Func<TEntity, bool>>? predicate = null;
-                var param = Expression.Parameter(typeof(TEntity), "e");
-                foreach (var filter in queryParams.FilterObjects)
-                {
-                    var prop = typeof(TEntity).GetProperty(filter.Property, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                    if (prop == null)
-                        throw new ArgumentException($"Propriedade '{filter.Property}' não existe em {typeof(TEntity).Name}.");
-                    var left = Expression.Property(param, prop);
-                    var op = filter.Operator?.ToLower() ?? "eq";
-                    Expression right = null;
-                    Expression expr = null;
-                    object value = filter.Value;
-                    // Conversão de valor para o tipo correto
-                    if (value is JsonElement je)
-                        value = JsonElementToObject(je, prop.PropertyType);
-                    else if (value is not null && value.GetType() != prop.PropertyType)
-                        value = Convert.ChangeType(value, prop.PropertyType);
-                    switch (op)
-                    {
-                        case "eq": expr = Expression.Equal(left, Expression.Constant(value)); break;
-                        case "neq": expr = Expression.NotEqual(left, Expression.Constant(value)); break;
-                        case "lt": expr = Expression.LessThan(left, Expression.Constant(value)); break;
-                        case "lte": expr = Expression.LessThanOrEqual(left, Expression.Constant(value)); break;
-                        case "gt": expr = Expression.GreaterThan(left, Expression.Constant(value)); break;
-                        case "gte": expr = Expression.GreaterThanOrEqual(left, Expression.Constant(value)); break;
-                        case "like":
-                            if (prop.PropertyType != typeof(string)) throw new ArgumentException($"LIKE só pode ser usado em string.");
-                            expr = Expression.Call(left, typeof(string).GetMethod("Contains", new[] { typeof(string) })!, Expression.Constant(value));
-                            break;
-                        case "startswith":
-                            if (prop.PropertyType != typeof(string)) throw new ArgumentException($"startsWith só pode ser usado em string.");
-                            expr = Expression.Call(left, typeof(string).GetMethod("StartsWith", new[] { typeof(string) })!, Expression.Constant(value));
-                            break;
-                        case "endswith":
-                            if (prop.PropertyType != typeof(string)) throw new ArgumentException($"endsWith só pode ser usado em string.");
-                            expr = Expression.Call(left, typeof(string).GetMethod("EndsWith", new[] { typeof(string) })!, Expression.Constant(value));
-                            break;
-                        case "in":
-                            var enumerableType = typeof(IEnumerable<>).MakeGenericType(prop.PropertyType);
-                            var containsMethod = enumerableType.GetMethod("Contains", new[] { prop.PropertyType });
-                            expr = Expression.Call(Expression.Constant(value), containsMethod!, left);
-                            break;
-                        case "notin":
-                            var enumerableType2 = typeof(IEnumerable<>).MakeGenericType(prop.PropertyType);
-                            var containsMethod2 = enumerableType2.GetMethod("Contains", new[] { prop.PropertyType });
-                            expr = Expression.Not(Expression.Call(Expression.Constant(value), containsMethod2!, left));
-                            break;
-                        case "null": expr = Expression.Equal(left, Expression.Constant(null)); break;
-                        case "notnull": expr = Expression.NotEqual(left, Expression.Constant(null)); break;
-                        case "between":
-                            if (value is not System.Text.Json.JsonElement arr || arr.ValueKind != JsonValueKind.Array || arr.GetArrayLength() != 2)
-                                throw new ArgumentException("between espera um array de 2 valores");
-                            var min = JsonElementToObject(arr[0], prop.PropertyType);
-                            var max = JsonElementToObject(arr[1], prop.PropertyType);
-                            expr = Expression.AndAlso(
-                                Expression.GreaterThanOrEqual(left, Expression.Constant(min)),
-                                Expression.LessThanOrEqual(left, Expression.Constant(max)));
-                            break;
-                        default:
-                            throw new ArgumentException($"Operador '{op}' não suportado.");
-                    }
-                    if (predicate == null)
-                        predicate = Expression.Lambda<Func<TEntity, bool>>(expr, param);
-                    else
-                        predicate = filter.And
-                            ? Expression.Lambda<Func<TEntity, bool>>(Expression.AndAlso(predicate.Body, expr), param)
-                            : Expression.Lambda<Func<TEntity, bool>>(Expression.OrElse(predicate.Body, expr), param);
-                }
-                query = query.Where(predicate!);
+                // Usa SELECT dinâmico para retornar apenas os campos solicitados
+                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
+                var dynamicEntities = await dynamicQuery.ToListAsync();
+                return dynamicEntities;
             }
-            // Filtro simples (string)
-            else if (!string.IsNullOrWhiteSpace(queryParams.Filter))
+            
+            // Executa query no banco (todos os campos)
+            var entities = await query.ToListAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (memoryFilters.Any())
             {
-                // Espera-se: filter=Propriedade:valor
-                var parts = queryParams.Filter.Split(':', 2);
-                if (parts.Length != 2)
-                    throw new ArgumentException("Filtro deve estar no formato 'Propriedade:valor'.");
-                var propName = parts[0];
-                var value = parts[1];
-                var prop = typeof(TEntity).GetProperty(propName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (prop == null)
-                    throw new ArgumentException($"Propriedade '{propName}' não existe em {typeof(TEntity).Name}.");
-                if (prop.PropertyType == typeof(string))
-                    query = query.Where(e => EF.Functions.Like(EF.Property<string>(e, prop.Name), $"%{value}%"));
-                else if (prop.PropertyType == typeof(int) && int.TryParse(value, out var intVal))
-                    query = query.Where(e => EF.Property<int>(e, prop.Name) == intVal);
-                else if (prop.PropertyType == typeof(Guid) && Guid.TryParse(value, out var guidVal))
-                    query = query.Where(e => EF.Property<Guid>(e, prop.Name) == guidVal);
-                else
-                    throw new ArgumentException($"Filtro para tipo '{prop.PropertyType.Name}' não suportado.");
+                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
             }
+            
+            return entities.Cast<object>();
+        }
 
-            // Ordenação dinâmica
-            if (!string.IsNullOrWhiteSpace(queryParams.Sort))
+        public async Task<object?> BuscarComCampos(QueryParamsBase queryParams)
+        {
+            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            
+            // Aplica ordenação
+            query = ApplySorting(query, queryParams);
+            
+            // Aplica filtro de campos se especificado (SELECT dinâmico)
+            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
+            if (fields.Any())
             {
-                var prop = typeof(TEntity).GetProperty(queryParams.Sort, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (prop != null)
+                // Usa SELECT dinâmico para retornar apenas os campos solicitados
+                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
+                var dynamicEntity = await dynamicQuery.FirstOrDefaultAsync();
+                return dynamicEntity;
+            }
+            
+            // Executa query no banco (todos os campos)
+            var entity = await query.FirstOrDefaultAsync();
+            
+            // Aplica filtros de memória se necessário
+            if (entity != null && memoryFilters.Any())
+            {
+                var entities = new[] { entity };
+                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
+                entity = filteredEntities.FirstOrDefault();
+            }
+            
+            return entity;
+        }
+
+        private IQueryable<TEntity> ApplySorting(IQueryable<TEntity> query, QueryParamsBase queryParams)
+        {
+            if (string.IsNullOrWhiteSpace(queryParams.Sort))
+                return query;
+
+            var sortParts = queryParams.Sort.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            
+            foreach (var sortPart in sortParts)
+            {
+                var parts = sortPart.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 0) continue;
+
+                var propertyName = parts[0];
+                var isDescending = parts.Length > 1 && parts[1].ToLower() == "desc";
+                
+                var prop = typeof(TEntity).GetProperty(propertyName, 
+                    BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                
+                if (prop == null) continue;
+
+                if (isDescending)
+                {
+                    query = query.OrderByDescending(e => EF.Property<object>(e, prop.Name));
+                }
+                else
                 {
                     query = query.OrderBy(e => EF.Property<object>(e, prop.Name));
                 }
             }
 
-            int total = query.Count();
-
-            // Paginação
-            int page = 1, limit = 10, start = 0;
-            int.TryParse(queryParams.Page.ToString(), out page);
-            int.TryParse(queryParams.Limit.ToString(), out limit);
-            int.TryParse(queryParams.Start.ToString(), out start);
-            if (limit <= 0) limit = 10;
-            if (page > 0)
-                query = query.Skip((page - 1) * limit);
-            else if (start > 0)
-                query = query.Skip(start);
-            query = query.Take(limit);
-
-            return (query, total);
+            return query;
         }
 
-        private object JsonElementToObject(JsonElement je, Type type)
+        private IQueryable<TEntity> ApplyPagination(IQueryable<TEntity> query, QueryParamsBase queryParams)
         {
-            if (type == typeof(string)) return je.GetString();
-            if (type == typeof(int)) return je.GetInt32();
-            if (type == typeof(Guid)) return je.GetGuid();
-            if (type == typeof(bool)) return je.GetBoolean();
-            if (type == typeof(decimal)) return je.GetDecimal();
-            if (type == typeof(double)) return je.GetDouble();
-            if (type == typeof(DateTime)) return je.GetDateTime();
-            if (type.IsEnum) return Enum.Parse(type, je.GetString()!);
-            if (je.ValueKind == JsonValueKind.Array)
+            var page = Math.Max(1, queryParams.Page);
+            var limit = Math.Max(1, Math.Min(100, queryParams.Limit)); // Limita a 100 registros por página
+            var start = Math.Max(0, queryParams.Start);
+
+            if (page > 1)
             {
-                var listType = typeof(List<>).MakeGenericType(type);
-                var list = (System.Collections.IList)Activator.CreateInstance(listType)!;
-                foreach (var item in je.EnumerateArray())
-                    list.Add(JsonElementToObject(item, type.GetElementType() ?? type.GetGenericArguments().FirstOrDefault() ?? typeof(object)));
-                return list;
+                query = query.Skip((page - 1) * limit);
             }
-            throw new ArgumentException($"Conversão de JsonElement para {type.Name} não suportada.");
+            else if (start > 0)
+            {
+                query = query.Skip(start);
+            }
+
+            return query.Take(limit);
+        }
+
+        protected (IQueryable<TEntity> Query, int Total) ApplyQueryParams(IQueryable<TEntity> query, QueryParamsBase queryParams)
+        {
+            var (processedQuery, memoryFilters) = QueryFilterProcessor.ProcessFilters(query, queryParams);
+            var sortedQuery = ApplySorting(processedQuery, queryParams);
+            var total = sortedQuery.Count();
+            var paginatedQuery = ApplyPagination(sortedQuery, queryParams);
+            
+            return (paginatedQuery, total);
         }
     }
 } 

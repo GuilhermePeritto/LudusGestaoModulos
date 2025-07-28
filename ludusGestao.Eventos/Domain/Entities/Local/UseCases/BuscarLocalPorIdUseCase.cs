@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
 using LudusGestao.Shared.Notificacao;
+using LudusGestao.Shared.Domain.QueryParams;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Domain.Providers;
 

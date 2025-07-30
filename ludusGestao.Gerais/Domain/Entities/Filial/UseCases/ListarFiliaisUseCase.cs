@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.QueryParams;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Filial;
 using ludusGestao.Gerais.Domain.Filial.Interfaces;
+using ludusGestao.Gerais.Domain.Filial.DTOs;
 
 namespace ludusGestao.Gerais.Domain.Filial.UseCases
 {
@@ -18,9 +20,10 @@ namespace ludusGestao.Gerais.Domain.Filial.UseCases
             _provider = provider;
         }
 
-        public async Task<IEnumerable<Filial>> Executar(QueryParamsBase query)
+        public async Task<IEnumerable<FilialDTO>> Executar(QueryParamsBase query)
         {
-            return await _provider.Listar(query);
+            var filiais = await _provider.Listar(query);
+            return filiais.Cast<Filial>().Select(FilialDTO.Criar);
         }
     }
 } 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ludusGestao.Eventos.Domain.Entities.Local.DTOs
+namespace ludusGestao.Eventos.Domain.Local.DTOs
 {
     public class CriarLocalDTO
     {

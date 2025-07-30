@@ -10,15 +10,12 @@ namespace ludusGestao.Provider.Data.Providers.Gerais.FilialProvider
 {
     public class FilialPostgresReadProvider : ReadProviderBase<ludusGestao.Gerais.Domain.Filial.Filial>, IFilialReadProvider
     {
-        public FilialPostgresReadProvider(LudusGestaoReadDbContext context) : base(context)
+        public FilialPostgresReadProvider(LudusGestaoReadDbContext context, ProcessadorQueryParams processadorQueryParams) : base(context, processadorQueryParams)
         {
         }
 
-        protected override (IQueryable<ludusGestao.Gerais.Domain.Filial.Filial> Query, int Total) ApplyQueryParams(IQueryable<ludusGestao.Gerais.Domain.Filial.Filial> query, QueryParamsBase queryParams)
-        {
-            // Implementação básica - pode ser expandida conforme necessário
-            var total = query.Count();
-            return (query, total);
-        }
+        // ✅ Provider limpo: não precisa sobrescrever ApplyQueryParams
+        // O ReadProviderBase já faz tudo automaticamente
+        // Se precisar de filtros específicos da Filial, pode sobrescrever ApplyQueryParams aqui
     }
 } 

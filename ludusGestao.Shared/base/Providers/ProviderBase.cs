@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LudusGestao.Shared.Domain.QueryParams;
+using LudusGestao.Shared.Domain.QueryParams.Interfaces;
 using System.Reflection;
 
 namespace LudusGestao.Shared.Domain.Providers
@@ -12,16 +13,18 @@ namespace LudusGestao.Shared.Domain.Providers
     {
         protected readonly DbContext _context;
         protected readonly DbSet<TEntity> _dbSet;
+        protected readonly ProcessadorQueryParams _processadorQueryParams;
 
-        protected ProviderBase(DbContext context)
+        protected ProviderBase(DbContext context, ProcessadorQueryParams processadorQueryParams)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
+            _processadorQueryParams = processadorQueryParams;
         }
 
         public async Task<IEnumerable<TEntity>> Listar(QueryParamsBase queryParams)
         {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            var (query, memoryFilters) = _processadorQueryParams.AplicarFiltros(_dbSet.AsQueryable(), queryParams);
             
             // Aplica ordenação
             query = ApplySorting(query, queryParams);
@@ -38,7 +41,7 @@ namespace LudusGestao.Shared.Domain.Providers
             // Aplica filtros de memória se necessário
             if (memoryFilters.Any())
             {
-                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
+                entities = _processadorQueryParams.AplicarFiltrosMemoria(entities, memoryFilters).ToList();
             }
             
             return entities;
@@ -49,7 +52,7 @@ namespace LudusGestao.Shared.Domain.Providers
 
         public async Task<TEntity?> Buscar(QueryParamsBase queryParams)
         {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            var (query, memoryFilters) = _processadorQueryParams.AplicarFiltros(_dbSet.AsQueryable(), queryParams);
             
             // Aplica ordenação
             query = ApplySorting(query, queryParams);
@@ -61,7 +64,7 @@ namespace LudusGestao.Shared.Domain.Providers
             if (entity != null && memoryFilters.Any())
             {
                 var entities = new[] { entity };
-                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
+                var filteredEntities = _processadorQueryParams.AplicarFiltrosMemoria(entities, memoryFilters);
                 entity = filteredEntities.FirstOrDefault();
             }
             
@@ -70,7 +73,7 @@ namespace LudusGestao.Shared.Domain.Providers
 
         public async Task<IEnumerable<object>> ListarComCampos(QueryParamsBase queryParams)
         {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            var (query, memoryFilters) = _processadorQueryParams.AplicarFiltros(_dbSet.AsQueryable(), queryParams);
             
             // Aplica ordenação
             query = ApplySorting(query, queryParams);
@@ -82,11 +85,11 @@ namespace LudusGestao.Shared.Domain.Providers
             query = ApplyPagination(query, queryParams);
             
             // Aplica filtro de campos se especificado (SELECT dinâmico)
-            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
+            var fields = _processadorQueryParams.AplicarCampos<TEntity>(queryParams);
             if (fields.Any())
             {
                 // Usa SELECT dinâmico para retornar apenas os campos solicitados
-                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
+                var dynamicQuery = _processadorQueryParams.AplicarFiltroCamposComoDTO(query, fields);
                 var dynamicEntities = await dynamicQuery.ToListAsync();
                 return dynamicEntities;
             }
@@ -97,7 +100,7 @@ namespace LudusGestao.Shared.Domain.Providers
             // Aplica filtros de memória se necessário
             if (memoryFilters.Any())
             {
-                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
+                entities = _processadorQueryParams.AplicarFiltrosMemoria(entities, memoryFilters).ToList();
             }
             
             return entities.Cast<object>();
@@ -105,17 +108,17 @@ namespace LudusGestao.Shared.Domain.Providers
 
         public async Task<object?> BuscarComCampos(QueryParamsBase queryParams)
         {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            var (query, memoryFilters) = _processadorQueryParams.AplicarFiltros(_dbSet.AsQueryable(), queryParams);
             
             // Aplica ordenação
             query = ApplySorting(query, queryParams);
             
             // Aplica filtro de campos se especificado (SELECT dinâmico)
-            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
+            var fields = _processadorQueryParams.AplicarCampos<TEntity>(queryParams);
             if (fields.Any())
             {
                 // Usa SELECT dinâmico para retornar apenas os campos solicitados
-                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
+                var dynamicQuery = _processadorQueryParams.AplicarFiltroCamposComoDTO(query, fields);
                 var dynamicEntity = await dynamicQuery.FirstOrDefaultAsync();
                 return dynamicEntity;
             }
@@ -127,7 +130,7 @@ namespace LudusGestao.Shared.Domain.Providers
             if (entity != null && memoryFilters.Any())
             {
                 var entities = new[] { entity };
-                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
+                var filteredEntities = _processadorQueryParams.AplicarFiltrosMemoria(entities, memoryFilters);
                 entity = filteredEntities.FirstOrDefault();
             }
             
@@ -187,7 +190,7 @@ namespace LudusGestao.Shared.Domain.Providers
 
         protected (IQueryable<TEntity> Query, int Total) ApplyQueryParams(IQueryable<TEntity> query, QueryParamsBase queryParams)
         {
-            var (processedQuery, memoryFilters) = QueryFilterProcessor.ProcessFilters(query, queryParams);
+            var (processedQuery, memoryFilters) = _processadorQueryParams.AplicarFiltros(query, queryParams);
             var sortedQuery = ApplySorting(processedQuery, queryParams);
             var total = sortedQuery.Count();
             var paginatedQuery = ApplyPagination(sortedQuery, queryParams);

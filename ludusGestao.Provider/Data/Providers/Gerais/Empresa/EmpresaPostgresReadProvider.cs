@@ -10,16 +10,12 @@ namespace ludusGestao.Provider.Data.Providers.Gerais.EmpresaProvider
 {
     public class EmpresaPostgresReadProvider : ReadProviderBase<ludusGestao.Gerais.Domain.Empresa.Empresa>, IEmpresaReadProvider
     {
-        public EmpresaPostgresReadProvider(LudusGestaoReadDbContext context) : base(context)
+        public EmpresaPostgresReadProvider(LudusGestaoReadDbContext context, ProcessadorQueryParams processadorQueryParams) : base(context, processadorQueryParams)
         {
         }
 
-        protected override (IQueryable<ludusGestao.Gerais.Domain.Empresa.Empresa> Query, int Total) ApplyQueryParams(IQueryable<ludusGestao.Gerais.Domain.Empresa.Empresa> query, QueryParamsBase queryParams)
-        {
-            // O processamento de filtros agora é feito automaticamente pelo ReadProviderBase
-            // Esta implementação pode ser expandida para filtros específicos da entidade se necessário
-            var total = query.Count();
-            return (query, total);
-        }
+        // ✅ Provider limpo: não precisa sobrescrever nada
+        // O ReadProviderBase já faz tudo automaticamente
+        // Se precisar de filtros específicos da Empresa, pode sobrescrever ApplyQueryParams aqui
     }
 } 

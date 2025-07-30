@@ -5,7 +5,7 @@ using ludusGestao.Provider.Data.Contexts;
 using ludusGestao.Gerais.Domain.Empresa;
 using ludusGestao.Gerais.Domain.Filial;
 using ludusGestao.Gerais.Domain.Usuario;
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local;
 using LudusGestao.Shared.Domain.ValueObjects;
 using LudusGestao.Shared.Security;
 using Microsoft.EntityFrameworkCore;

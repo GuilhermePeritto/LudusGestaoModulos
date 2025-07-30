@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using LudusGestao.Shared.Domain.Controllers;
 using LudusGestao.Shared.Notificacao;
-using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
-using ludusGestao.Eventos.Domain.Entities.Local.DTOs;
+using ludusGestao.Eventos.Domain.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Local.DTOs;
 using ludusGestao.Eventos.Application.Services;
 
 namespace ludusGestao.Eventos.API.Controllers

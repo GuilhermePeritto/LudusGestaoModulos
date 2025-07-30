@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local;
 using LudusGestao.Shared.Domain.Entities;
 using ludusGestao.Gerais.Domain.Usuario;
 using ludusGestao.Gerais.Domain.Empresa;

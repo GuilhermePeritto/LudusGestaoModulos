@@ -63,6 +63,74 @@ Accept: application/json
 ###
 
 # ========================================
+# EXEMPLOS DE USO - FILTROS (FILTER)
+# ========================================
+# 
+# ✅ NOVA IMPLEMENTAÇÃO: Filtros como array de objetos
+# ✅ Interface interativa no Swagger para adicionar filtros
+# ✅ Suporte a múltiplos operadores de comparação
+
+# 9. Listar empresas com filtro por nome (contém)
+GET {{ludusGestao.API_HostAddress}}/api/empresas?filter=[{"property":"Nome","operator":"like","value":"Empresa"}]
+Accept: application/json
+
+###
+
+# 10. Listar empresas com filtro por situação (igual)
+GET {{ludusGestao.API_HostAddress}}/api/empresas?filter=[{"property":"Situacao","operator":"eq","value":"Ativo"}]
+Accept: application/json
+
+###
+
+# 11. Listar empresas com múltiplos filtros
+GET {{ludusGestao.API_HostAddress}}/api/empresas?filter=[{"property":"Nome","operator":"like","value":"Empresa"},{"property":"Situacao","operator":"eq","value":"Ativo"}]
+Accept: application/json
+
+###
+
+# 12. Listar usuários com filtro por email (contém)
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?filter=[{"property":"Email","operator":"like","value":"@gmail.com"}]
+Accept: application/json
+
+###
+
+# 13. Listar usuários com filtro por situação ativa
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?filter=[{"property":"Situacao","operator":"eq","value":"Ativo"}]
+Accept: application/json
+
+###
+
+# 14. Listar filiais com filtro por empresa
+GET {{ludusGestao.API_HostAddress}}/api/filiais?filter=[{"property":"EmpresaId","operator":"eq","value":"{{empresaId}}"}]
+Accept: application/json
+
+###
+
+# 15. Listar locais com filtro por capacidade (maior que)
+GET {{ludusGestao.API_HostAddress}}/api/locais?filter=[{"property":"Capacidade","operator":"gt","value":100}]
+Accept: application/json
+
+###
+
+# 16. Listar locais com filtro por capacidade (entre valores)
+GET {{ludusGestao.API_HostAddress}}/api/locais?filter=[{"property":"Capacidade","operator":"between","value":[50,200]}]
+Accept: application/json
+
+###
+
+# 17. Listar usuários com filtro por nome e situação (múltiplos critérios)
+GET {{ludusGestao.API_HostAddress}}/api/usuarios?filter=[{"property":"Nome","operator":"like","value":"João"},{"property":"Situacao","operator":"eq","value":"Ativo"}]&page=1&limit=10
+Accept: application/json
+
+###
+
+# 18. Listar empresas com filtro, ordenação e campos específicos
+GET {{ludusGestao.API_HostAddress}}/api/empresas?filter=[{"property":"Situacao","operator":"eq","value":"Ativo"}]&sort=nome&fields=nome,cnpj,situacao&page=1&limit=5
+Accept: application/json
+
+###
+
+# ========================================
 # EXEMPLOS SEM FILTROS DE CAMPOS (COMPORTAMENTO PADRÃO)
 # ========================================
 

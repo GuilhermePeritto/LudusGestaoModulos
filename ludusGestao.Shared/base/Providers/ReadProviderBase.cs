@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Domain.QueryParams;
+using LudusGestao.Shared.Domain.QueryParams.Interfaces;
 
 namespace LudusGestao.Shared.Domain.Providers
 {
@@ -10,11 +11,13 @@ namespace LudusGestao.Shared.Domain.Providers
     {
         protected readonly DbContext _context;
         protected readonly DbSet<TEntity> _dbSet;
+        protected readonly ProcessadorQueryParams _processadorQueryParams;
 
-        protected ReadProviderBase(DbContext context)
+        protected ReadProviderBase(DbContext context, ProcessadorQueryParams processadorQueryParams)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
+            _processadorQueryParams = processadorQueryParams;
         }
 
         public virtual async Task<IEnumerable<TEntity>> Listar()
@@ -22,119 +25,75 @@ namespace LudusGestao.Shared.Domain.Providers
             return await _dbSet.ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> Listar(QueryParamsBase queryParams)
+        public virtual async Task<IEnumerable<object>> Listar(QueryParamsBase queryParams)
         {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            var (query, memoryFilters) = _processadorQueryParams.AplicarFiltros(_dbSet.AsQueryable(), queryParams);
+            
+            // ✅ Aplica filtros específicos da entidade (se implementado)
+            var (filteredQuery, total) = ApplyQueryParams(query, queryParams);
             
             // Aplica ordenação
-            query = ApplySorting(query, queryParams);
-            
-            // Calcula total antes da paginação
-            var total = await query.CountAsync();
+            filteredQuery = ApplySorting(filteredQuery, queryParams);
             
             // Aplica paginação
-            query = ApplyPagination(query, queryParams);
+            filteredQuery = ApplyPagination(filteredQuery, queryParams);
+            
+            // Aplica filtro de campos se especificado
+            var fields = _processadorQueryParams.AplicarCampos<TEntity>(queryParams);
+            Console.WriteLine($"DEBUG: Fields processados: {string.Join(", ", fields)}");
+            Console.WriteLine($"DEBUG: QueryParams.Fields original: {queryParams.Fields}");
             
             // Executa query no banco (todos os campos)
-            var entities = await query.ToListAsync();
+            var entities = await filteredQuery.ToListAsync();
             
             // Aplica filtros de memória se necessário
             if (memoryFilters.Any())
             {
-                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
+                entities = _processadorQueryParams.AplicarFiltrosMemoria(entities, memoryFilters).ToList();
             }
             
-            return entities;
-        }
-
-        public virtual async Task<TEntity?> Buscar(QueryParamsBase queryParams)
-        {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
-            
-            // Aplica ordenação
-            query = ApplySorting(query, queryParams);
-            
-            // Executa query no banco (todos os campos)
-            var entity = await query.FirstOrDefaultAsync();
-            
-            // Aplica filtros de memória se necessário
-            if (entity != null && memoryFilters.Any())
-            {
-                var entities = new[] { entity };
-                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
-                entity = filteredEntities.FirstOrDefault();
-            }
-            
-            return entity;
-        }
-
-        public virtual async Task<IEnumerable<object>> ListarComCampos(QueryParamsBase queryParams)
-        {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
-            
-            // Aplica ordenação
-            query = ApplySorting(query, queryParams);
-            
-            // Calcula total antes da paginação
-            var total = await query.CountAsync();
-            
-            // Aplica paginação
-            query = ApplyPagination(query, queryParams);
-            
-            // Aplica filtro de campos se especificado (SELECT dinâmico)
-            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
+            // Aplica filtro de campos se especificado
             if (fields.Any())
             {
-                // Usa SELECT dinâmico para retornar apenas os campos solicitados
-                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
-                var dynamicEntities = await dynamicQuery.ToListAsync();
-                return dynamicEntities;
-            }
-            
-            // Executa query no banco (todos os campos)
-            var entities = await query.ToListAsync();
-            
-            // Aplica filtros de memória se necessário
-            if (memoryFilters.Any())
-            {
-                entities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters).ToList();
+                var filteredEntities = _processadorQueryParams.AplicarFiltroCampos(entities, fields);
+                return filteredEntities;
             }
             
             return entities.Cast<object>();
         }
 
-        public virtual async Task<object?> BuscarComCampos(QueryParamsBase queryParams)
+        public virtual async Task<TEntity?> Buscar(QueryParamsBase queryParams)
         {
-            var (query, memoryFilters) = QueryFilterProcessor.ProcessFilters(_dbSet.AsQueryable(), queryParams);
+            var (query, memoryFilters) = _processadorQueryParams.AplicarFiltros(_dbSet.AsQueryable(), queryParams);
+            
+            // ✅ Aplica filtros específicos da entidade (se implementado)
+            var (filteredQuery, total) = ApplyQueryParams(query, queryParams);
             
             // Aplica ordenação
-            query = ApplySorting(query, queryParams);
+            filteredQuery = ApplySorting(filteredQuery, queryParams);
             
-            // Aplica filtro de campos se especificado (SELECT dinâmico)
-            var fields = QueryFilterProcessor.ProcessFields<TEntity>(queryParams);
-            if (fields.Any())
-            {
-                // Usa SELECT dinâmico para retornar apenas os campos solicitados
-                var dynamicQuery = QueryFilterProcessor.ApplyFieldsFilterAsDTO(query, fields);
-                var dynamicEntity = await dynamicQuery.FirstOrDefaultAsync();
-                return dynamicEntity;
-            }
-            
-            // Executa query no banco (todos os campos)
-            var entity = await query.FirstOrDefaultAsync();
+            // Executa query no banco (todos os campos) - sempre retorna entidade completa
+            var entity = await filteredQuery.FirstOrDefaultAsync();
             
             // Aplica filtros de memória se necessário
             if (entity != null && memoryFilters.Any())
             {
                 var entities = new[] { entity };
-                var filteredEntities = QueryFilterProcessor.ApplyMemoryFilters(entities, memoryFilters);
+                var filteredEntities = _processadorQueryParams.AplicarFiltrosMemoria(entities, memoryFilters);
                 entity = filteredEntities.FirstOrDefault();
             }
             
             return entity;
         }
 
-        protected abstract (IQueryable<TEntity> Query, int Total) ApplyQueryParams(IQueryable<TEntity> query, QueryParamsBase queryParams);
+        // ✅ Método virtual com implementação padrão (não mais abstrato)
+        protected virtual (IQueryable<TEntity> Query, int Total) ApplyQueryParams(IQueryable<TEntity> query, QueryParamsBase queryParams)
+        {
+            // ✅ Implementação padrão: não aplica filtros específicos
+            // Cada provider pode sobrescrever para adicionar filtros customizados
+            var total = query.Count();
+            return (query, total);
+        }
 
         private IQueryable<TEntity> ApplySorting(IQueryable<TEntity> query, QueryParamsBase queryParams)
         {

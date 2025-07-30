@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
+using LudusGestao.Shared.Domain.QueryParams.Helpers;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.DTOs;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.Interfaces;
@@ -36,8 +38,10 @@ namespace ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.UseCases
             if (!ExecutarValidacao(new EntrarValidation(), dto))
                 return null;
 
-            // Buscar usuário
-            var usuario = await _usuarioProvider.ObterPorEmail(dto.Email);
+            // Buscar usuário usando QueryParamsHelper (Email é um ValueObject)
+            var queryParams = QueryParamsHelper.FiltrarPorEmailValueObject(dto.Email);
+            var usuario = await _usuarioProvider.Buscar(queryParams);
+            
             if (usuario == null)
             {
                 Notificar("Usuário não encontrado.");

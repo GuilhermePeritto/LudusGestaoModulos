@@ -1,7 +1,7 @@
 using FluentValidation;
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local;
 
-namespace ludusGestao.Eventos.Domain.Entities.Local.Validations
+namespace ludusGestao.Eventos.Domain.Local.Validations
 {
     public class AtualizarLocalValidation : AbstractValidator<Local>
     {

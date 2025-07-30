@@ -87,8 +87,8 @@ namespace ludusGestao.Gerais.Application.Services
 
         public async Task<IEnumerable<EmpresaDTO>> Listar(QueryParamsBase query)
         {
-            var empresas = await _listarUseCase.Executar(query);
-            return empresas.Select(EmpresaDTO.Criar);
+            // ✅ Agora o UseCase já retorna DTOs, não precisa mais converter
+            return await _listarUseCase.Executar(query);
         }
 
         public async Task<bool> Ativar(Guid id)

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local;
 
 namespace ludusGestao.Provider.Data.Configurations.Eventos
 {

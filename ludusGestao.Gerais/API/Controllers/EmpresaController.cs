@@ -27,6 +27,9 @@ namespace ludusGestao.Gerais.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Listar([FromQuery] QueryParamsBase query)
         {
+            // Log temporário para debug
+            Console.WriteLine($"DEBUG: Filter recebido: {System.Text.Json.JsonSerializer.Serialize(query.Filter)}");
+            
             var result = await _service.Listar(query);
             return CustomResponse(HttpStatusCode.OK, result, "Empresas listadas com sucesso.");
         }

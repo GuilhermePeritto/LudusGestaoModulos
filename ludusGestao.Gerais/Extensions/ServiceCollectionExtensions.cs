@@ -45,7 +45,7 @@ namespace ludusGestao.Gerais.Extensions
             // Registro de Services
             services.AddScoped<IEmpresaService, EmpresaService>();
             services.AddScoped<IFilialService, FilialService>();
-            services.AddScoped<IUsuarioService, UsuarioService>();
+            // services.AddScoped<IUsuarioService, UsuarioService>();
 
             // Registro de Validations - Empresa
             services.AddScoped<CriarEmpresaValidation>();

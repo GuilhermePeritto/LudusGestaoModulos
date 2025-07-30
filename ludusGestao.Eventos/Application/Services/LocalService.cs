@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
-using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
-using ludusGestao.Eventos.Domain.Entities.Local.DTOs;
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Local.DTOs;
+using ludusGestao.Eventos.Domain.Local;
 
 namespace ludusGestao.Eventos.Application.Services
 {
@@ -46,8 +46,7 @@ namespace ludusGestao.Eventos.Application.Services
 
         public async Task<IEnumerable<LocalDTO>> Listar()
         {
-            var locais = await _listarLocaisUseCase.Executar();
-            return locais.Select(LocalDTO.Criar);
+            return await _listarLocaisUseCase.Executar();
         }
 
         public async Task<LocalDTO> BuscarPorId(Guid id)

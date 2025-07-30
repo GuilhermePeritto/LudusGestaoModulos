@@ -2,55 +2,51 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ludusGestao.Provider.Data.Contexts;
-using LudusGestao.Shared.Domain.QueryParams;
-using LudusGestao.Shared.Domain.Common;
-using LudusGestao.Shared.Domain.Providers;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao;
 using ludusGestao.Autenticacao.Domain.UsuarioAutenticacao.Interfaces;
 using ludusGestao.Gerais.Domain.Usuario;
-using LudusGestao.Shared.Tenant;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using LudusGestao.Shared.Domain.QueryParams;
+using LudusGestao.Shared.Domain.Providers;
+using LudusGestao.Shared.Domain.QueryParams.Helpers;
 
 namespace ludusGestao.Provider.Data.Providers.Autenticacao
 {
-    public class UsuarioAutenticacaoPostgresReadProvider : ReadProviderBase<UsuarioAutenticacao>, IUsuarioAutenticacaoReadProvider
+    public class UsuarioAutenticacaoPostgresReadProvider : ProviderBase<Usuario>, IUsuarioAutenticacaoReadProvider
     {
-        private readonly LudusGestaoReadDbContext _readContext;
-
-        public UsuarioAutenticacaoPostgresReadProvider(LudusGestaoReadDbContext context) : base(context)
+        public UsuarioAutenticacaoPostgresReadProvider(
+            LudusGestaoReadDbContext context, 
+            ProcessadorQueryParams processadorQueryParams) 
+            : base(context, processadorQueryParams)
         {
-            _readContext = context;
         }
 
-        public async Task<UsuarioAutenticacao> ObterPorEmail(string email)
+        public async Task<UsuarioAutenticacao?> Buscar(QueryParamsBase queryParams)
         {
-            // Buscar usuário por email usando a propriedade do Value Object
-            var query = _readContext.Usuarios.Where(u => u.Email.Endereco == email);
-            
-            // Aplicar filtro de tenant se necessário
-            var tenantContext = _readContext.GetService<ITenantContext>();
-            if (tenantContext != null && !tenantContext.IgnorarFiltroTenant && tenantContext.TenantIdNullable.HasValue)
-            {
-                query = query.Where(u => u.TenantId == tenantContext.TenantIdNullable.Value);
-            }
-            
-            var usuario = await query.FirstOrDefaultAsync();
+            // Usar o método Buscar do ProviderBase que retorna Usuario
+            var usuario = await base.Buscar(queryParams) as Usuario;
+            return usuario != null ? MapToUsuarioAutenticacao(usuario) : null;
+        }
 
-            if (usuario == null || !usuario.EstaAtivo())
-                return null;
-
-            // Mapear Usuario para UsuarioAutenticacao
+        private UsuarioAutenticacao MapToUsuarioAutenticacao(Usuario usuario)
+        {
             var usuarioAutenticacao = UsuarioAutenticacao.Criar(usuario.Email.Endereco, usuario.Senha);
             usuarioAutenticacao.AlterarTenant(usuario.TenantId);
             
-            return usuarioAutenticacao;
-        }
+            // Usar reflection para definir o ID
+            var idProperty = typeof(UsuarioAutenticacao).GetProperty("Id");
+            if (idProperty != null)
+            {
+                idProperty.SetValue(usuarioAutenticacao, usuario.Id);
+            }
 
-        protected override (IQueryable<UsuarioAutenticacao> Query, int Total) ApplyQueryParams(IQueryable<UsuarioAutenticacao> query, QueryParamsBase queryParams)
-        {
-            // Implementação básica - pode ser expandida conforme necessário
-            var total = query.Count();
-            return (query, total);
+            // Usar reflection para definir o status ativo
+            var ativoProperty = typeof(UsuarioAutenticacao).GetProperty("Ativo");
+            if (ativoProperty != null)
+            {
+                ativoProperty.SetValue(usuarioAutenticacao, usuario.EstaAtivo());
+            }
+
+            return usuarioAutenticacao;
         }
     }
 } 

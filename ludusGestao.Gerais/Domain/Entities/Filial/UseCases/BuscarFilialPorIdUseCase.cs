@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using LudusGestao.Shared.Domain.QueryParams;
+using LudusGestao.Shared.Domain.QueryParams.Helpers;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Filial;
@@ -25,7 +25,7 @@ namespace ludusGestao.Gerais.Domain.Filial.UseCases
 
             if (filial == null)
             {
-                Notificar("Filial não encontrada.");
+                Notificar("Filial não encontrada");
                 return null;
             }
 

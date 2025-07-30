@@ -1,7 +1,7 @@
 using LudusGestao.Shared.Domain.Entities;
 using LudusGestao.Shared.Domain.ValueObjects;
 
-namespace ludusGestao.Eventos.Domain.Entities.Local
+namespace ludusGestao.Eventos.Domain.Local
 {
     public enum SituacaoLocal
     {

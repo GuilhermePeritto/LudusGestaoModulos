@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local;
 
-namespace ludusGestao.Eventos.Domain.Entities.Local.Interfaces
+namespace ludusGestao.Eventos.Domain.Local.Interfaces
 {
     public interface IAtualizarLocalUseCase
     {

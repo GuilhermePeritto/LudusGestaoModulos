@@ -1,11 +1,11 @@
 using System;
 using ludusGestao.Gerais.Domain.Empresa;
+using LudusGestao.Shared.Domain.Entities;
 
 namespace ludusGestao.Gerais.Domain.Empresa.DTOs
 {
-    public class EmpresaDTO
+    public class EmpresaDTO : DTOBase
     {
-        public Guid Id { get; private set; }
         public string Nome { get; private set; }
         public string Cnpj { get; private set; }
         public string Email { get; private set; }
@@ -17,10 +17,13 @@ namespace ludusGestao.Gerais.Domain.Empresa.DTOs
         public string Cep { get; private set; }
         public string Telefone { get; private set; }
         public string Situacao { get; private set; }
-        public int TenantId { get; private set; }
-        public DateTime DataCriacao { get; private set; }
-        public DateTime? DataAlteracao { get; private set; }
 
+        // Construtor padrão necessário para o DTOBase
+        public EmpresaDTO()
+        {
+        }
+
+        // Método original mantido para compatibilidade
         public static EmpresaDTO Criar(Empresa empresa)
         {
             return new EmpresaDTO
@@ -41,6 +44,19 @@ namespace ludusGestao.Gerais.Domain.Empresa.DTOs
                 DataCriacao = empresa.DataCriacao,
                 DataAlteracao = empresa.DataAlteracao
             };
+        }
+
+        // ✅ SOBRECARGA: Aceita qualquer objeto (entidade completa ou parcial)
+        public static EmpresaDTO Criar(object empresa)
+        {
+            // Se for uma entidade Empresa completa, usa o método original
+            if (empresa is Empresa empresaCompleta)
+            {
+                return Criar(empresaCompleta);
+            }
+            
+            // Se for um objeto parcial (com campos específicos), usa DTOBase
+            return DTOBase.Criar<EmpresaDTO>(empresa);
         }
     }
 } 

@@ -52,6 +52,8 @@ builder.Services.AddSwaggerGen(c =>
             new string[] {}
         }
     });
+
+
 });
 
 // Configuração do banco de dados

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ludusGestao.Eventos.Domain.Entities.Local.DTOs;
+using ludusGestao.Eventos.Domain.Local.DTOs;
 
-namespace ludusGestao.Eventos.Domain.Entities.Local.Interfaces
+namespace ludusGestao.Eventos.Domain.Local.Interfaces
 {
     public interface ILocalService
     {

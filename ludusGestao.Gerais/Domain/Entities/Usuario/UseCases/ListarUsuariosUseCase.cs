@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.QueryParams;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Usuario;
 using ludusGestao.Gerais.Domain.Usuario.Interfaces;
+using ludusGestao.Gerais.Domain.Usuario.DTOs;
 
 namespace ludusGestao.Gerais.Domain.Usuario.UseCases
 {
@@ -18,9 +20,10 @@ namespace ludusGestao.Gerais.Domain.Usuario.UseCases
             _provider = provider;
         }
 
-        public async Task<IEnumerable<Usuario>> Executar(QueryParamsBase query)
+        public async Task<IEnumerable<UsuarioDTO>> Executar(QueryParamsBase query)
         {
-            return await _provider.Listar(query);
+            var usuarios = await _provider.Listar(query);
+            return usuarios.Cast<Usuario>().Select(UsuarioDTO.Criar);
         }
     }
 } 

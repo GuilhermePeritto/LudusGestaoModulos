@@ -1,11 +1,11 @@
 using System;
 using ludusGestao.Gerais.Domain.Filial;
+using LudusGestao.Shared.Domain.Entities;
 
 namespace ludusGestao.Gerais.Domain.Filial.DTOs
 {
-    public class FilialDTO
+    public class FilialDTO : DTOBase
     {
-        public Guid Id { get; private set; }
         public string Nome { get; private set; }
         public string Rua { get; private set; }
         public string Numero { get; private set; }
@@ -19,10 +19,12 @@ namespace ludusGestao.Gerais.Domain.Filial.DTOs
         public string Responsavel { get; private set; }
         public string Situacao { get; private set; }
         public DateTime DataAbertura { get; private set; }
-        public int TenantId { get; private set; }
         public Guid EmpresaId { get; private set; }
-        public DateTime DataCriacao { get; private set; }
-        public DateTime? DataAlteracao { get; private set; }
+
+        // Construtor padrão necessário para o DTOBase
+        public FilialDTO()
+        {
+        }
 
         public static FilialDTO Criar(Filial filial)
         {

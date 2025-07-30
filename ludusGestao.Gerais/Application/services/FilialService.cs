@@ -87,8 +87,7 @@ namespace ludusGestao.Gerais.Application.Services
 
         public async Task<IEnumerable<FilialDTO>> Listar(QueryParamsBase query)
         {
-            var filiais = await _listarUseCase.Executar(query);
-            return filiais.Select(FilialDTO.Criar);
+            return await _listarUseCase.Executar(query);
         }
 
         public async Task<bool> Ativar(Guid id)

@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Local.Interfaces;
 using ludusGestao.Gerais.Domain.Empresa.Interfaces;
 using ludusGestao.Gerais.Domain.Filial.Interfaces;
 using ludusGestao.Gerais.Domain.Usuario.Interfaces;

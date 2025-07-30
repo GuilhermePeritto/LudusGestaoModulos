@@ -4,21 +4,18 @@ using ludusGestao.Provider.Data.Contexts;
 using LudusGestao.Shared.Domain.QueryParams;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Domain.Providers;
-using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Local.Interfaces;
 
 namespace ludusGestao.Provider.Data.Providers.Eventos.LocalProvider
 {
-    public class LocalPostgresReadProvider : ReadProviderBase<ludusGestao.Eventos.Domain.Entities.Local.Local>, ILocalReadProvider
+    public class LocalPostgresReadProvider : ReadProviderBase<ludusGestao.Eventos.Domain.Local.Local>, ILocalReadProvider
     {
-        public LocalPostgresReadProvider(LudusGestaoReadDbContext context) : base(context)
+        public LocalPostgresReadProvider(LudusGestaoReadDbContext context, ProcessadorQueryParams processadorQueryParams) : base(context, processadorQueryParams)
         {
         }
 
-        protected override (IQueryable<ludusGestao.Eventos.Domain.Entities.Local.Local> Query, int Total) ApplyQueryParams(IQueryable<ludusGestao.Eventos.Domain.Entities.Local.Local> query, QueryParamsBase queryParams)
-        {
-            // Implementação básica - pode ser expandida conforme necessário
-            var total = query.Count();
-            return (query, total);
-        }
+        // ✅ Provider limpo: não precisa sobrescrever ApplyQueryParams
+        // O ReadProviderBase já faz tudo automaticamente
+        // Se precisar de filtros específicos do Local, pode sobrescrever ApplyQueryParams aqui
     }
 }

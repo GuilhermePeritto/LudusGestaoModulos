@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace LudusGestao.Shared.Domain.QueryParams
@@ -9,78 +11,44 @@ namespace LudusGestao.Shared.Domain.QueryParams
     public class QueryParamsBase
     {
         /// <summary>
-        /// Campos específicos a serem retornados (separados por vírgula)
+        /// Campos específicos a serem retornados (separados por vírgula). Ex: "Id,Nome,Email"
         /// </summary>
+        [JsonPropertyName("fields")]
         public string? Fields { get; set; }
 
         /// <summary>
         /// Número da página (padrão: 1)
         /// </summary>
+        [JsonPropertyName("page")]
+        [Range(1, int.MaxValue, ErrorMessage = "A página deve ser maior que 0")]
         public int Page { get; set; } = 1;
 
         /// <summary>
         /// Offset inicial (padrão: 0)
         /// </summary>
+        [JsonPropertyName("start")]
+        [Range(0, int.MaxValue, ErrorMessage = "O offset deve ser maior ou igual a 0")]
         public int Start { get; set; } = 0;
 
         /// <summary>
-        /// Limite de registros por página (padrão: 10)
+        /// Limite de registros por página (padrão: 10, máximo: 100)
         /// </summary>
+        [JsonPropertyName("limit")]
+        [Range(1, 100, ErrorMessage = "O limite deve estar entre 1 e 100")]
         public int Limit { get; set; } = 10;
 
         /// <summary>
-        /// Ordenação (ex: "nome" ou "nome desc")
+        /// Ordenação (ex: "nome" ou "nome desc"). Múltiplos campos separados por vírgula: "nome,email desc"
         /// </summary>
+        [JsonPropertyName("sort")]
         public string? Sort { get; set; }
         
         /// <summary>
-        /// Filtros em formato JSON string
+        /// Filtros como lista de objetos QueryFilter. Exemplo: [{"property": "Nome", "operator": "like", "value": "Empresa"}, {"property": "Situacao", "operator": "eq", "value": "Ativo"}]
         /// </summary>
-        [JsonPropertyName("Filter")]
-        public string? Filter { get; set; }
-
-        /// <summary>
-        /// Processa e retorna os filtros como lista de QueryFilter
-        /// </summary>
-        public List<QueryFilter>? GetFilters()
-        {
-            if (string.IsNullOrWhiteSpace(Filter)) 
-                return null;
-
-            try
-            {
-                var cleanFilter = Filter.Trim();
-
-                // Tenta deserializar como array primeiro
-                try
-                {
-                    var filters = JsonSerializer.Deserialize<List<QueryFilter>>(cleanFilter);
-                    if (filters != null && filters.Any())
-                        return filters;
-                }
-                catch
-                {
-                    // Continua para tentar como objeto único
-                }
-
-                // Tenta como objeto único
-                try
-                {
-                    var jsonFilter = JsonSerializer.Deserialize<QueryFilter>(cleanFilter);
-                    if (jsonFilter != null)
-                        return new List<QueryFilter> { jsonFilter };
-                }
-                catch
-                {
-                    // Retorna null se falhar
-                }
-
-                return null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+        [JsonPropertyName("filter")]
+        [FromQuery(Name = "filter")]
+        [ModelBinder(typeof(QueryFilterModelBinder))]
+        public List<QueryFilter>? Filter { get; set; }
     }
 } 

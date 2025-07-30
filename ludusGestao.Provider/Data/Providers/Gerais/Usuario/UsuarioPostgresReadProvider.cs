@@ -10,15 +10,12 @@ namespace ludusGestao.Provider.Data.Providers.Gerais.UsuarioProvider
 {
     public class UsuarioPostgresReadProvider : ReadProviderBase<ludusGestao.Gerais.Domain.Usuario.Usuario>, IUsuarioReadProvider
     {
-        public UsuarioPostgresReadProvider(LudusGestaoReadDbContext context) : base(context)
+        public UsuarioPostgresReadProvider(LudusGestaoReadDbContext context, ProcessadorQueryParams processadorQueryParams) : base(context, processadorQueryParams)
         {
         }
 
-        protected override (IQueryable<ludusGestao.Gerais.Domain.Usuario.Usuario> Query, int Total) ApplyQueryParams(IQueryable<ludusGestao.Gerais.Domain.Usuario.Usuario> query, QueryParamsBase queryParams)
-        {
-            // Implementação básica - pode ser expandida conforme necessário
-            var total = query.Count();
-            return (query, total);
-        }
+        // ✅ Provider limpo: não precisa sobrescrever ApplyQueryParams
+        // O ReadProviderBase já faz tudo automaticamente
+        // Se precisar de filtros específicos do Usuario, pode sobrescrever ApplyQueryParams aqui
     }
 } 

@@ -22,7 +22,7 @@ namespace ludusGestao.Provider.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ludusGestao.Eventos.Domain.Entities.Local.Local", b =>
+            modelBuilder.Entity("ludusGestao.Eventos.Domain.Local.Local", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +169,7 @@ namespace ludusGestao.Provider.Migrations
                     b.ToTable("Usuarios", (string)null);
                 });
 
-            modelBuilder.Entity("ludusGestao.Eventos.Domain.Entities.Local.Local", b =>
+            modelBuilder.Entity("ludusGestao.Eventos.Domain.Local.Local", b =>
                 {
                     b.OwnsOne("LudusGestao.Shared.Domain.ValueObjects.Endereco", "Endereco", b1 =>
                         {

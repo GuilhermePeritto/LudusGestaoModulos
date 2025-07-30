@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using LudusGestao.Shared.Domain.QueryParams;
+using LudusGestao.Shared.Domain.QueryParams.Helpers;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Empresa;

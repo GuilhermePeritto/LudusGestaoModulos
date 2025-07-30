@@ -1,7 +1,7 @@
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local;
 using LudusGestao.Shared.Domain.Providers;
 
-namespace ludusGestao.Eventos.Domain.Entities.Local.Interfaces
+namespace ludusGestao.Eventos.Domain.Local.Interfaces
 {
     public interface ILocalWriteProvider : IWriteProvider<Local>
     {

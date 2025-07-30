@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.QueryParams;
-using ludusGestao.Gerais.Domain.Usuario;
+using ludusGestao.Gerais.Domain.Usuario.DTOs;
 
 namespace ludusGestao.Gerais.Domain.Usuario.Interfaces
 {
     public interface IListarUsuariosUseCase
     {
-        Task<IEnumerable<Usuario>> Executar(QueryParamsBase query);
+        Task<IEnumerable<UsuarioDTO>> Executar(QueryParamsBase query);
     }
 } 

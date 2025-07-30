@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LudusGestao.Shared.Domain.QueryParams;
+using LudusGestao.Shared.Domain.QueryParams.Helpers;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
 using ludusGestao.Gerais.Domain.Usuario;
@@ -26,7 +26,7 @@ namespace ludusGestao.Gerais.Domain.Usuario.UseCases
 
             if (usuario == null)
             {
-                Notificar("Usuário não encontrado.");
+                Notificar("Usuário não encontrado");
                 return null;
             }
 

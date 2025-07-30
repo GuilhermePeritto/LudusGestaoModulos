@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using ludusGestao.Eventos.Domain.Entities.Local;
+using ludusGestao.Eventos.Domain.Local;
 using LudusGestao.Shared.Domain.Entities;
 using ludusGestao.Gerais.Domain.Usuario;
 using ludusGestao.Gerais.Domain.Empresa;
 using ludusGestao.Gerais.Domain.Filial;
 using LudusGestao.Shared.Tenant;
+using Microsoft.Extensions.Logging;
 
 namespace ludusGestao.Provider.Data.Contexts
 {
@@ -42,6 +43,10 @@ namespace ludusGestao.Provider.Data.Contexts
 
             // Configurações específicas para leitura
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+            // Log de SQL para debug
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
         }
 
         private void ConfigureReadOnlyAuditProperties(ModelBuilder modelBuilder)

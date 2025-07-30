@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
 using LudusGestao.Shared.Domain.Common;
 using LudusGestao.Shared.Notificacao;
-using ludusGestao.Eventos.Domain.Entities.Local;
-using ludusGestao.Eventos.Domain.Entities.Local.Interfaces;
-using ludusGestao.Eventos.Domain.Entities.Local.DTOs;
-using ludusGestao.Eventos.Domain.Entities.Local.Validations;
+using ludusGestao.Eventos.Domain.Local;
+using ludusGestao.Eventos.Domain.Local.Interfaces;
+using ludusGestao.Eventos.Domain.Local.DTOs;
+using ludusGestao.Eventos.Domain.Local.Validations;
 using LudusGestao.Shared.Domain.ValueObjects;
 
-namespace ludusGestao.Eventos.Domain.Entities.Local.UseCases
+namespace ludusGestao.Eventos.Domain.Local.UseCases
 {
     public class CriarLocalUseCase : BaseUseCase, ICriarLocalUseCase
     {
